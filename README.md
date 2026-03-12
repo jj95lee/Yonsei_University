@@ -6,4 +6,4 @@ Dept. of Astronomy and Space Science
 
 **M.S.**  
 Astrodynamics and Control Laboratory (ACL)  
-[ACL Website](http://acl.yonsei.ac.kr/)
+[Yonsei ACL Website](http://acl.yonsei.ac.kr/)
