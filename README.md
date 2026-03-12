@@ -1,4 +1,4 @@
 # Yonsei_University
-Dept. Astronomy and Space Science
-<br> Astorodynamics and Control System
-<br>[ACL Website](http://acl.yonsei.ac.kr/)
+Dept. of Astronomy and Space Science  
+<br>Astrodynamics and Control Laboratory (ACL)  
+<br>[ACL Website]([링크](http://acl.yonsei.ac.kr/))
