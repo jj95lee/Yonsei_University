@@ -1,0 +1,11268 @@
+clc
+clear all
+
+trials = 0;
+start_time = tic;
+L = 720;
+
+while true
+
+% 평양
+ff_00 = ...
+[...
+37453.06641	38116.58203
+43876.875	44599.80469
+50438.84766	51078.57422
+56972.75391	57634.21875
+63439.86328	64173.33984
+69957.24609	70522.20703
+...		
+];
+
+% 블라디
+gg_00 = ...
+[...
+37558.35938	38239.6875
+43985.625	44712.42188
+50512.44141	51197.28516
+57010.54688	57725.97656
+63476.66016	64191.5625
+70074.14063	70390.83984
+...
+];
+
+
+% ff_0 -> n 으로 변환
+ff_0 = floor(ff_00/(86400/L));
+gg_0 = floor(gg_00/(86400/L));
+
+% length_ap = ff_0(1,2)-ff_0(1,1)+ff_0(2,2)-ff_0(2,1)+ff_0(3,2)-ff_0(3,1)+...
+% +ff_0(4,2)-ff_0(4,1)+ff_0(5,2)-ff_0(5,1)+ff_0(6,2)-ff_0(6,1)+ff_0(7,2)-ff_0(7,1)+7;
+
+
+% 구간의 시작점과 끝점을 변수에 저장
+start_points1 = ff_0(:, 1);
+end_points1 = ff_0(:, 2);
+
+% 구간의 시작점과 끝점을 변수에 저장
+start_points = ff_0(:, 1);
+end_points = ff_0(:, 2);
+
+
+% 모든 구간을 정수로 표시해서 작업 공간에 저장
+result = [];
+result_1 = [];
+result_2 = [];
+result_3 = [];
+result_4 = [];
+result_5 = [];
+result_6 = [];
+result_7 = [];
+result_8 = [];
+result_9 = [];
+result_10 = [];
+result_11 = [];
+result_12 = [];
+result_13 = [];
+result_14 = [];
+result_15 = [];
+result_16 = [];
+result_17 = [];
+result_18 = [];
+result_19 = [];
+result_20 = [];
+result_21 = [];
+result_22 = [];
+result_23 = [];
+result_24 = [];
+result_25 = [];
+result_26 = [];
+result_27 = [];
+result_28 = [];
+result_29 = [];
+result_30 = [];
+result_31 = [];
+result_32 = [];
+result_33 = [];
+result_34 = [];
+result_35 = [];
+
+
+%% Random1 (위성 2대)
+
+for n = 0 : L-1
+integer_intervals_1 = [];
+integer_intervals_2 = [];
+
+  for i = 1:length(ff_0)
+      % satellite 1 위치(seed)
+      interval_1 = start_points(i) :end_points(i) ;
+      interval_1(interval_1 > (L-1)) = interval_1(interval_1 > (L-1)) - L; 
+      integer_intervals_1 = [integer_intervals_1, interval_1];
+
+      % satellite 2 위치 생성
+      interval_2 = interval_1 + n; 
+      interval_2(interval_2 > (L-1)) = interval_2(interval_2 > (L-1)) - L;
+      integer_intervals_2 = [integer_intervals_2, interval_2];
+  end
+
+
+sum_intervals = ...
+    [integer_intervals_1, ...
+    integer_intervals_2, ...
+    ];
+
+unique_intervals = unique(sort(sum_intervals));
+
+difference = length(sum_intervals) - length(unique_intervals) ;
+
+result_1 = [result_1; n, difference];
+
+end
+
+Cov_1 = length(integer_intervals_1) / L * 100;
+
+
+% 랜덤숫자 생성
+
+result_sum1 = [result_1(:,1), result_1(:,2)];
+
+rows_with_min_sum1 = result_sum1(result_sum1(:, 2) == min(result_sum1(:, 2)), :);
+
+k_sum1 = rows_with_min_sum1(:,1);
+
+random_index_1 = randi([1, length(k_sum1)]);
+
+random_number_1 = k_sum1(random_index_1);
+
+
+% renewal
+integer_intervals_1 = [];
+integer_intervals_2 = [];
+
+for i = 1:length(ff_0)
+    % satellite 1 위치(seed)
+    interval_1 = start_points(i) :end_points(i) ;
+    interval_1(interval_1 > (L-1)) = interval_1(interval_1 > (L-1)) - L; 
+    integer_intervals_1 = [integer_intervals_1, interval_1];
+
+    % satellite 2 위치
+    interval_2 = interval_1 + random_number_1; 
+    interval_2(interval_2 > (L-1)) = interval_2(interval_2 > (L-1)) - L;
+    integer_intervals_2 = [integer_intervals_2, interval_2];
+end
+
+
+sum_intervals = ...
+    [integer_intervals_1, ...
+    integer_intervals_2, ...
+    ];
+
+unique_intervals = unique(sort(sum_intervals));
+
+Cov_2 = length(unique_intervals) / L * 100;
+ 
+
+%% Random2 (위성 3대)
+
+for n = 0 : L-1
+integer_intervals_1 = [];
+integer_intervals_2 = [];
+integer_intervals_3 = [];
+
+  for i = 1:length(ff_0)
+      % satellite 1 위치(seed)
+      interval_1 = start_points(i) :end_points(i) ;
+      interval_1(interval_1 > (L-1)) = interval_1(interval_1 > (L-1)) - L; 
+      integer_intervals_1 = [integer_intervals_1, interval_1];
+
+      % satellite 2 위치
+      interval_2 = interval_1 + random_number_1; 
+      interval_2(interval_2 > (L-1)) = interval_2(interval_2 > (L-1)) - L;
+      integer_intervals_2 = [integer_intervals_2, interval_2];
+
+      % satellite 3 위치 생성
+      interval_3 = interval_1 + n; 
+      interval_3(interval_3 > (L-1)) = interval_3(interval_3 > (L-1)) - L;
+      integer_intervals_3 = [integer_intervals_3, interval_3];
+  end
+
+
+sum_intervals = ...
+    [integer_intervals_1, ...
+    integer_intervals_2, ...
+    integer_intervals_3, ...
+    ];
+
+unique_intervals = unique(sort(sum_intervals));
+
+difference = length(sum_intervals) - length(unique_intervals) ;
+
+result_2 = [result_2; n, difference];
+
+end
+
+
+% 랜덤숫자 생성
+
+result_sum2 = [result_2(:,1), result_2(:,2)];
+
+rows_with_min_sum2 = result_sum2(result_sum2(:, 2) == min(result_sum2(:, 2)), :);
+
+k_sum2 = rows_with_min_sum2(:,1);
+
+random_index_2 = randi([1, length(k_sum2)]);
+
+random_number_2 = k_sum2(random_index_2);
+
+
+% renewal
+integer_intervals_1 = [];
+integer_intervals_2 = [];
+integer_intervals_3 = [];
+
+for i = 1:length(ff_0)
+    % satellite 1 위치 생성(seed)
+    interval_1 = start_points(i) :end_points(i) ;
+    interval_1(interval_1 > (L-1)) = interval_1(interval_1 > (L-1)) - L; 
+    integer_intervals_1 = [integer_intervals_1, interval_1];
+
+    % satellite 2 위치
+    interval_2 = interval_1 + random_number_1; 
+    interval_2(interval_2 > (L-1)) = interval_2(interval_2 > (L-1)) - L;
+    integer_intervals_2 = [integer_intervals_2, interval_2];
+
+    % satellite 2 위치
+    interval_3 = interval_1 + random_number_2; 
+    interval_3(interval_3 > (L-1)) = interval_3(interval_3 > (L-1)) - L;
+    integer_intervals_3 = [integer_intervals_3, interval_3];
+end
+
+
+sum_intervals = ...
+    [integer_intervals_1, ...
+    integer_intervals_2, ...
+    integer_intervals_3, ...
+    ];
+
+unique_intervals = unique(sort(sum_intervals));
+
+Cov_3 = length(unique_intervals) / L * 100;
+
+
+%% Random3 (위성 4대)
+
+for n = 0 : L-1
+integer_intervals_1 = [];
+integer_intervals_2 = [];
+integer_intervals_3 = [];
+integer_intervals_4 = [];
+
+  for i = 1:length(ff_0)
+      % satellite 1 위치(seed)
+      interval_1 = start_points(i) :end_points(i) ;
+      interval_1(interval_1 > (L-1)) = interval_1(interval_1 > (L-1)) - L; 
+      integer_intervals_1 = [integer_intervals_1, interval_1];
+
+      % satellite 2 위치
+      interval_2 = interval_1 + random_number_1; 
+      interval_2(interval_2 > (L-1)) = interval_2(interval_2 > (L-1)) - L;
+      integer_intervals_2 = [integer_intervals_2, interval_2];
+
+      % satellite 3 위치
+      interval_3 = interval_1 + random_number_2; 
+      interval_3(interval_3 > (L-1)) = interval_3(interval_3 > (L-1)) - L;
+      integer_intervals_3 = [integer_intervals_3, interval_3];
+
+      % satellite 4 위치 생성
+      interval_4 = interval_1 + n; 
+      interval_4(interval_4 > (L-1)) = interval_4(interval_4 > (L-1)) - L;
+      integer_intervals_4 = [integer_intervals_4, interval_4];
+  end
+
+
+sum_intervals = ...
+    [integer_intervals_1, ...
+    integer_intervals_2, ...
+    integer_intervals_3, ...
+    integer_intervals_4, ...
+    ];
+
+unique_intervals = unique(sort(sum_intervals));
+
+difference = length(sum_intervals) - length(unique_intervals) ;
+
+result_3 = [result_3; n, difference];
+
+end
+
+
+% 랜덤숫자 생성
+
+result_sum3 = [result_3(:,1), result_3(:,2)];
+
+rows_with_min_sum3 = result_sum3(result_sum3(:, 2) == min(result_sum3(:, 2)), :);
+
+k_sum3 = rows_with_min_sum3(:,1);
+
+random_index_3 = randi([1, length(k_sum3)]);
+
+random_number_3 = k_sum3(random_index_3);
+
+
+% renewal
+integer_intervals_1 = [];
+integer_intervals_2 = [];
+integer_intervals_3 = [];
+integer_intervals_4 = [];
+
+for i = 1:length(ff_0)
+    % satellite 1 위치 생성(seed)
+    interval_1 = start_points(i) :end_points(i) ;
+    interval_1(interval_1 > (L-1)) = interval_1(interval_1 > (L-1)) - L; 
+    integer_intervals_1 = [integer_intervals_1, interval_1];
+
+    % satellite 2 위치
+    interval_2 = interval_1 + random_number_1; 
+    interval_2(interval_2 > (L-1)) = interval_2(interval_2 > (L-1)) - L;
+    integer_intervals_2 = [integer_intervals_2, interval_2];
+
+    % satellite 2 위치
+    interval_3 = interval_1 + random_number_2; 
+    interval_3(interval_3 > (L-1)) = interval_3(interval_3 > (L-1)) - L;
+    integer_intervals_3 = [integer_intervals_3, interval_3];
+
+    % satellite 3 위치
+    interval_4 = interval_1 + random_number_3; 
+    interval_4(interval_4 > (L-1)) = interval_4(interval_4 > (L-1)) - L;
+    integer_intervals_4 = [integer_intervals_4, interval_4];
+end
+
+
+sum_intervals = ...
+    [integer_intervals_1, ...
+    integer_intervals_2, ...
+    integer_intervals_3, ...
+    integer_intervals_4, ...
+    ];
+
+unique_intervals = unique(sort(sum_intervals));
+
+Cov_4 = length(unique_intervals) / L * 100;
+
+%% Random4 (위성 5대)
+
+for n = 0 : L-1
+integer_intervals_1 = [];
+integer_intervals_2 = [];
+integer_intervals_3 = [];
+integer_intervals_4 = [];
+integer_intervals_5 = [];
+
+  for i = 1:length(ff_0)
+      % satellite 1 위치(seed)
+      interval_1 = start_points(i) :end_points(i) ;
+      interval_1(interval_1 > (L-1)) = interval_1(interval_1 > (L-1)) - L; 
+      integer_intervals_1 = [integer_intervals_1, interval_1];
+
+      % satellite 2 위치
+      interval_2 = interval_1 + random_number_1; 
+      interval_2(interval_2 > (L-1)) = interval_2(interval_2 > (L-1)) - L;
+      integer_intervals_2 = [integer_intervals_2, interval_2];
+
+      % satellite 3 위치
+      interval_3 = interval_1 + random_number_2; 
+      interval_3(interval_3 > (L-1)) = interval_3(interval_3 > (L-1)) - L;
+      integer_intervals_3 = [integer_intervals_3, interval_3];
+
+      % satellite 4 위치
+      interval_4 = interval_1 + random_number_3; 
+      interval_4(interval_4 > (L-1)) = interval_4(interval_4 > (L-1)) - L;
+      integer_intervals_4 = [integer_intervals_4, interval_4];
+
+      % satellite 5 위치 생성
+      interval_5 = interval_1 + n; 
+      interval_5(interval_5 > (L-1)) = interval_5(interval_5 > (L-1)) - L;
+      integer_intervals_5 = [integer_intervals_5, interval_5];
+  end
+
+
+sum_intervals = ...
+    [integer_intervals_1, ...
+    integer_intervals_2, ...
+    integer_intervals_3, ...
+    integer_intervals_4, ...
+    integer_intervals_5, ...
+    ];
+
+unique_intervals = unique(sort(sum_intervals));
+
+difference = length(sum_intervals) - length(unique_intervals) ;
+
+result_4 = [result_4; n, difference];
+
+end
+
+
+% 랜덤숫자 생성
+
+result_sum4 = [result_4(:,1), result_4(:,2)];
+
+rows_with_min_sum4 = result_sum4(result_sum4(:, 2) == min(result_sum4(:, 2)), :);
+
+k_sum4 = rows_with_min_sum4(:,1);
+
+random_index_4 = randi([1, length(k_sum4)]);
+
+random_number_4 = k_sum4(random_index_4);
+
+
+% renewal
+integer_intervals_1 = [];
+integer_intervals_2 = [];
+integer_intervals_3 = [];
+integer_intervals_4 = [];
+integer_intervals_5 = [];
+
+for i = 1:length(ff_0)
+    % satellite 1 위치 생성(seed)
+    interval_1 = start_points(i) :end_points(i) ;
+    interval_1(interval_1 > (L-1)) = interval_1(interval_1 > (L-1)) - L; 
+    integer_intervals_1 = [integer_intervals_1, interval_1];
+
+    % satellite 2 위치
+    interval_2 = interval_1 + random_number_1; 
+    interval_2(interval_2 > (L-1)) = interval_2(interval_2 > (L-1)) - L;
+    integer_intervals_2 = [integer_intervals_2, interval_2];
+
+    % satellite 2 위치
+    interval_3 = interval_1 + random_number_2; 
+    interval_3(interval_3 > (L-1)) = interval_3(interval_3 > (L-1)) - L;
+    integer_intervals_3 = [integer_intervals_3, interval_3];
+
+    % satellite 3 위치
+    interval_4 = interval_1 + random_number_3; 
+    interval_4(interval_4 > (L-1)) = interval_4(interval_4 > (L-1)) - L;
+    integer_intervals_4 = [integer_intervals_4, interval_4];
+
+    % satellite 4 위치
+    interval_5 = interval_1 + random_number_4; 
+    interval_5(interval_5 > (L-1)) = interval_5(interval_5 > (L-1)) - L;
+    integer_intervals_5 = [integer_intervals_5, interval_5];
+end
+
+
+sum_intervals = ...
+    [integer_intervals_1, ...
+    integer_intervals_2, ...
+    integer_intervals_3, ...
+    integer_intervals_4, ...
+    integer_intervals_5, ...
+    ];
+
+unique_intervals = unique(sort(sum_intervals));
+
+Cov_5 = length(unique_intervals) / L * 100;
+
+%% Random5 (위성 6대)
+
+for n = 0 : L-1
+integer_intervals_1 = [];
+integer_intervals_2 = [];
+integer_intervals_3 = [];
+integer_intervals_4 = [];
+integer_intervals_5 = [];
+integer_intervals_6 = [];
+
+  for i = 1:length(ff_0)
+      % satellite 1 위치(seed)
+      interval_1 = start_points(i) :end_points(i) ;
+      interval_1(interval_1 > (L-1)) = interval_1(interval_1 > (L-1)) - L; 
+      integer_intervals_1 = [integer_intervals_1, interval_1];
+
+      % satellite 2 위치
+      interval_2 = interval_1 + random_number_1; 
+      interval_2(interval_2 > (L-1)) = interval_2(interval_2 > (L-1)) - L;
+      integer_intervals_2 = [integer_intervals_2, interval_2];
+
+      % satellite 3 위치
+      interval_3 = interval_1 + random_number_2; 
+      interval_3(interval_3 > (L-1)) = interval_3(interval_3 > (L-1)) - L;
+      integer_intervals_3 = [integer_intervals_3, interval_3];
+
+      % satellite 4 위치
+      interval_4 = interval_1 + random_number_3; 
+      interval_4(interval_4 > (L-1)) = interval_4(interval_4 > (L-1)) - L;
+      integer_intervals_4 = [integer_intervals_4, interval_4];
+
+      % satellite 5 위치
+      interval_5 = interval_1 + random_number_4; 
+      interval_5(interval_5 > (L-1)) = interval_5(interval_5 > (L-1)) - L;
+      integer_intervals_5 = [integer_intervals_5, interval_5];
+
+      % satellite 6 위치 생성
+      interval_6 = interval_1 + n; 
+      interval_6(interval_6 > (L-1)) = interval_6(interval_6 > (L-1)) - L;
+      integer_intervals_6 = [integer_intervals_6, interval_6];
+  end
+
+
+sum_intervals = ...
+    [integer_intervals_1, ...
+    integer_intervals_2, ...
+    integer_intervals_3, ...
+    integer_intervals_4, ...
+    integer_intervals_5, ...
+    integer_intervals_6, ...
+    ];
+
+unique_intervals = unique(sort(sum_intervals));
+
+difference = length(sum_intervals) - length(unique_intervals) ;
+
+result_5 = [result_5; n, difference];
+
+end
+
+
+% 랜덤숫자 생성
+
+result_sum5 = [result_5(:,1), result_5(:,2)];
+
+rows_with_min_sum5 = result_sum5(result_sum5(:, 2) == min(result_sum5(:, 2)), :);
+
+k_sum5 = rows_with_min_sum5(:,1);
+
+random_index_5 = randi([1, length(k_sum5)]);
+
+random_number_5 = k_sum5(random_index_5);
+
+
+% renewal
+integer_intervals_1 = [];
+integer_intervals_2 = [];
+integer_intervals_3 = [];
+integer_intervals_4 = [];
+integer_intervals_5 = [];
+integer_intervals_6 = [];
+
+for i = 1:length(ff_0)
+    % satellite 1 위치 생성(seed)
+    interval_1 = start_points(i) :end_points(i) ;
+    interval_1(interval_1 > (L-1)) = interval_1(interval_1 > (L-1)) - L; 
+    integer_intervals_1 = [integer_intervals_1, interval_1];
+
+    % satellite 2 위치
+    interval_2 = interval_1 + random_number_1; 
+    interval_2(interval_2 > (L-1)) = interval_2(interval_2 > (L-1)) - L;
+    integer_intervals_2 = [integer_intervals_2, interval_2];
+
+    % satellite 2 위치
+    interval_3 = interval_1 + random_number_2; 
+    interval_3(interval_3 > (L-1)) = interval_3(interval_3 > (L-1)) - L;
+    integer_intervals_3 = [integer_intervals_3, interval_3];
+
+    % satellite 3 위치
+    interval_4 = interval_1 + random_number_3; 
+    interval_4(interval_4 > (L-1)) = interval_4(interval_4 > (L-1)) - L;
+    integer_intervals_4 = [integer_intervals_4, interval_4];
+
+    % satellite 4 위치
+    interval_5 = interval_1 + random_number_4; 
+    interval_5(interval_5 > (L-1)) = interval_5(interval_5 > (L-1)) - L;
+    integer_intervals_5 = [integer_intervals_5, interval_5];
+
+    % satellite 5 위치
+    interval_6 = interval_1 + random_number_5; 
+    interval_6(interval_6 > (L-1)) = interval_6(interval_6 > (L-1)) - L;
+    integer_intervals_6 = [integer_intervals_6, interval_6];
+end
+
+
+sum_intervals = ...
+    [integer_intervals_1, ...
+    integer_intervals_2, ...
+    integer_intervals_3, ...
+    integer_intervals_4, ...
+    integer_intervals_5, ...
+    integer_intervals_6, ...
+    ];
+
+unique_intervals = unique(sort(sum_intervals));
+
+Cov_6 = length(unique_intervals) / L * 100;
+
+%% Random6 (위성 7대)
+
+for n = 0 : L-1
+integer_intervals_1 = [];
+integer_intervals_2 = [];
+integer_intervals_3 = [];
+integer_intervals_4 = [];
+integer_intervals_5 = [];
+integer_intervals_6 = [];
+integer_intervals_7 = [];
+
+  for i = 1:length(ff_0)
+      % satellite 1 위치(seed)
+      interval_1 = start_points(i) :end_points(i) ;
+      interval_1(interval_1 > (L-1)) = interval_1(interval_1 > (L-1)) - L; 
+      integer_intervals_1 = [integer_intervals_1, interval_1];
+
+      % satellite 2 위치
+      interval_2 = interval_1 + random_number_1; 
+      interval_2(interval_2 > (L-1)) = interval_2(interval_2 > (L-1)) - L;
+      integer_intervals_2 = [integer_intervals_2, interval_2];
+
+      % satellite 3 위치
+      interval_3 = interval_1 + random_number_2; 
+      interval_3(interval_3 > (L-1)) = interval_3(interval_3 > (L-1)) - L;
+      integer_intervals_3 = [integer_intervals_3, interval_3];
+
+      % satellite 4 위치
+      interval_4 = interval_1 + random_number_3; 
+      interval_4(interval_4 > (L-1)) = interval_4(interval_4 > (L-1)) - L;
+      integer_intervals_4 = [integer_intervals_4, interval_4];
+
+      % satellite 5 위치
+      interval_5 = interval_1 + random_number_4; 
+      interval_5(interval_5 > (L-1)) = interval_5(interval_5 > (L-1)) - L;
+      integer_intervals_5 = [integer_intervals_5, interval_5];
+
+      % satellite 6 위치
+      interval_6 = interval_1 + random_number_5; 
+      interval_6(interval_6 > (L-1)) = interval_6(interval_6 > (L-1)) - L;
+      integer_intervals_6 = [integer_intervals_6, interval_6];
+
+      % satellite 7 위치 생성
+      interval_7 = interval_1 + n; 
+      interval_7(interval_7 > (L-1)) = interval_7(interval_7 > (L-1)) - L;
+      integer_intervals_7 = [integer_intervals_7, interval_7];
+  end
+
+
+sum_intervals = ...
+    [integer_intervals_1, ...
+    integer_intervals_2, ...
+    integer_intervals_3, ...
+    integer_intervals_4, ...
+    integer_intervals_5, ...
+    integer_intervals_6, ...
+    integer_intervals_7, ...
+    ];
+
+unique_intervals = unique(sort(sum_intervals));
+
+difference = length(sum_intervals) - length(unique_intervals) ;
+
+result_6 = [result_6; n, difference];
+
+end
+
+
+% 랜덤숫자 생성
+
+result_sum6 = [result_6(:,1), result_6(:,2)];
+
+rows_with_min_sum6 = result_sum6(result_sum6(:, 2) == min(result_sum6(:, 2)), :);
+
+k_sum6 = rows_with_min_sum6(:,1);
+
+random_index_6 = randi([1, length(k_sum6)]);
+
+random_number_6 = k_sum6(random_index_6);
+
+
+% renewal
+integer_intervals_1 = [];
+integer_intervals_2 = [];
+integer_intervals_3 = [];
+integer_intervals_4 = [];
+integer_intervals_5 = [];
+integer_intervals_6 = [];
+integer_intervals_7 = [];
+
+for i = 1:length(ff_0)
+    % satellite 1 위치 생성(seed)
+    interval_1 = start_points(i) :end_points(i) ;
+    interval_1(interval_1 > (L-1)) = interval_1(interval_1 > (L-1)) - L; 
+    integer_intervals_1 = [integer_intervals_1, interval_1];
+
+    % satellite 2 위치
+    interval_2 = interval_1 + random_number_1; 
+    interval_2(interval_2 > (L-1)) = interval_2(interval_2 > (L-1)) - L;
+    integer_intervals_2 = [integer_intervals_2, interval_2];
+
+    % satellite 2 위치
+    interval_3 = interval_1 + random_number_2; 
+    interval_3(interval_3 > (L-1)) = interval_3(interval_3 > (L-1)) - L;
+    integer_intervals_3 = [integer_intervals_3, interval_3];
+
+    % satellite 3 위치
+    interval_4 = interval_1 + random_number_3; 
+    interval_4(interval_4 > (L-1)) = interval_4(interval_4 > (L-1)) - L;
+    integer_intervals_4 = [integer_intervals_4, interval_4];
+
+    % satellite 4 위치
+    interval_5 = interval_1 + random_number_4; 
+    interval_5(interval_5 > (L-1)) = interval_5(interval_5 > (L-1)) - L;
+    integer_intervals_5 = [integer_intervals_5, interval_5];
+
+    % satellite 5 위치
+    interval_6 = interval_1 + random_number_5; 
+    interval_6(interval_6 > (L-1)) = interval_6(interval_6 > (L-1)) - L;
+    integer_intervals_6 = [integer_intervals_6, interval_6];
+
+    % satellite 6 위치
+    interval_7 = interval_1 + random_number_6; 
+    interval_7(interval_7 > (L-1)) = interval_7(interval_7 > (L-1)) - L;
+    integer_intervals_7 = [integer_intervals_7, interval_7];
+end
+
+
+sum_intervals = ...
+    [integer_intervals_1, ...
+    integer_intervals_2, ...
+    integer_intervals_3, ...
+    integer_intervals_4, ...
+    integer_intervals_5, ...
+    integer_intervals_6, ...
+    integer_intervals_7, ...
+    ];
+
+unique_intervals = unique(sort(sum_intervals));
+
+Cov_7 = length(unique_intervals) / L * 100;
+
+%% Random7 (위성 8대)
+
+for n = 0 : L-1
+integer_intervals_1 = [];
+integer_intervals_2 = [];
+integer_intervals_3 = [];
+integer_intervals_4 = [];
+integer_intervals_5 = [];
+integer_intervals_6 = [];
+integer_intervals_7 = [];
+integer_intervals_8 = [];
+
+  for i = 1:length(ff_0)
+      % satellite 1 위치(seed)
+      interval_1 = start_points(i) :end_points(i) ;
+      interval_1(interval_1 > (L-1)) = interval_1(interval_1 > (L-1)) - L; 
+      integer_intervals_1 = [integer_intervals_1, interval_1];
+
+      % satellite 2 위치
+      interval_2 = interval_1 + random_number_1; 
+      interval_2(interval_2 > (L-1)) = interval_2(interval_2 > (L-1)) - L;
+      integer_intervals_2 = [integer_intervals_2, interval_2];
+
+      % satellite 3 위치
+      interval_3 = interval_1 + random_number_2; 
+      interval_3(interval_3 > (L-1)) = interval_3(interval_3 > (L-1)) - L;
+      integer_intervals_3 = [integer_intervals_3, interval_3];
+
+      % satellite 4 위치
+      interval_4 = interval_1 + random_number_3; 
+      interval_4(interval_4 > (L-1)) = interval_4(interval_4 > (L-1)) - L;
+      integer_intervals_4 = [integer_intervals_4, interval_4];
+
+      % satellite 5 위치
+      interval_5 = interval_1 + random_number_4; 
+      interval_5(interval_5 > (L-1)) = interval_5(interval_5 > (L-1)) - L;
+      integer_intervals_5 = [integer_intervals_5, interval_5];
+
+      % satellite 6 위치
+      interval_6 = interval_1 + random_number_5; 
+      interval_6(interval_6 > (L-1)) = interval_6(interval_6 > (L-1)) - L;
+      integer_intervals_6 = [integer_intervals_6, interval_6];
+
+      % satellite 7 위치
+      interval_7 = interval_1 + random_number_6; 
+      interval_7(interval_7 > (L-1)) = interval_7(interval_7 > (L-1)) - L;
+      integer_intervals_7 = [integer_intervals_7, interval_7];
+
+      % satellite 8 위치 생성
+      interval_8 = interval_1 + n; 
+      interval_8(interval_8 > (L-1)) = interval_8(interval_8 > (L-1)) - L;
+      integer_intervals_8 = [integer_intervals_8, interval_8];
+  end
+
+
+sum_intervals = ...
+    [integer_intervals_1, ...
+    integer_intervals_2, ...
+    integer_intervals_3, ...
+    integer_intervals_4, ...
+    integer_intervals_5, ...
+    integer_intervals_6, ...
+    integer_intervals_7, ...
+    integer_intervals_8, ...
+    ];
+
+unique_intervals = unique(sort(sum_intervals));
+
+difference = length(sum_intervals) - length(unique_intervals) ;
+
+result_7 = [result_7; n, difference];
+
+end
+
+
+% 랜덤숫자 생성
+
+result_sum7 = [result_7(:,1), result_7(:,2)];
+
+rows_with_min_sum7 = result_sum7(result_sum7(:, 2) == min(result_sum7(:, 2)), :);
+
+k_sum7 = rows_with_min_sum7(:,1);
+
+random_index_7 = randi([1, length(k_sum7)]);
+
+random_number_7 = k_sum7(random_index_7);
+
+
+% renewal
+integer_intervals_1 = [];
+integer_intervals_2 = [];
+integer_intervals_3 = [];
+integer_intervals_4 = [];
+integer_intervals_5 = [];
+integer_intervals_6 = [];
+integer_intervals_7 = [];
+integer_intervals_8 = [];
+
+for i = 1:length(ff_0)
+    % satellite 1 위치 생성(seed)
+    interval_1 = start_points(i) :end_points(i) ;
+    interval_1(interval_1 > (L-1)) = interval_1(interval_1 > (L-1)) - L; 
+    integer_intervals_1 = [integer_intervals_1, interval_1];
+
+    % satellite 2 위치
+    interval_2 = interval_1 + random_number_1; 
+    interval_2(interval_2 > (L-1)) = interval_2(interval_2 > (L-1)) - L;
+    integer_intervals_2 = [integer_intervals_2, interval_2];
+
+    % satellite 2 위치
+    interval_3 = interval_1 + random_number_2; 
+    interval_3(interval_3 > (L-1)) = interval_3(interval_3 > (L-1)) - L;
+    integer_intervals_3 = [integer_intervals_3, interval_3];
+
+    % satellite 3 위치
+    interval_4 = interval_1 + random_number_3; 
+    interval_4(interval_4 > (L-1)) = interval_4(interval_4 > (L-1)) - L;
+    integer_intervals_4 = [integer_intervals_4, interval_4];
+
+    % satellite 4 위치
+    interval_5 = interval_1 + random_number_4; 
+    interval_5(interval_5 > (L-1)) = interval_5(interval_5 > (L-1)) - L;
+    integer_intervals_5 = [integer_intervals_5, interval_5];
+
+    % satellite 5 위치
+    interval_6 = interval_1 + random_number_5; 
+    interval_6(interval_6 > (L-1)) = interval_6(interval_6 > (L-1)) - L;
+    integer_intervals_6 = [integer_intervals_6, interval_6];
+
+    % satellite 6 위치
+    interval_7 = interval_1 + random_number_6; 
+    interval_7(interval_7 > (L-1)) = interval_7(interval_7 > (L-1)) - L;
+    integer_intervals_7 = [integer_intervals_7, interval_7];
+
+    % satellite 7 위치
+    interval_8 = interval_1 + random_number_7; 
+    interval_8(interval_8 > (L-1)) = interval_8(interval_8 > (L-1)) - L;
+    integer_intervals_8 = [integer_intervals_8, interval_8];
+end
+
+
+sum_intervals = ...
+    [integer_intervals_1, ...
+    integer_intervals_2, ...
+    integer_intervals_3, ...
+    integer_intervals_4, ...
+    integer_intervals_5, ...
+    integer_intervals_6, ...
+    integer_intervals_7, ...
+    integer_intervals_8, ...
+    ];
+
+unique_intervals = unique(sort(sum_intervals));
+
+Cov_8 = length(unique_intervals) / L * 100;
+
+%% Random8 (위성 9대)
+
+for n = 0 : L-1
+integer_intervals_1 = [];
+integer_intervals_2 = [];
+integer_intervals_3 = [];
+integer_intervals_4 = [];
+integer_intervals_5 = [];
+integer_intervals_6 = [];
+integer_intervals_7 = [];
+integer_intervals_8 = [];
+integer_intervals_9 = [];
+
+  for i = 1:length(ff_0)
+      % satellite 1 위치(seed)
+      interval_1 = start_points(i) :end_points(i) ;
+      interval_1(interval_1 > (L-1)) = interval_1(interval_1 > (L-1)) - L; 
+      integer_intervals_1 = [integer_intervals_1, interval_1];
+
+      % satellite 2 위치
+      interval_2 = interval_1 + random_number_1; 
+      interval_2(interval_2 > (L-1)) = interval_2(interval_2 > (L-1)) - L;
+      integer_intervals_2 = [integer_intervals_2, interval_2];
+
+      % satellite 3 위치
+      interval_3 = interval_1 + random_number_2; 
+      interval_3(interval_3 > (L-1)) = interval_3(interval_3 > (L-1)) - L;
+      integer_intervals_3 = [integer_intervals_3, interval_3];
+
+      % satellite 4 위치
+      interval_4 = interval_1 + random_number_3; 
+      interval_4(interval_4 > (L-1)) = interval_4(interval_4 > (L-1)) - L;
+      integer_intervals_4 = [integer_intervals_4, interval_4];
+
+      % satellite 5 위치
+      interval_5 = interval_1 + random_number_4; 
+      interval_5(interval_5 > (L-1)) = interval_5(interval_5 > (L-1)) - L;
+      integer_intervals_5 = [integer_intervals_5, interval_5];
+
+      % satellite 6 위치
+      interval_6 = interval_1 + random_number_5; 
+      interval_6(interval_6 > (L-1)) = interval_6(interval_6 > (L-1)) - L;
+      integer_intervals_6 = [integer_intervals_6, interval_6];
+
+      % satellite 7 위치
+      interval_7 = interval_1 + random_number_6; 
+      interval_7(interval_7 > (L-1)) = interval_7(interval_7 > (L-1)) - L;
+      integer_intervals_7 = [integer_intervals_7, interval_7];
+
+      % satellite 8 위치
+      interval_8 = interval_1 + random_number_7; 
+      interval_8(interval_8 > (L-1)) = interval_8(interval_8 > (L-1)) - L;
+      integer_intervals_8 = [integer_intervals_8, interval_8];
+
+      % satellite 9 위치 생성
+      interval_9 = interval_1 + n; 
+      interval_9(interval_9 > (L-1)) = interval_9(interval_9 > (L-1)) - L;
+      integer_intervals_9 = [integer_intervals_9, interval_9];
+  end
+
+
+sum_intervals = ...
+    [integer_intervals_1, ...
+    integer_intervals_2, ...
+    integer_intervals_3, ...
+    integer_intervals_4, ...
+    integer_intervals_5, ...
+    integer_intervals_6, ...
+    integer_intervals_7, ...
+    integer_intervals_8, ...
+    integer_intervals_9, ...
+    ];
+
+unique_intervals = unique(sort(sum_intervals));
+
+difference = length(sum_intervals) - length(unique_intervals) ;
+
+result_8 = [result_8; n, difference];
+
+end
+
+
+% 랜덤숫자 생성
+
+result_sum8 = [result_8(:,1), result_8(:,2)];
+
+rows_with_min_sum8 = result_sum8(result_sum8(:, 2) == min(result_sum8(:, 2)), :);
+
+k_sum8 = rows_with_min_sum8(:,1);
+
+random_index_8 = randi([1, length(k_sum8)]);
+
+random_number_8 = k_sum8(random_index_8);
+
+
+% renewal
+integer_intervals_1 = [];
+integer_intervals_2 = [];
+integer_intervals_3 = [];
+integer_intervals_4 = [];
+integer_intervals_5 = [];
+integer_intervals_6 = [];
+integer_intervals_7 = [];
+integer_intervals_8 = [];
+integer_intervals_9 = [];
+
+for i = 1:length(ff_0)
+    % satellite 1 위치 생성(seed)
+    interval_1 = start_points(i) :end_points(i) ;
+    interval_1(interval_1 > (L-1)) = interval_1(interval_1 > (L-1)) - L; 
+    integer_intervals_1 = [integer_intervals_1, interval_1];
+
+    % satellite 2 위치
+    interval_2 = interval_1 + random_number_1; 
+    interval_2(interval_2 > (L-1)) = interval_2(interval_2 > (L-1)) - L;
+    integer_intervals_2 = [integer_intervals_2, interval_2];
+
+    % satellite 2 위치
+    interval_3 = interval_1 + random_number_2; 
+    interval_3(interval_3 > (L-1)) = interval_3(interval_3 > (L-1)) - L;
+    integer_intervals_3 = [integer_intervals_3, interval_3];
+
+    % satellite 3 위치
+    interval_4 = interval_1 + random_number_3; 
+    interval_4(interval_4 > (L-1)) = interval_4(interval_4 > (L-1)) - L;
+    integer_intervals_4 = [integer_intervals_4, interval_4];
+
+    % satellite 4 위치
+    interval_5 = interval_1 + random_number_4; 
+    interval_5(interval_5 > (L-1)) = interval_5(interval_5 > (L-1)) - L;
+    integer_intervals_5 = [integer_intervals_5, interval_5];
+
+    % satellite 5 위치
+    interval_6 = interval_1 + random_number_5; 
+    interval_6(interval_6 > (L-1)) = interval_6(interval_6 > (L-1)) - L;
+    integer_intervals_6 = [integer_intervals_6, interval_6];
+
+    % satellite 6 위치
+    interval_7 = interval_1 + random_number_6; 
+    interval_7(interval_7 > (L-1)) = interval_7(interval_7 > (L-1)) - L;
+    integer_intervals_7 = [integer_intervals_7, interval_7];
+
+    % satellite 7 위치
+    interval_8 = interval_1 + random_number_7; 
+    interval_8(interval_8 > (L-1)) = interval_8(interval_8 > (L-1)) - L;
+    integer_intervals_8 = [integer_intervals_8, interval_8];
+
+    % satellite 8 위치
+    interval_9 = interval_1 + random_number_8; 
+    interval_9(interval_9 > (L-1)) = interval_9(interval_9 > (L-1)) - L;
+    integer_intervals_9 = [integer_intervals_9, interval_9];
+end
+
+
+sum_intervals = ...
+    [integer_intervals_1, ...
+    integer_intervals_2, ...
+    integer_intervals_3, ...
+    integer_intervals_4, ...
+    integer_intervals_5, ...
+    integer_intervals_6, ...
+    integer_intervals_7, ...
+    integer_intervals_8, ...
+    integer_intervals_9, ...
+    ];
+
+unique_intervals = unique(sort(sum_intervals));
+
+Cov_9 = length(unique_intervals) / L * 100;
+
+
+%% Random9 (위성 10대)
+
+for n = 0 : L-1
+integer_intervals_1 = [];
+integer_intervals_2 = [];
+integer_intervals_3 = [];
+integer_intervals_4 = [];
+integer_intervals_5 = [];
+integer_intervals_6 = [];
+integer_intervals_7 = [];
+integer_intervals_8 = [];
+integer_intervals_9 = [];
+integer_intervals_10 = [];
+
+  for i = 1:length(ff_0)
+      % satellite 1 위치(seed)
+      interval_1 = start_points(i) :end_points(i) ;
+      interval_1(interval_1 > (L-1)) = interval_1(interval_1 > (L-1)) - L; 
+      integer_intervals_1 = [integer_intervals_1, interval_1];
+
+      % satellite 2 위치
+      interval_2 = interval_1 + random_number_1; 
+      interval_2(interval_2 > (L-1)) = interval_2(interval_2 > (L-1)) - L;
+      integer_intervals_2 = [integer_intervals_2, interval_2];
+
+      % satellite 3 위치
+      interval_3 = interval_1 + random_number_2; 
+      interval_3(interval_3 > (L-1)) = interval_3(interval_3 > (L-1)) - L;
+      integer_intervals_3 = [integer_intervals_3, interval_3];
+
+      % satellite 4 위치
+      interval_4 = interval_1 + random_number_3; 
+      interval_4(interval_4 > (L-1)) = interval_4(interval_4 > (L-1)) - L;
+      integer_intervals_4 = [integer_intervals_4, interval_4];
+
+      % satellite 5 위치
+      interval_5 = interval_1 + random_number_4; 
+      interval_5(interval_5 > (L-1)) = interval_5(interval_5 > (L-1)) - L;
+      integer_intervals_5 = [integer_intervals_5, interval_5];
+
+      % satellite 6 위치
+      interval_6 = interval_1 + random_number_5; 
+      interval_6(interval_6 > (L-1)) = interval_6(interval_6 > (L-1)) - L;
+      integer_intervals_6 = [integer_intervals_6, interval_6];
+
+      % satellite 7 위치
+      interval_7 = interval_1 + random_number_6; 
+      interval_7(interval_7 > (L-1)) = interval_7(interval_7 > (L-1)) - L;
+      integer_intervals_7 = [integer_intervals_7, interval_7];
+
+      % satellite 8 위치
+      interval_8 = interval_1 + random_number_7; 
+      interval_8(interval_8 > (L-1)) = interval_8(interval_8 > (L-1)) - L;
+      integer_intervals_8 = [integer_intervals_8, interval_8];
+
+      % satellite 9 위치
+      interval_9 = interval_1 + random_number_8; 
+      interval_9(interval_9 > (L-1)) = interval_9(interval_9 > (L-1)) - L;
+      integer_intervals_9 = [integer_intervals_9, interval_9];
+
+      % satellite 10 위치 생성
+      interval_10 = interval_1 + n; 
+      interval_10(interval_10 > (L-1)) = interval_10(interval_10 > (L-1)) - L;
+      integer_intervals_10 = [integer_intervals_10, interval_10];
+  end
+
+
+sum_intervals = ...
+    [integer_intervals_1, ...
+    integer_intervals_2, ...
+    integer_intervals_3, ...
+    integer_intervals_4, ...
+    integer_intervals_5, ...
+    integer_intervals_6, ...
+    integer_intervals_7, ...
+    integer_intervals_8, ...
+    integer_intervals_9, ...
+    integer_intervals_10, ...
+    ];
+
+unique_intervals = unique(sort(sum_intervals));
+
+difference = length(sum_intervals) - length(unique_intervals) ;
+
+result_9 = [result_9; n, difference];
+
+end
+
+
+% 랜덤숫자 생성
+
+result_sum9 = [result_9(:,1), result_9(:,2)];
+
+rows_with_min_sum9 = result_sum9(result_sum9(:, 2) == min(result_sum9(:, 2)), :);
+
+k_sum9 = rows_with_min_sum9(:,1);
+
+random_index_9 = randi([1, length(k_sum9)]);
+
+random_number_9 = k_sum9(random_index_9);
+
+
+% renewal
+integer_intervals_1 = [];
+integer_intervals_2 = [];
+integer_intervals_3 = [];
+integer_intervals_4 = [];
+integer_intervals_5 = [];
+integer_intervals_6 = [];
+integer_intervals_7 = [];
+integer_intervals_8 = [];
+integer_intervals_9 = [];
+integer_intervals_10 = [];
+
+for i = 1:length(ff_0)
+    % satellite 1 위치 생성(seed)
+    interval_1 = start_points(i) :end_points(i) ;
+    interval_1(interval_1 > (L-1)) = interval_1(interval_1 > (L-1)) - L; 
+    integer_intervals_1 = [integer_intervals_1, interval_1];
+
+    % satellite 2 위치
+    interval_2 = interval_1 + random_number_1; 
+    interval_2(interval_2 > (L-1)) = interval_2(interval_2 > (L-1)) - L;
+    integer_intervals_2 = [integer_intervals_2, interval_2];
+
+    % satellite 2 위치
+    interval_3 = interval_1 + random_number_2; 
+    interval_3(interval_3 > (L-1)) = interval_3(interval_3 > (L-1)) - L;
+    integer_intervals_3 = [integer_intervals_3, interval_3];
+
+    % satellite 3 위치
+    interval_4 = interval_1 + random_number_3; 
+    interval_4(interval_4 > (L-1)) = interval_4(interval_4 > (L-1)) - L;
+    integer_intervals_4 = [integer_intervals_4, interval_4];
+
+    % satellite 4 위치
+    interval_5 = interval_1 + random_number_4; 
+    interval_5(interval_5 > (L-1)) = interval_5(interval_5 > (L-1)) - L;
+    integer_intervals_5 = [integer_intervals_5, interval_5];
+
+    % satellite 5 위치
+    interval_6 = interval_1 + random_number_5; 
+    interval_6(interval_6 > (L-1)) = interval_6(interval_6 > (L-1)) - L;
+    integer_intervals_6 = [integer_intervals_6, interval_6];
+
+    % satellite 6 위치
+    interval_7 = interval_1 + random_number_6; 
+    interval_7(interval_7 > (L-1)) = interval_7(interval_7 > (L-1)) - L;
+    integer_intervals_7 = [integer_intervals_7, interval_7];
+
+    % satellite 7 위치
+    interval_8 = interval_1 + random_number_7; 
+    interval_8(interval_8 > (L-1)) = interval_8(interval_8 > (L-1)) - L;
+    integer_intervals_8 = [integer_intervals_8, interval_8];
+
+    % satellite 8 위치
+    interval_9 = interval_1 + random_number_8; 
+    interval_9(interval_9 > (L-1)) = interval_9(interval_9 > (L-1)) - L;
+    integer_intervals_9 = [integer_intervals_9, interval_9];
+
+    % satellite 9 위치
+    interval_10 = interval_1 + random_number_9; 
+    interval_10(interval_10 > (L-1)) = interval_10(interval_10 > (L-1)) - L;
+    integer_intervals_10 = [integer_intervals_10, interval_10];
+end
+
+
+sum_intervals = ...
+    [integer_intervals_1, ...
+    integer_intervals_2, ...
+    integer_intervals_3, ...
+    integer_intervals_4, ...
+    integer_intervals_5, ...
+    integer_intervals_6, ...
+    integer_intervals_7, ...
+    integer_intervals_8, ...
+    integer_intervals_9, ...
+    integer_intervals_10, ...
+    ];
+
+unique_intervals = unique(sort(sum_intervals));
+
+Cov_10 = length(unique_intervals) / L * 100;
+
+
+%% Random10 (위성 11대)
+
+for n = 0 : L-1
+integer_intervals_1 = [];
+integer_intervals_2 = [];
+integer_intervals_3 = [];
+integer_intervals_4 = [];
+integer_intervals_5 = [];
+integer_intervals_6 = [];
+integer_intervals_7 = [];
+integer_intervals_8 = [];
+integer_intervals_9 = [];
+integer_intervals_10 = [];
+integer_intervals_11 = [];
+
+
+  for i = 1:length(ff_0)
+      % satellite 1 위치(seed)
+      interval_1 = start_points(i) :end_points(i) ;
+      interval_1(interval_1 > (L-1)) = interval_1(interval_1 > (L-1)) - L; 
+      integer_intervals_1 = [integer_intervals_1, interval_1];
+
+      % satellite 2 위치
+      interval_2 = interval_1 + random_number_1; 
+      interval_2(interval_2 > (L-1)) = interval_2(interval_2 > (L-1)) - L;
+      integer_intervals_2 = [integer_intervals_2, interval_2];
+
+      % satellite 3 위치
+      interval_3 = interval_1 + random_number_2; 
+      interval_3(interval_3 > (L-1)) = interval_3(interval_3 > (L-1)) - L;
+      integer_intervals_3 = [integer_intervals_3, interval_3];
+
+      % satellite 4 위치
+      interval_4 = interval_1 + random_number_3; 
+      interval_4(interval_4 > (L-1)) = interval_4(interval_4 > (L-1)) - L;
+      integer_intervals_4 = [integer_intervals_4, interval_4];
+
+      % satellite 5 위치
+      interval_5 = interval_1 + random_number_4; 
+      interval_5(interval_5 > (L-1)) = interval_5(interval_5 > (L-1)) - L;
+      integer_intervals_5 = [integer_intervals_5, interval_5];
+
+      % satellite 6 위치
+      interval_6 = interval_1 + random_number_5; 
+      interval_6(interval_6 > (L-1)) = interval_6(interval_6 > (L-1)) - L;
+      integer_intervals_6 = [integer_intervals_6, interval_6];
+
+      % satellite 7 위치
+      interval_7 = interval_1 + random_number_6; 
+      interval_7(interval_7 > (L-1)) = interval_7(interval_7 > (L-1)) - L;
+      integer_intervals_7 = [integer_intervals_7, interval_7];
+
+      % satellite 8 위치
+      interval_8 = interval_1 + random_number_7; 
+      interval_8(interval_8 > (L-1)) = interval_8(interval_8 > (L-1)) - L;
+      integer_intervals_8 = [integer_intervals_8, interval_8];
+
+      % satellite 9 위치
+      interval_9 = interval_1 + random_number_8; 
+      interval_9(interval_9 > (L-1)) = interval_9(interval_9 > (L-1)) - L;
+      integer_intervals_9 = [integer_intervals_9, interval_9];
+
+      % satellite 10 위치
+      interval_10 = interval_1 + random_number_9; 
+      interval_10(interval_10 > (L-1)) = interval_10(interval_10 > (L-1)) - L;
+      integer_intervals_10 = [integer_intervals_10, interval_10];
+
+      % satellite 11 위치 생성
+      interval_11 = interval_1 + n; 
+      interval_11(interval_11 > (L-1)) = interval_11(interval_11 > (L-1)) - L;
+      integer_intervals_11 = [integer_intervals_11, interval_11];
+  end
+
+
+sum_intervals = ...
+    [integer_intervals_1, ...
+    integer_intervals_2, ...
+    integer_intervals_3, ...
+    integer_intervals_4, ...
+    integer_intervals_5, ...
+    integer_intervals_6, ...
+    integer_intervals_7, ...
+    integer_intervals_8, ...
+    integer_intervals_9, ...
+    integer_intervals_10, ...
+    integer_intervals_11, ...
+    ];
+
+unique_intervals = unique(sort(sum_intervals));
+
+difference = length(sum_intervals) - length(unique_intervals) ;
+
+result_10 = [result_10; n, difference];
+
+end
+
+
+% 랜덤숫자 생성
+
+result_sum10 = [result_10(:,1), result_10(:,2)];
+
+rows_with_min_sum10 = result_sum10(result_sum10(:, 2) == min(result_sum10(:, 2)), :);
+
+k_sum10 = rows_with_min_sum10(:,1);
+
+random_index_10 = randi([1, length(k_sum10)]);
+
+random_number_10 = k_sum10(random_index_10);
+
+
+% renewal
+integer_intervals_1 = [];
+integer_intervals_2 = [];
+integer_intervals_3 = [];
+integer_intervals_4 = [];
+integer_intervals_5 = [];
+integer_intervals_6 = [];
+integer_intervals_7 = [];
+integer_intervals_8 = [];
+integer_intervals_9 = [];
+integer_intervals_10 = [];
+integer_intervals_11 = [];
+
+for i = 1:length(ff_0)
+    % satellite 1 위치 생성(seed)
+    interval_1 = start_points(i) :end_points(i) ;
+    interval_1(interval_1 > (L-1)) = interval_1(interval_1 > (L-1)) - L; 
+    integer_intervals_1 = [integer_intervals_1, interval_1];
+
+    % satellite 2 위치
+    interval_2 = interval_1 + random_number_1; 
+    interval_2(interval_2 > (L-1)) = interval_2(interval_2 > (L-1)) - L;
+    integer_intervals_2 = [integer_intervals_2, interval_2];
+
+    % satellite 2 위치
+    interval_3 = interval_1 + random_number_2; 
+    interval_3(interval_3 > (L-1)) = interval_3(interval_3 > (L-1)) - L;
+    integer_intervals_3 = [integer_intervals_3, interval_3];
+
+    % satellite 3 위치
+    interval_4 = interval_1 + random_number_3; 
+    interval_4(interval_4 > (L-1)) = interval_4(interval_4 > (L-1)) - L;
+    integer_intervals_4 = [integer_intervals_4, interval_4];
+
+    % satellite 4 위치
+    interval_5 = interval_1 + random_number_4; 
+    interval_5(interval_5 > (L-1)) = interval_5(interval_5 > (L-1)) - L;
+    integer_intervals_5 = [integer_intervals_5, interval_5];
+
+    % satellite 5 위치
+    interval_6 = interval_1 + random_number_5; 
+    interval_6(interval_6 > (L-1)) = interval_6(interval_6 > (L-1)) - L;
+    integer_intervals_6 = [integer_intervals_6, interval_6];
+
+    % satellite 6 위치
+    interval_7 = interval_1 + random_number_6; 
+    interval_7(interval_7 > (L-1)) = interval_7(interval_7 > (L-1)) - L;
+    integer_intervals_7 = [integer_intervals_7, interval_7];
+
+    % satellite 7 위치
+    interval_8 = interval_1 + random_number_7; 
+    interval_8(interval_8 > (L-1)) = interval_8(interval_8 > (L-1)) - L;
+    integer_intervals_8 = [integer_intervals_8, interval_8];
+
+    % satellite 8 위치
+    interval_9 = interval_1 + random_number_8; 
+    interval_9(interval_9 > (L-1)) = interval_9(interval_9 > (L-1)) - L;
+    integer_intervals_9 = [integer_intervals_9, interval_9];
+
+    % satellite 9 위치
+    interval_10 = interval_1 + random_number_9; 
+    interval_10(interval_10 > (L-1)) = interval_10(interval_10 > (L-1)) - L;
+    integer_intervals_10 = [integer_intervals_10, interval_10];
+
+    % satellite 10 위치
+    interval_11 = interval_1 + random_number_10; 
+    interval_11(interval_11 > (L-1)) = interval_11(interval_11 > (L-1)) - L;
+    integer_intervals_11 = [integer_intervals_11, interval_11];
+end
+
+
+sum_intervals = ...
+    [integer_intervals_1, ...
+    integer_intervals_2, ...
+    integer_intervals_3, ...
+    integer_intervals_4, ...
+    integer_intervals_5, ...
+    integer_intervals_6, ...
+    integer_intervals_7, ...
+    integer_intervals_8, ...
+    integer_intervals_9, ...
+    integer_intervals_10, ...
+    integer_intervals_11, ...
+    ];
+
+unique_intervals = unique(sort(sum_intervals));
+
+Cov_11 = length(unique_intervals) / L * 100;
+
+%% Random11 (위성 12대)
+
+for n = 0 : L-1
+integer_intervals_1 = [];
+integer_intervals_2 = [];
+integer_intervals_3 = [];
+integer_intervals_4 = [];
+integer_intervals_5 = [];
+integer_intervals_6 = [];
+integer_intervals_7 = [];
+integer_intervals_8 = [];
+integer_intervals_9 = [];
+integer_intervals_10 = [];
+integer_intervals_11 = [];
+integer_intervals_12 = [];
+
+
+  for i = 1:length(ff_0)
+      % satellite 1 위치(seed)
+      interval_1 = start_points(i) :end_points(i) ;
+      interval_1(interval_1 > (L-1)) = interval_1(interval_1 > (L-1)) - L; 
+      integer_intervals_1 = [integer_intervals_1, interval_1];
+
+      % satellite 2 위치
+      interval_2 = interval_1 + random_number_1; 
+      interval_2(interval_2 > (L-1)) = interval_2(interval_2 > (L-1)) - L;
+      integer_intervals_2 = [integer_intervals_2, interval_2];
+
+      % satellite 3 위치
+      interval_3 = interval_1 + random_number_2; 
+      interval_3(interval_3 > (L-1)) = interval_3(interval_3 > (L-1)) - L;
+      integer_intervals_3 = [integer_intervals_3, interval_3];
+
+      % satellite 4 위치
+      interval_4 = interval_1 + random_number_3; 
+      interval_4(interval_4 > (L-1)) = interval_4(interval_4 > (L-1)) - L;
+      integer_intervals_4 = [integer_intervals_4, interval_4];
+
+      % satellite 5 위치
+      interval_5 = interval_1 + random_number_4; 
+      interval_5(interval_5 > (L-1)) = interval_5(interval_5 > (L-1)) - L;
+      integer_intervals_5 = [integer_intervals_5, interval_5];
+
+      % satellite 6 위치
+      interval_6 = interval_1 + random_number_5; 
+      interval_6(interval_6 > (L-1)) = interval_6(interval_6 > (L-1)) - L;
+      integer_intervals_6 = [integer_intervals_6, interval_6];
+
+      % satellite 7 위치
+      interval_7 = interval_1 + random_number_6; 
+      interval_7(interval_7 > (L-1)) = interval_7(interval_7 > (L-1)) - L;
+      integer_intervals_7 = [integer_intervals_7, interval_7];
+
+      % satellite 8 위치
+      interval_8 = interval_1 + random_number_7; 
+      interval_8(interval_8 > (L-1)) = interval_8(interval_8 > (L-1)) - L;
+      integer_intervals_8 = [integer_intervals_8, interval_8];
+
+      % satellite 9 위치
+      interval_9 = interval_1 + random_number_8; 
+      interval_9(interval_9 > (L-1)) = interval_9(interval_9 > (L-1)) - L;
+      integer_intervals_9 = [integer_intervals_9, interval_9];
+
+      % satellite 10 위치
+      interval_10 = interval_1 + random_number_9; 
+      interval_10(interval_10 > (L-1)) = interval_10(interval_10 > (L-1)) - L;
+      integer_intervals_10 = [integer_intervals_10, interval_10];
+
+      % satellite 11 위치 
+      interval_11 = interval_1 + random_number_10; 
+      interval_11(interval_11 > (L-1)) = interval_11(interval_11 > (L-1)) - L;
+      integer_intervals_11 = [integer_intervals_11, interval_11];
+
+      % satellite 12 위치 생성
+      interval_12 = interval_1 + n; 
+      interval_12(interval_12 > (L-1)) = interval_12(interval_12 > (L-1)) - L;
+      integer_intervals_12 = [integer_intervals_12, interval_12];
+  end
+
+
+sum_intervals = ...
+    [integer_intervals_1, ...
+    integer_intervals_2, ...
+    integer_intervals_3, ...
+    integer_intervals_4, ...
+    integer_intervals_5, ...
+    integer_intervals_6, ...
+    integer_intervals_7, ...
+    integer_intervals_8, ...
+    integer_intervals_9, ...
+    integer_intervals_10, ...
+    integer_intervals_11, ...
+    integer_intervals_12, ...
+    ];
+
+unique_intervals = unique(sort(sum_intervals));
+
+difference = length(sum_intervals) - length(unique_intervals) ;
+
+result_11 = [result_11; n, difference];
+
+end
+
+
+% 랜덤숫자 생성
+
+result_sum11 = [result_11(:,1), result_11(:,2)];
+
+rows_with_min_sum11 = result_sum11(result_sum11(:, 2) == min(result_sum11(:, 2)), :);
+
+k_sum11 = rows_with_min_sum11(:,1);
+
+random_index_11 = randi([1, length(k_sum11)]);
+
+random_number_11 = k_sum11(random_index_11);
+
+
+% renewal
+integer_intervals_1 = [];
+integer_intervals_2 = [];
+integer_intervals_3 = [];
+integer_intervals_4 = [];
+integer_intervals_5 = [];
+integer_intervals_6 = [];
+integer_intervals_7 = [];
+integer_intervals_8 = [];
+integer_intervals_9 = [];
+integer_intervals_10 = [];
+integer_intervals_11 = [];
+integer_intervals_12 = [];
+
+for i = 1:length(ff_0)
+    % satellite 1 위치 생성(seed)
+    interval_1 = start_points(i) :end_points(i) ;
+    interval_1(interval_1 > (L-1)) = interval_1(interval_1 > (L-1)) - L; 
+    integer_intervals_1 = [integer_intervals_1, interval_1];
+
+    % satellite 2 위치
+    interval_2 = interval_1 + random_number_1; 
+    interval_2(interval_2 > (L-1)) = interval_2(interval_2 > (L-1)) - L;
+    integer_intervals_2 = [integer_intervals_2, interval_2];
+
+    % satellite 2 위치
+    interval_3 = interval_1 + random_number_2; 
+    interval_3(interval_3 > (L-1)) = interval_3(interval_3 > (L-1)) - L;
+    integer_intervals_3 = [integer_intervals_3, interval_3];
+
+    % satellite 3 위치
+    interval_4 = interval_1 + random_number_3; 
+    interval_4(interval_4 > (L-1)) = interval_4(interval_4 > (L-1)) - L;
+    integer_intervals_4 = [integer_intervals_4, interval_4];
+
+    % satellite 4 위치
+    interval_5 = interval_1 + random_number_4; 
+    interval_5(interval_5 > (L-1)) = interval_5(interval_5 > (L-1)) - L;
+    integer_intervals_5 = [integer_intervals_5, interval_5];
+
+    % satellite 5 위치
+    interval_6 = interval_1 + random_number_5; 
+    interval_6(interval_6 > (L-1)) = interval_6(interval_6 > (L-1)) - L;
+    integer_intervals_6 = [integer_intervals_6, interval_6];
+
+    % satellite 6 위치
+    interval_7 = interval_1 + random_number_6; 
+    interval_7(interval_7 > (L-1)) = interval_7(interval_7 > (L-1)) - L;
+    integer_intervals_7 = [integer_intervals_7, interval_7];
+
+    % satellite 7 위치
+    interval_8 = interval_1 + random_number_7; 
+    interval_8(interval_8 > (L-1)) = interval_8(interval_8 > (L-1)) - L;
+    integer_intervals_8 = [integer_intervals_8, interval_8];
+
+    % satellite 8 위치
+    interval_9 = interval_1 + random_number_8; 
+    interval_9(interval_9 > (L-1)) = interval_9(interval_9 > (L-1)) - L;
+    integer_intervals_9 = [integer_intervals_9, interval_9];
+
+    % satellite 9 위치
+    interval_10 = interval_1 + random_number_9; 
+    interval_10(interval_10 > (L-1)) = interval_10(interval_10 > (L-1)) - L;
+    integer_intervals_10 = [integer_intervals_10, interval_10];
+
+    % satellite 10 위치
+    interval_11 = interval_1 + random_number_10; 
+    interval_11(interval_11 > (L-1)) = interval_11(interval_11 > (L-1)) - L;
+    integer_intervals_11 = [integer_intervals_11, interval_11];
+
+    % satellite 11 위치
+    interval_12 = interval_1 + random_number_11; 
+    interval_12(interval_12 > (L-1)) = interval_12(interval_12 > (L-1)) - L;
+    integer_intervals_12 = [integer_intervals_12, interval_12];
+end
+
+
+sum_intervals = ...
+    [integer_intervals_1, ...
+    integer_intervals_2, ...
+    integer_intervals_3, ...
+    integer_intervals_4, ...
+    integer_intervals_5, ...
+    integer_intervals_6, ...
+    integer_intervals_7, ...
+    integer_intervals_8, ...
+    integer_intervals_9, ...
+    integer_intervals_10, ...
+    integer_intervals_11, ...
+    integer_intervals_12, ...
+    ];
+
+unique_intervals = unique(sort(sum_intervals));
+
+Cov_12 = length(unique_intervals) / L * 100;
+
+
+%% Random12 (위성 13대)
+
+for n = 0 : L-1
+integer_intervals_1 = [];
+integer_intervals_2 = [];
+integer_intervals_3 = [];
+integer_intervals_4 = [];
+integer_intervals_5 = [];
+integer_intervals_6 = [];
+integer_intervals_7 = [];
+integer_intervals_8 = [];
+integer_intervals_9 = [];
+integer_intervals_10 = [];
+integer_intervals_11 = [];
+integer_intervals_12 = [];
+integer_intervals_13 = [];
+
+
+  for i = 1:length(ff_0)
+      % satellite 1 위치(seed)
+      interval_1 = start_points(i) :end_points(i) ;
+      interval_1(interval_1 > (L-1)) = interval_1(interval_1 > (L-1)) - L; 
+      integer_intervals_1 = [integer_intervals_1, interval_1];
+
+      % satellite 2 위치
+      interval_2 = interval_1 + random_number_1; 
+      interval_2(interval_2 > (L-1)) = interval_2(interval_2 > (L-1)) - L;
+      integer_intervals_2 = [integer_intervals_2, interval_2];
+
+      % satellite 3 위치
+      interval_3 = interval_1 + random_number_2; 
+      interval_3(interval_3 > (L-1)) = interval_3(interval_3 > (L-1)) - L;
+      integer_intervals_3 = [integer_intervals_3, interval_3];
+
+      % satellite 4 위치
+      interval_4 = interval_1 + random_number_3; 
+      interval_4(interval_4 > (L-1)) = interval_4(interval_4 > (L-1)) - L;
+      integer_intervals_4 = [integer_intervals_4, interval_4];
+
+      % satellite 5 위치
+      interval_5 = interval_1 + random_number_4; 
+      interval_5(interval_5 > (L-1)) = interval_5(interval_5 > (L-1)) - L;
+      integer_intervals_5 = [integer_intervals_5, interval_5];
+
+      % satellite 6 위치
+      interval_6 = interval_1 + random_number_5; 
+      interval_6(interval_6 > (L-1)) = interval_6(interval_6 > (L-1)) - L;
+      integer_intervals_6 = [integer_intervals_6, interval_6];
+
+      % satellite 7 위치
+      interval_7 = interval_1 + random_number_6; 
+      interval_7(interval_7 > (L-1)) = interval_7(interval_7 > (L-1)) - L;
+      integer_intervals_7 = [integer_intervals_7, interval_7];
+
+      % satellite 8 위치
+      interval_8 = interval_1 + random_number_7; 
+      interval_8(interval_8 > (L-1)) = interval_8(interval_8 > (L-1)) - L;
+      integer_intervals_8 = [integer_intervals_8, interval_8];
+
+      % satellite 9 위치
+      interval_9 = interval_1 + random_number_8; 
+      interval_9(interval_9 > (L-1)) = interval_9(interval_9 > (L-1)) - L;
+      integer_intervals_9 = [integer_intervals_9, interval_9];
+
+      % satellite 10 위치
+      interval_10 = interval_1 + random_number_9; 
+      interval_10(interval_10 > (L-1)) = interval_10(interval_10 > (L-1)) - L;
+      integer_intervals_10 = [integer_intervals_10, interval_10];
+
+      % satellite 11 위치 
+      interval_11 = interval_1 + random_number_10; 
+      interval_11(interval_11 > (L-1)) = interval_11(interval_11 > (L-1)) - L;
+      integer_intervals_11 = [integer_intervals_11, interval_11];
+
+      % satellite 12 위치
+      interval_12 = interval_1 + random_number_11; 
+      interval_12(interval_12 > (L-1)) = interval_12(interval_12 > (L-1)) - L;
+      integer_intervals_12 = [integer_intervals_12, interval_12];
+
+      % satellite 13 위치 생성
+      interval_13 = interval_1 + n; 
+      interval_13(interval_13 > (L-1)) = interval_13(interval_13 > (L-1)) - L;
+      integer_intervals_13 = [integer_intervals_13, interval_13];
+  end
+
+
+sum_intervals = ...
+    [integer_intervals_1, ...
+    integer_intervals_2, ...
+    integer_intervals_3, ...
+    integer_intervals_4, ...
+    integer_intervals_5, ...
+    integer_intervals_6, ...
+    integer_intervals_7, ...
+    integer_intervals_8, ...
+    integer_intervals_9, ...
+    integer_intervals_10, ...
+    integer_intervals_11, ...
+    integer_intervals_12, ...
+    integer_intervals_13, ...
+    ];
+
+unique_intervals = unique(sort(sum_intervals));
+
+difference = length(sum_intervals) - length(unique_intervals) ;
+
+result_12 = [result_12; n, difference];
+
+end
+
+
+% 랜덤숫자 생성
+
+result_sum12 = [result_12(:,1), result_12(:,2)];
+
+rows_with_min_sum12 = result_sum12(result_sum12(:, 2) == min(result_sum12(:, 2)), :);
+
+k_sum12 = rows_with_min_sum12(:,1);
+
+random_index_12 = randi([1, length(k_sum12)]);
+
+random_number_12 = k_sum12(random_index_12);
+
+
+% renewal
+integer_intervals_1 = [];
+integer_intervals_2 = [];
+integer_intervals_3 = [];
+integer_intervals_4 = [];
+integer_intervals_5 = [];
+integer_intervals_6 = [];
+integer_intervals_7 = [];
+integer_intervals_8 = [];
+integer_intervals_9 = [];
+integer_intervals_10 = [];
+integer_intervals_11 = [];
+integer_intervals_12 = [];
+integer_intervals_13 = [];
+
+for i = 1:length(ff_0)
+    % satellite 1 위치 생성(seed)
+    interval_1 = start_points(i) :end_points(i) ;
+    interval_1(interval_1 > (L-1)) = interval_1(interval_1 > (L-1)) - L; 
+    integer_intervals_1 = [integer_intervals_1, interval_1];
+
+    % satellite 2 위치
+    interval_2 = interval_1 + random_number_1; 
+    interval_2(interval_2 > (L-1)) = interval_2(interval_2 > (L-1)) - L;
+    integer_intervals_2 = [integer_intervals_2, interval_2];
+
+    % satellite 2 위치
+    interval_3 = interval_1 + random_number_2; 
+    interval_3(interval_3 > (L-1)) = interval_3(interval_3 > (L-1)) - L;
+    integer_intervals_3 = [integer_intervals_3, interval_3];
+
+    % satellite 3 위치
+    interval_4 = interval_1 + random_number_3; 
+    interval_4(interval_4 > (L-1)) = interval_4(interval_4 > (L-1)) - L;
+    integer_intervals_4 = [integer_intervals_4, interval_4];
+
+    % satellite 4 위치
+    interval_5 = interval_1 + random_number_4; 
+    interval_5(interval_5 > (L-1)) = interval_5(interval_5 > (L-1)) - L;
+    integer_intervals_5 = [integer_intervals_5, interval_5];
+
+    % satellite 5 위치
+    interval_6 = interval_1 + random_number_5; 
+    interval_6(interval_6 > (L-1)) = interval_6(interval_6 > (L-1)) - L;
+    integer_intervals_6 = [integer_intervals_6, interval_6];
+
+    % satellite 6 위치
+    interval_7 = interval_1 + random_number_6; 
+    interval_7(interval_7 > (L-1)) = interval_7(interval_7 > (L-1)) - L;
+    integer_intervals_7 = [integer_intervals_7, interval_7];
+
+    % satellite 7 위치
+    interval_8 = interval_1 + random_number_7; 
+    interval_8(interval_8 > (L-1)) = interval_8(interval_8 > (L-1)) - L;
+    integer_intervals_8 = [integer_intervals_8, interval_8];
+
+    % satellite 8 위치
+    interval_9 = interval_1 + random_number_8; 
+    interval_9(interval_9 > (L-1)) = interval_9(interval_9 > (L-1)) - L;
+    integer_intervals_9 = [integer_intervals_9, interval_9];
+
+    % satellite 9 위치
+    interval_10 = interval_1 + random_number_9; 
+    interval_10(interval_10 > (L-1)) = interval_10(interval_10 > (L-1)) - L;
+    integer_intervals_10 = [integer_intervals_10, interval_10];
+
+    % satellite 10 위치
+    interval_11 = interval_1 + random_number_10; 
+    interval_11(interval_11 > (L-1)) = interval_11(interval_11 > (L-1)) - L;
+    integer_intervals_11 = [integer_intervals_11, interval_11];
+
+    % satellite 11 위치
+    interval_12 = interval_1 + random_number_11; 
+    interval_12(interval_12 > (L-1)) = interval_12(interval_12 > (L-1)) - L;
+    integer_intervals_12 = [integer_intervals_12, interval_12];
+
+    % satellite 12 위치
+    interval_13 = interval_1 + random_number_12; 
+    interval_13(interval_13 > (L-1)) = interval_13(interval_13 > (L-1)) - L;
+    integer_intervals_13 = [integer_intervals_13, interval_13];
+end
+
+
+sum_intervals = ...
+    [integer_intervals_1, ...
+    integer_intervals_2, ...
+    integer_intervals_3, ...
+    integer_intervals_4, ...
+    integer_intervals_5, ...
+    integer_intervals_6, ...
+    integer_intervals_7, ...
+    integer_intervals_8, ...
+    integer_intervals_9, ...
+    integer_intervals_10, ...
+    integer_intervals_11, ...
+    integer_intervals_12, ...
+    integer_intervals_13, ...
+    ];
+
+unique_intervals = unique(sort(sum_intervals));
+
+Cov_13 = length(unique_intervals) / L * 100;
+
+%% Random13 (위성 14대)
+
+for n = 0 : L-1
+integer_intervals_1 = [];
+integer_intervals_2 = [];
+integer_intervals_3 = [];
+integer_intervals_4 = [];
+integer_intervals_5 = [];
+integer_intervals_6 = [];
+integer_intervals_7 = [];
+integer_intervals_8 = [];
+integer_intervals_9 = [];
+integer_intervals_10 = [];
+integer_intervals_11 = [];
+integer_intervals_12 = [];
+integer_intervals_13 = [];
+integer_intervals_14 = [];
+
+
+  for i = 1:length(ff_0)
+      % satellite 1 위치(seed)
+      interval_1 = start_points(i) :end_points(i) ;
+      interval_1(interval_1 > (L-1)) = interval_1(interval_1 > (L-1)) - L; 
+      integer_intervals_1 = [integer_intervals_1, interval_1];
+
+      % satellite 2 위치
+      interval_2 = interval_1 + random_number_1; 
+      interval_2(interval_2 > (L-1)) = interval_2(interval_2 > (L-1)) - L;
+      integer_intervals_2 = [integer_intervals_2, interval_2];
+
+      % satellite 3 위치
+      interval_3 = interval_1 + random_number_2; 
+      interval_3(interval_3 > (L-1)) = interval_3(interval_3 > (L-1)) - L;
+      integer_intervals_3 = [integer_intervals_3, interval_3];
+
+      % satellite 4 위치
+      interval_4 = interval_1 + random_number_3; 
+      interval_4(interval_4 > (L-1)) = interval_4(interval_4 > (L-1)) - L;
+      integer_intervals_4 = [integer_intervals_4, interval_4];
+
+      % satellite 5 위치
+      interval_5 = interval_1 + random_number_4; 
+      interval_5(interval_5 > (L-1)) = interval_5(interval_5 > (L-1)) - L;
+      integer_intervals_5 = [integer_intervals_5, interval_5];
+
+      % satellite 6 위치
+      interval_6 = interval_1 + random_number_5; 
+      interval_6(interval_6 > (L-1)) = interval_6(interval_6 > (L-1)) - L;
+      integer_intervals_6 = [integer_intervals_6, interval_6];
+
+      % satellite 7 위치
+      interval_7 = interval_1 + random_number_6; 
+      interval_7(interval_7 > (L-1)) = interval_7(interval_7 > (L-1)) - L;
+      integer_intervals_7 = [integer_intervals_7, interval_7];
+
+      % satellite 8 위치
+      interval_8 = interval_1 + random_number_7; 
+      interval_8(interval_8 > (L-1)) = interval_8(interval_8 > (L-1)) - L;
+      integer_intervals_8 = [integer_intervals_8, interval_8];
+
+      % satellite 9 위치
+      interval_9 = interval_1 + random_number_8; 
+      interval_9(interval_9 > (L-1)) = interval_9(interval_9 > (L-1)) - L;
+      integer_intervals_9 = [integer_intervals_9, interval_9];
+
+      % satellite 10 위치
+      interval_10 = interval_1 + random_number_9; 
+      interval_10(interval_10 > (L-1)) = interval_10(interval_10 > (L-1)) - L;
+      integer_intervals_10 = [integer_intervals_10, interval_10];
+
+      % satellite 11 위치 
+      interval_11 = interval_1 + random_number_10; 
+      interval_11(interval_11 > (L-1)) = interval_11(interval_11 > (L-1)) - L;
+      integer_intervals_11 = [integer_intervals_11, interval_11];
+
+      % satellite 12 위치
+      interval_12 = interval_1 + random_number_11; 
+      interval_12(interval_12 > (L-1)) = interval_12(interval_12 > (L-1)) - L;
+      integer_intervals_12 = [integer_intervals_12, interval_12];
+
+      % satellite 13 위치
+      interval_13 = interval_1 + random_number_12; 
+      interval_13(interval_13 > (L-1)) = interval_13(interval_13 > (L-1)) - L;
+      integer_intervals_13 = [integer_intervals_13, interval_13];
+
+      % satellite 14 위치 생성
+      interval_14 = interval_1 + n; 
+      interval_14(interval_14 > (L-1)) = interval_14(interval_14 > (L-1)) - L;
+      integer_intervals_14 = [integer_intervals_14, interval_14];
+  end
+
+
+sum_intervals = ...
+    [integer_intervals_1, ...
+    integer_intervals_2, ...
+    integer_intervals_3, ...
+    integer_intervals_4, ...
+    integer_intervals_5, ...
+    integer_intervals_6, ...
+    integer_intervals_7, ...
+    integer_intervals_8, ...
+    integer_intervals_9, ...
+    integer_intervals_10, ...
+    integer_intervals_11, ...
+    integer_intervals_12, ...
+    integer_intervals_13, ...
+    integer_intervals_14, ...
+    ];
+
+unique_intervals = unique(sort(sum_intervals));
+
+difference = length(sum_intervals) - length(unique_intervals) ;
+
+result_13 = [result_13; n, difference];
+
+end
+
+
+% 랜덤숫자 생성
+
+result_sum13 = [result_13(:,1), result_13(:,2)];
+
+rows_with_min_sum13 = result_sum13(result_sum13(:, 2) == min(result_sum13(:, 2)), :);
+
+k_sum13 = rows_with_min_sum13(:,1);
+
+random_index_13 = randi([1, length(k_sum13)]);
+
+random_number_13 = k_sum13(random_index_13);
+
+
+% renewal
+integer_intervals_1 = [];
+integer_intervals_2 = [];
+integer_intervals_3 = [];
+integer_intervals_4 = [];
+integer_intervals_5 = [];
+integer_intervals_6 = [];
+integer_intervals_7 = [];
+integer_intervals_8 = [];
+integer_intervals_9 = [];
+integer_intervals_10 = [];
+integer_intervals_11 = [];
+integer_intervals_12 = [];
+integer_intervals_13 = [];
+integer_intervals_14 = [];
+
+for i = 1:length(ff_0)
+    % satellite 1 위치 생성(seed)
+    interval_1 = start_points(i) :end_points(i) ;
+    interval_1(interval_1 > (L-1)) = interval_1(interval_1 > (L-1)) - L; 
+    integer_intervals_1 = [integer_intervals_1, interval_1];
+
+    % satellite 2 위치
+    interval_2 = interval_1 + random_number_1; 
+    interval_2(interval_2 > (L-1)) = interval_2(interval_2 > (L-1)) - L;
+    integer_intervals_2 = [integer_intervals_2, interval_2];
+
+    % satellite 2 위치
+    interval_3 = interval_1 + random_number_2; 
+    interval_3(interval_3 > (L-1)) = interval_3(interval_3 > (L-1)) - L;
+    integer_intervals_3 = [integer_intervals_3, interval_3];
+
+    % satellite 3 위치
+    interval_4 = interval_1 + random_number_3; 
+    interval_4(interval_4 > (L-1)) = interval_4(interval_4 > (L-1)) - L;
+    integer_intervals_4 = [integer_intervals_4, interval_4];
+
+    % satellite 4 위치
+    interval_5 = interval_1 + random_number_4; 
+    interval_5(interval_5 > (L-1)) = interval_5(interval_5 > (L-1)) - L;
+    integer_intervals_5 = [integer_intervals_5, interval_5];
+
+    % satellite 5 위치
+    interval_6 = interval_1 + random_number_5; 
+    interval_6(interval_6 > (L-1)) = interval_6(interval_6 > (L-1)) - L;
+    integer_intervals_6 = [integer_intervals_6, interval_6];
+
+    % satellite 6 위치
+    interval_7 = interval_1 + random_number_6; 
+    interval_7(interval_7 > (L-1)) = interval_7(interval_7 > (L-1)) - L;
+    integer_intervals_7 = [integer_intervals_7, interval_7];
+
+    % satellite 7 위치
+    interval_8 = interval_1 + random_number_7; 
+    interval_8(interval_8 > (L-1)) = interval_8(interval_8 > (L-1)) - L;
+    integer_intervals_8 = [integer_intervals_8, interval_8];
+
+    % satellite 8 위치
+    interval_9 = interval_1 + random_number_8; 
+    interval_9(interval_9 > (L-1)) = interval_9(interval_9 > (L-1)) - L;
+    integer_intervals_9 = [integer_intervals_9, interval_9];
+
+    % satellite 9 위치
+    interval_10 = interval_1 + random_number_9; 
+    interval_10(interval_10 > (L-1)) = interval_10(interval_10 > (L-1)) - L;
+    integer_intervals_10 = [integer_intervals_10, interval_10];
+
+    % satellite 10 위치
+    interval_11 = interval_1 + random_number_10; 
+    interval_11(interval_11 > (L-1)) = interval_11(interval_11 > (L-1)) - L;
+    integer_intervals_11 = [integer_intervals_11, interval_11];
+
+    % satellite 11 위치
+    interval_12 = interval_1 + random_number_11; 
+    interval_12(interval_12 > (L-1)) = interval_12(interval_12 > (L-1)) - L;
+    integer_intervals_12 = [integer_intervals_12, interval_12];
+
+    % satellite 12 위치
+    interval_13 = interval_1 + random_number_12; 
+    interval_13(interval_13 > (L-1)) = interval_13(interval_13 > (L-1)) - L;
+    integer_intervals_13 = [integer_intervals_13, interval_13];
+
+    % satellite 13 위치
+    interval_14 = interval_1 + random_number_13; 
+    interval_14(interval_14 > (L-1)) = interval_14(interval_14 > (L-1)) - L;
+    integer_intervals_14 = [integer_intervals_14, interval_14];
+end
+
+
+sum_intervals = ...
+    [integer_intervals_1, ...
+    integer_intervals_2, ...
+    integer_intervals_3, ...
+    integer_intervals_4, ...
+    integer_intervals_5, ...
+    integer_intervals_6, ...
+    integer_intervals_7, ...
+    integer_intervals_8, ...
+    integer_intervals_9, ...
+    integer_intervals_10, ...
+    integer_intervals_11, ...
+    integer_intervals_12, ...
+    integer_intervals_13, ...
+    integer_intervals_14, ...
+    ];
+
+unique_intervals = unique(sort(sum_intervals));
+
+Cov_14 = length(unique_intervals) / L * 100;
+
+%% Random14 (위성 15대)
+
+for n = 0 : L-1
+integer_intervals_1 = [];
+integer_intervals_2 = [];
+integer_intervals_3 = [];
+integer_intervals_4 = [];
+integer_intervals_5 = [];
+integer_intervals_6 = [];
+integer_intervals_7 = [];
+integer_intervals_8 = [];
+integer_intervals_9 = [];
+integer_intervals_10 = [];
+integer_intervals_11 = [];
+integer_intervals_12 = [];
+integer_intervals_13 = [];
+integer_intervals_14 = [];
+integer_intervals_15 = [];
+
+
+  for i = 1:length(ff_0)
+      % satellite 1 위치(seed)
+      interval_1 = start_points(i) :end_points(i) ;
+      interval_1(interval_1 > (L-1)) = interval_1(interval_1 > (L-1)) - L; 
+      integer_intervals_1 = [integer_intervals_1, interval_1];
+
+      % satellite 2 위치
+      interval_2 = interval_1 + random_number_1; 
+      interval_2(interval_2 > (L-1)) = interval_2(interval_2 > (L-1)) - L;
+      integer_intervals_2 = [integer_intervals_2, interval_2];
+
+      % satellite 3 위치
+      interval_3 = interval_1 + random_number_2; 
+      interval_3(interval_3 > (L-1)) = interval_3(interval_3 > (L-1)) - L;
+      integer_intervals_3 = [integer_intervals_3, interval_3];
+
+      % satellite 4 위치
+      interval_4 = interval_1 + random_number_3; 
+      interval_4(interval_4 > (L-1)) = interval_4(interval_4 > (L-1)) - L;
+      integer_intervals_4 = [integer_intervals_4, interval_4];
+
+      % satellite 5 위치
+      interval_5 = interval_1 + random_number_4; 
+      interval_5(interval_5 > (L-1)) = interval_5(interval_5 > (L-1)) - L;
+      integer_intervals_5 = [integer_intervals_5, interval_5];
+
+      % satellite 6 위치
+      interval_6 = interval_1 + random_number_5; 
+      interval_6(interval_6 > (L-1)) = interval_6(interval_6 > (L-1)) - L;
+      integer_intervals_6 = [integer_intervals_6, interval_6];
+
+      % satellite 7 위치
+      interval_7 = interval_1 + random_number_6; 
+      interval_7(interval_7 > (L-1)) = interval_7(interval_7 > (L-1)) - L;
+      integer_intervals_7 = [integer_intervals_7, interval_7];
+
+      % satellite 8 위치
+      interval_8 = interval_1 + random_number_7; 
+      interval_8(interval_8 > (L-1)) = interval_8(interval_8 > (L-1)) - L;
+      integer_intervals_8 = [integer_intervals_8, interval_8];
+
+      % satellite 9 위치
+      interval_9 = interval_1 + random_number_8; 
+      interval_9(interval_9 > (L-1)) = interval_9(interval_9 > (L-1)) - L;
+      integer_intervals_9 = [integer_intervals_9, interval_9];
+
+      % satellite 10 위치
+      interval_10 = interval_1 + random_number_9; 
+      interval_10(interval_10 > (L-1)) = interval_10(interval_10 > (L-1)) - L;
+      integer_intervals_10 = [integer_intervals_10, interval_10];
+
+      % satellite 11 위치 
+      interval_11 = interval_1 + random_number_10; 
+      interval_11(interval_11 > (L-1)) = interval_11(interval_11 > (L-1)) - L;
+      integer_intervals_11 = [integer_intervals_11, interval_11];
+
+      % satellite 12 위치
+      interval_12 = interval_1 + random_number_11; 
+      interval_12(interval_12 > (L-1)) = interval_12(interval_12 > (L-1)) - L;
+      integer_intervals_12 = [integer_intervals_12, interval_12];
+
+      % satellite 13 위치
+      interval_13 = interval_1 + random_number_12; 
+      interval_13(interval_13 > (L-1)) = interval_13(interval_13 > (L-1)) - L;
+      integer_intervals_13 = [integer_intervals_13, interval_13];
+
+      % satellite 14 위치
+      interval_14 = interval_1 + random_number_13; 
+      interval_14(interval_14 > (L-1)) = interval_14(interval_14 > (L-1)) - L;
+      integer_intervals_14 = [integer_intervals_14, interval_14];
+
+      % satellite 15 위치 생성
+      interval_15 = interval_1 + n; 
+      interval_15(interval_15 > (L-1)) = interval_15(interval_15 > (L-1)) - L;
+      integer_intervals_15 = [integer_intervals_15, interval_15];
+  end
+
+
+sum_intervals = ...
+    [integer_intervals_1, ...
+    integer_intervals_2, ...
+    integer_intervals_3, ...
+    integer_intervals_4, ...
+    integer_intervals_5, ...
+    integer_intervals_6, ...
+    integer_intervals_7, ...
+    integer_intervals_8, ...
+    integer_intervals_9, ...
+    integer_intervals_10, ...
+    integer_intervals_11, ...
+    integer_intervals_12, ...
+    integer_intervals_13, ...
+    integer_intervals_14, ...
+    integer_intervals_15, ...
+    ];
+
+unique_intervals = unique(sort(sum_intervals));
+
+difference = length(sum_intervals) - length(unique_intervals) ;
+
+result_14 = [result_14; n, difference];
+
+end
+
+
+% 랜덤숫자 생성
+
+result_sum14 = [result_14(:,1), result_14(:,2)];
+
+rows_with_min_sum14 = result_sum14(result_sum14(:, 2) == min(result_sum14(:, 2)), :);
+
+k_sum14 = rows_with_min_sum14(:,1);
+
+random_index_14 = randi([1, length(k_sum14)]);
+
+random_number_14 = k_sum14(random_index_14);
+
+
+% renewal
+integer_intervals_1 = [];
+integer_intervals_2 = [];
+integer_intervals_3 = [];
+integer_intervals_4 = [];
+integer_intervals_5 = [];
+integer_intervals_6 = [];
+integer_intervals_7 = [];
+integer_intervals_8 = [];
+integer_intervals_9 = [];
+integer_intervals_10 = [];
+integer_intervals_11 = [];
+integer_intervals_12 = [];
+integer_intervals_13 = [];
+integer_intervals_14 = [];
+integer_intervals_15 = [];
+
+for i = 1:length(ff_0)
+    % satellite 1 위치 생성(seed)
+    interval_1 = start_points(i) :end_points(i) ;
+    interval_1(interval_1 > (L-1)) = interval_1(interval_1 > (L-1)) - L; 
+    integer_intervals_1 = [integer_intervals_1, interval_1];
+
+    % satellite 2 위치
+    interval_2 = interval_1 + random_number_1; 
+    interval_2(interval_2 > (L-1)) = interval_2(interval_2 > (L-1)) - L;
+    integer_intervals_2 = [integer_intervals_2, interval_2];
+
+    % satellite 2 위치
+    interval_3 = interval_1 + random_number_2; 
+    interval_3(interval_3 > (L-1)) = interval_3(interval_3 > (L-1)) - L;
+    integer_intervals_3 = [integer_intervals_3, interval_3];
+
+    % satellite 3 위치
+    interval_4 = interval_1 + random_number_3; 
+    interval_4(interval_4 > (L-1)) = interval_4(interval_4 > (L-1)) - L;
+    integer_intervals_4 = [integer_intervals_4, interval_4];
+
+    % satellite 4 위치
+    interval_5 = interval_1 + random_number_4; 
+    interval_5(interval_5 > (L-1)) = interval_5(interval_5 > (L-1)) - L;
+    integer_intervals_5 = [integer_intervals_5, interval_5];
+
+    % satellite 5 위치
+    interval_6 = interval_1 + random_number_5; 
+    interval_6(interval_6 > (L-1)) = interval_6(interval_6 > (L-1)) - L;
+    integer_intervals_6 = [integer_intervals_6, interval_6];
+
+    % satellite 6 위치
+    interval_7 = interval_1 + random_number_6; 
+    interval_7(interval_7 > (L-1)) = interval_7(interval_7 > (L-1)) - L;
+    integer_intervals_7 = [integer_intervals_7, interval_7];
+
+    % satellite 7 위치
+    interval_8 = interval_1 + random_number_7; 
+    interval_8(interval_8 > (L-1)) = interval_8(interval_8 > (L-1)) - L;
+    integer_intervals_8 = [integer_intervals_8, interval_8];
+
+    % satellite 8 위치
+    interval_9 = interval_1 + random_number_8; 
+    interval_9(interval_9 > (L-1)) = interval_9(interval_9 > (L-1)) - L;
+    integer_intervals_9 = [integer_intervals_9, interval_9];
+
+    % satellite 9 위치
+    interval_10 = interval_1 + random_number_9; 
+    interval_10(interval_10 > (L-1)) = interval_10(interval_10 > (L-1)) - L;
+    integer_intervals_10 = [integer_intervals_10, interval_10];
+
+    % satellite 10 위치
+    interval_11 = interval_1 + random_number_10; 
+    interval_11(interval_11 > (L-1)) = interval_11(interval_11 > (L-1)) - L;
+    integer_intervals_11 = [integer_intervals_11, interval_11];
+
+    % satellite 11 위치
+    interval_12 = interval_1 + random_number_11; 
+    interval_12(interval_12 > (L-1)) = interval_12(interval_12 > (L-1)) - L;
+    integer_intervals_12 = [integer_intervals_12, interval_12];
+
+    % satellite 12 위치
+    interval_13 = interval_1 + random_number_12; 
+    interval_13(interval_13 > (L-1)) = interval_13(interval_13 > (L-1)) - L;
+    integer_intervals_13 = [integer_intervals_13, interval_13];
+
+    % satellite 13 위치
+    interval_14 = interval_1 + random_number_13; 
+    interval_14(interval_14 > (L-1)) = interval_14(interval_14 > (L-1)) - L;
+    integer_intervals_14 = [integer_intervals_14, interval_14];
+
+    % satellite 14 위치
+    interval_15 = interval_1 + random_number_14; 
+    interval_15(interval_15 > (L-1)) = interval_15(interval_15 > (L-1)) - L;
+    integer_intervals_15 = [integer_intervals_15, interval_15];
+end
+
+
+sum_intervals = ...
+    [integer_intervals_1, ...
+    integer_intervals_2, ...
+    integer_intervals_3, ...
+    integer_intervals_4, ...
+    integer_intervals_5, ...
+    integer_intervals_6, ...
+    integer_intervals_7, ...
+    integer_intervals_8, ...
+    integer_intervals_9, ...
+    integer_intervals_10, ...
+    integer_intervals_11, ...
+    integer_intervals_12, ...
+    integer_intervals_13, ...
+    integer_intervals_14, ...
+    integer_intervals_15, ...
+    ];
+
+unique_intervals = unique(sort(sum_intervals));
+
+Cov_15 = length(unique_intervals) / L * 100;
+
+%% Random15 (위성 16대)
+
+for n = 0 : L-1
+integer_intervals_1 = [];
+integer_intervals_2 = [];
+integer_intervals_3 = [];
+integer_intervals_4 = [];
+integer_intervals_5 = [];
+integer_intervals_6 = [];
+integer_intervals_7 = [];
+integer_intervals_8 = [];
+integer_intervals_9 = [];
+integer_intervals_10 = [];
+integer_intervals_11 = [];
+integer_intervals_12 = [];
+integer_intervals_13 = [];
+integer_intervals_14 = [];
+integer_intervals_15 = [];
+integer_intervals_16 = [];
+
+
+  for i = 1:length(ff_0)
+      % satellite 1 위치(seed)
+      interval_1 = start_points(i) :end_points(i) ;
+      interval_1(interval_1 > (L-1)) = interval_1(interval_1 > (L-1)) - L; 
+      integer_intervals_1 = [integer_intervals_1, interval_1];
+
+      % satellite 2 위치
+      interval_2 = interval_1 + random_number_1; 
+      interval_2(interval_2 > (L-1)) = interval_2(interval_2 > (L-1)) - L;
+      integer_intervals_2 = [integer_intervals_2, interval_2];
+
+      % satellite 3 위치
+      interval_3 = interval_1 + random_number_2; 
+      interval_3(interval_3 > (L-1)) = interval_3(interval_3 > (L-1)) - L;
+      integer_intervals_3 = [integer_intervals_3, interval_3];
+
+      % satellite 4 위치
+      interval_4 = interval_1 + random_number_3; 
+      interval_4(interval_4 > (L-1)) = interval_4(interval_4 > (L-1)) - L;
+      integer_intervals_4 = [integer_intervals_4, interval_4];
+
+      % satellite 5 위치
+      interval_5 = interval_1 + random_number_4; 
+      interval_5(interval_5 > (L-1)) = interval_5(interval_5 > (L-1)) - L;
+      integer_intervals_5 = [integer_intervals_5, interval_5];
+
+      % satellite 6 위치
+      interval_6 = interval_1 + random_number_5; 
+      interval_6(interval_6 > (L-1)) = interval_6(interval_6 > (L-1)) - L;
+      integer_intervals_6 = [integer_intervals_6, interval_6];
+
+      % satellite 7 위치
+      interval_7 = interval_1 + random_number_6; 
+      interval_7(interval_7 > (L-1)) = interval_7(interval_7 > (L-1)) - L;
+      integer_intervals_7 = [integer_intervals_7, interval_7];
+
+      % satellite 8 위치
+      interval_8 = interval_1 + random_number_7; 
+      interval_8(interval_8 > (L-1)) = interval_8(interval_8 > (L-1)) - L;
+      integer_intervals_8 = [integer_intervals_8, interval_8];
+
+      % satellite 9 위치
+      interval_9 = interval_1 + random_number_8; 
+      interval_9(interval_9 > (L-1)) = interval_9(interval_9 > (L-1)) - L;
+      integer_intervals_9 = [integer_intervals_9, interval_9];
+
+      % satellite 10 위치
+      interval_10 = interval_1 + random_number_9; 
+      interval_10(interval_10 > (L-1)) = interval_10(interval_10 > (L-1)) - L;
+      integer_intervals_10 = [integer_intervals_10, interval_10];
+
+      % satellite 11 위치 
+      interval_11 = interval_1 + random_number_10; 
+      interval_11(interval_11 > (L-1)) = interval_11(interval_11 > (L-1)) - L;
+      integer_intervals_11 = [integer_intervals_11, interval_11];
+
+      % satellite 12 위치
+      interval_12 = interval_1 + random_number_11; 
+      interval_12(interval_12 > (L-1)) = interval_12(interval_12 > (L-1)) - L;
+      integer_intervals_12 = [integer_intervals_12, interval_12];
+
+      % satellite 13 위치
+      interval_13 = interval_1 + random_number_12; 
+      interval_13(interval_13 > (L-1)) = interval_13(interval_13 > (L-1)) - L;
+      integer_intervals_13 = [integer_intervals_13, interval_13];
+
+      % satellite 14 위치
+      interval_14 = interval_1 + random_number_13; 
+      interval_14(interval_14 > (L-1)) = interval_14(interval_14 > (L-1)) - L;
+      integer_intervals_14 = [integer_intervals_14, interval_14];
+
+      % satellite 15 위치
+      interval_15 = interval_1 + random_number_14; 
+      interval_15(interval_15 > (L-1)) = interval_15(interval_15 > (L-1)) - L;
+      integer_intervals_15 = [integer_intervals_15, interval_15];
+
+      % satellite 16 위치 생성
+      interval_16 = interval_1 + n; 
+      interval_16(interval_16 > (L-1)) = interval_16(interval_16 > (L-1)) - L;
+      integer_intervals_16 = [integer_intervals_16, interval_16];
+  end
+
+
+sum_intervals = ...
+    [integer_intervals_1, ...
+    integer_intervals_2, ...
+    integer_intervals_3, ...
+    integer_intervals_4, ...
+    integer_intervals_5, ...
+    integer_intervals_6, ...
+    integer_intervals_7, ...
+    integer_intervals_8, ...
+    integer_intervals_9, ...
+    integer_intervals_10, ...
+    integer_intervals_11, ...
+    integer_intervals_12, ...
+    integer_intervals_13, ...
+    integer_intervals_14, ...
+    integer_intervals_15, ...
+    integer_intervals_16, ...
+    ];
+
+unique_intervals = unique(sort(sum_intervals));
+
+difference = length(sum_intervals) - length(unique_intervals) ;
+
+result_15 = [result_15; n, difference];
+
+end
+
+
+% 랜덤숫자 생성
+
+result_sum15 = [result_15(:,1), result_15(:,2)];
+
+rows_with_min_sum15 = result_sum15(result_sum15(:, 2) == min(result_sum15(:, 2)), :);
+
+k_sum15 = rows_with_min_sum15(:,1);
+
+random_index_15 = randi([1, length(k_sum15)]);
+
+random_number_15 = k_sum15(random_index_15);
+
+
+% renewal
+integer_intervals_1 = [];
+integer_intervals_2 = [];
+integer_intervals_3 = [];
+integer_intervals_4 = [];
+integer_intervals_5 = [];
+integer_intervals_6 = [];
+integer_intervals_7 = [];
+integer_intervals_8 = [];
+integer_intervals_9 = [];
+integer_intervals_10 = [];
+integer_intervals_11 = [];
+integer_intervals_12 = [];
+integer_intervals_13 = [];
+integer_intervals_14 = [];
+integer_intervals_15 = [];
+integer_intervals_16 = [];
+
+for i = 1:length(ff_0)
+    % satellite 1 위치 생성(seed)
+    interval_1 = start_points(i) :end_points(i) ;
+    interval_1(interval_1 > (L-1)) = interval_1(interval_1 > (L-1)) - L; 
+    integer_intervals_1 = [integer_intervals_1, interval_1];
+
+    % satellite 2 위치
+    interval_2 = interval_1 + random_number_1; 
+    interval_2(interval_2 > (L-1)) = interval_2(interval_2 > (L-1)) - L;
+    integer_intervals_2 = [integer_intervals_2, interval_2];
+
+    % satellite 2 위치
+    interval_3 = interval_1 + random_number_2; 
+    interval_3(interval_3 > (L-1)) = interval_3(interval_3 > (L-1)) - L;
+    integer_intervals_3 = [integer_intervals_3, interval_3];
+
+    % satellite 3 위치
+    interval_4 = interval_1 + random_number_3; 
+    interval_4(interval_4 > (L-1)) = interval_4(interval_4 > (L-1)) - L;
+    integer_intervals_4 = [integer_intervals_4, interval_4];
+
+    % satellite 4 위치
+    interval_5 = interval_1 + random_number_4; 
+    interval_5(interval_5 > (L-1)) = interval_5(interval_5 > (L-1)) - L;
+    integer_intervals_5 = [integer_intervals_5, interval_5];
+
+    % satellite 5 위치
+    interval_6 = interval_1 + random_number_5; 
+    interval_6(interval_6 > (L-1)) = interval_6(interval_6 > (L-1)) - L;
+    integer_intervals_6 = [integer_intervals_6, interval_6];
+
+    % satellite 6 위치
+    interval_7 = interval_1 + random_number_6; 
+    interval_7(interval_7 > (L-1)) = interval_7(interval_7 > (L-1)) - L;
+    integer_intervals_7 = [integer_intervals_7, interval_7];
+
+    % satellite 7 위치
+    interval_8 = interval_1 + random_number_7; 
+    interval_8(interval_8 > (L-1)) = interval_8(interval_8 > (L-1)) - L;
+    integer_intervals_8 = [integer_intervals_8, interval_8];
+
+    % satellite 8 위치
+    interval_9 = interval_1 + random_number_8; 
+    interval_9(interval_9 > (L-1)) = interval_9(interval_9 > (L-1)) - L;
+    integer_intervals_9 = [integer_intervals_9, interval_9];
+
+    % satellite 9 위치
+    interval_10 = interval_1 + random_number_9; 
+    interval_10(interval_10 > (L-1)) = interval_10(interval_10 > (L-1)) - L;
+    integer_intervals_10 = [integer_intervals_10, interval_10];
+
+    % satellite 10 위치
+    interval_11 = interval_1 + random_number_10; 
+    interval_11(interval_11 > (L-1)) = interval_11(interval_11 > (L-1)) - L;
+    integer_intervals_11 = [integer_intervals_11, interval_11];
+
+    % satellite 11 위치
+    interval_12 = interval_1 + random_number_11; 
+    interval_12(interval_12 > (L-1)) = interval_12(interval_12 > (L-1)) - L;
+    integer_intervals_12 = [integer_intervals_12, interval_12];
+
+    % satellite 12 위치
+    interval_13 = interval_1 + random_number_12; 
+    interval_13(interval_13 > (L-1)) = interval_13(interval_13 > (L-1)) - L;
+    integer_intervals_13 = [integer_intervals_13, interval_13];
+
+    % satellite 13 위치
+    interval_14 = interval_1 + random_number_13; 
+    interval_14(interval_14 > (L-1)) = interval_14(interval_14 > (L-1)) - L;
+    integer_intervals_14 = [integer_intervals_14, interval_14];
+
+    % satellite 14 위치
+    interval_15 = interval_1 + random_number_14; 
+    interval_15(interval_15 > (L-1)) = interval_15(interval_15 > (L-1)) - L;
+    integer_intervals_15 = [integer_intervals_15, interval_15];
+
+    % satellite 15 위치
+    interval_16 = interval_1 + random_number_15; 
+    interval_16(interval_16 > (L-1)) = interval_16(interval_16 > (L-1)) - L;
+    integer_intervals_16 = [integer_intervals_16, interval_16];
+end
+
+
+sum_intervals = ...
+    [integer_intervals_1, ...
+    integer_intervals_2, ...
+    integer_intervals_3, ...
+    integer_intervals_4, ...
+    integer_intervals_5, ...
+    integer_intervals_6, ...
+    integer_intervals_7, ...
+    integer_intervals_8, ...
+    integer_intervals_9, ...
+    integer_intervals_10, ...
+    integer_intervals_11, ...
+    integer_intervals_12, ...
+    integer_intervals_13, ...
+    integer_intervals_14, ...
+    integer_intervals_15, ...
+    integer_intervals_16, ...
+    ];
+
+unique_intervals = unique(sort(sum_intervals));
+
+Cov_16 = length(unique_intervals) / L * 100;
+
+
+%% Random16 (위성 17대)
+
+for n = 0 : L-1
+integer_intervals_1 = [];
+integer_intervals_2 = [];
+integer_intervals_3 = [];
+integer_intervals_4 = [];
+integer_intervals_5 = [];
+integer_intervals_6 = [];
+integer_intervals_7 = [];
+integer_intervals_8 = [];
+integer_intervals_9 = [];
+integer_intervals_10 = [];
+integer_intervals_11 = [];
+integer_intervals_12 = [];
+integer_intervals_13 = [];
+integer_intervals_14 = [];
+integer_intervals_15 = [];
+integer_intervals_16 = [];
+integer_intervals_17 = [];
+
+
+  for i = 1:length(ff_0)
+      % satellite 1 위치(seed)
+      interval_1 = start_points(i) :end_points(i) ;
+      interval_1(interval_1 > (L-1)) = interval_1(interval_1 > (L-1)) - L; 
+      integer_intervals_1 = [integer_intervals_1, interval_1];
+
+      % satellite 2 위치
+      interval_2 = interval_1 + random_number_1; 
+      interval_2(interval_2 > (L-1)) = interval_2(interval_2 > (L-1)) - L;
+      integer_intervals_2 = [integer_intervals_2, interval_2];
+
+      % satellite 3 위치
+      interval_3 = interval_1 + random_number_2; 
+      interval_3(interval_3 > (L-1)) = interval_3(interval_3 > (L-1)) - L;
+      integer_intervals_3 = [integer_intervals_3, interval_3];
+
+      % satellite 4 위치
+      interval_4 = interval_1 + random_number_3; 
+      interval_4(interval_4 > (L-1)) = interval_4(interval_4 > (L-1)) - L;
+      integer_intervals_4 = [integer_intervals_4, interval_4];
+
+      % satellite 5 위치
+      interval_5 = interval_1 + random_number_4; 
+      interval_5(interval_5 > (L-1)) = interval_5(interval_5 > (L-1)) - L;
+      integer_intervals_5 = [integer_intervals_5, interval_5];
+
+      % satellite 6 위치
+      interval_6 = interval_1 + random_number_5; 
+      interval_6(interval_6 > (L-1)) = interval_6(interval_6 > (L-1)) - L;
+      integer_intervals_6 = [integer_intervals_6, interval_6];
+
+      % satellite 7 위치
+      interval_7 = interval_1 + random_number_6; 
+      interval_7(interval_7 > (L-1)) = interval_7(interval_7 > (L-1)) - L;
+      integer_intervals_7 = [integer_intervals_7, interval_7];
+
+      % satellite 8 위치
+      interval_8 = interval_1 + random_number_7; 
+      interval_8(interval_8 > (L-1)) = interval_8(interval_8 > (L-1)) - L;
+      integer_intervals_8 = [integer_intervals_8, interval_8];
+
+      % satellite 9 위치
+      interval_9 = interval_1 + random_number_8; 
+      interval_9(interval_9 > (L-1)) = interval_9(interval_9 > (L-1)) - L;
+      integer_intervals_9 = [integer_intervals_9, interval_9];
+
+      % satellite 10 위치
+      interval_10 = interval_1 + random_number_9; 
+      interval_10(interval_10 > (L-1)) = interval_10(interval_10 > (L-1)) - L;
+      integer_intervals_10 = [integer_intervals_10, interval_10];
+
+      % satellite 11 위치 
+      interval_11 = interval_1 + random_number_10; 
+      interval_11(interval_11 > (L-1)) = interval_11(interval_11 > (L-1)) - L;
+      integer_intervals_11 = [integer_intervals_11, interval_11];
+
+      % satellite 12 위치
+      interval_12 = interval_1 + random_number_11; 
+      interval_12(interval_12 > (L-1)) = interval_12(interval_12 > (L-1)) - L;
+      integer_intervals_12 = [integer_intervals_12, interval_12];
+
+      % satellite 13 위치
+      interval_13 = interval_1 + random_number_12; 
+      interval_13(interval_13 > (L-1)) = interval_13(interval_13 > (L-1)) - L;
+      integer_intervals_13 = [integer_intervals_13, interval_13];
+
+      % satellite 14 위치
+      interval_14 = interval_1 + random_number_13; 
+      interval_14(interval_14 > (L-1)) = interval_14(interval_14 > (L-1)) - L;
+      integer_intervals_14 = [integer_intervals_14, interval_14];
+
+      % satellite 15 위치
+      interval_15 = interval_1 + random_number_14; 
+      interval_15(interval_15 > (L-1)) = interval_15(interval_15 > (L-1)) - L;
+      integer_intervals_15 = [integer_intervals_15, interval_15];
+
+      % satellite 16 위치
+      interval_16 = interval_1 + random_number_15; 
+      interval_16(interval_16 > (L-1)) = interval_16(interval_16 > (L-1)) - L;
+      integer_intervals_16 = [integer_intervals_16, interval_16];
+
+      % satellite 17 위치 생성
+      interval_17 = interval_1 + n; 
+      interval_17(interval_17 > (L-1)) = interval_17(interval_17 > (L-1)) - L;
+      integer_intervals_17 = [integer_intervals_17, interval_17];
+  end
+
+
+sum_intervals = ...
+    [integer_intervals_1, ...
+    integer_intervals_2, ...
+    integer_intervals_3, ...
+    integer_intervals_4, ...
+    integer_intervals_5, ...
+    integer_intervals_6, ...
+    integer_intervals_7, ...
+    integer_intervals_8, ...
+    integer_intervals_9, ...
+    integer_intervals_10, ...
+    integer_intervals_11, ...
+    integer_intervals_12, ...
+    integer_intervals_13, ...
+    integer_intervals_14, ...
+    integer_intervals_15, ...
+    integer_intervals_16, ...
+    integer_intervals_17, ...
+    ];
+
+unique_intervals = unique(sort(sum_intervals));
+
+difference = length(sum_intervals) - length(unique_intervals) ;
+
+result_16 = [result_16; n, difference];
+
+end
+
+
+% 랜덤숫자 생성
+
+result_sum16 = [result_16(:,1), result_16(:,2)];
+
+rows_with_min_sum16 = result_sum16(result_sum16(:, 2) == min(result_sum16(:, 2)), :);
+
+k_sum16 = rows_with_min_sum16(:,1);
+
+random_index_16 = randi([1, length(k_sum16)]);
+
+random_number_16 = k_sum16(random_index_16);
+
+
+% renewal
+integer_intervals_1 = [];
+integer_intervals_2 = [];
+integer_intervals_3 = [];
+integer_intervals_4 = [];
+integer_intervals_5 = [];
+integer_intervals_6 = [];
+integer_intervals_7 = [];
+integer_intervals_8 = [];
+integer_intervals_9 = [];
+integer_intervals_10 = [];
+integer_intervals_11 = [];
+integer_intervals_12 = [];
+integer_intervals_13 = [];
+integer_intervals_14 = [];
+integer_intervals_15 = [];
+integer_intervals_16 = [];
+integer_intervals_17 = [];
+
+for i = 1:length(ff_0)
+    % satellite 1 위치 생성(seed)
+    interval_1 = start_points(i) :end_points(i) ;
+    interval_1(interval_1 > (L-1)) = interval_1(interval_1 > (L-1)) - L; 
+    integer_intervals_1 = [integer_intervals_1, interval_1];
+
+    % satellite 2 위치
+    interval_2 = interval_1 + random_number_1; 
+    interval_2(interval_2 > (L-1)) = interval_2(interval_2 > (L-1)) - L;
+    integer_intervals_2 = [integer_intervals_2, interval_2];
+
+    % satellite 2 위치
+    interval_3 = interval_1 + random_number_2; 
+    interval_3(interval_3 > (L-1)) = interval_3(interval_3 > (L-1)) - L;
+    integer_intervals_3 = [integer_intervals_3, interval_3];
+
+    % satellite 3 위치
+    interval_4 = interval_1 + random_number_3; 
+    interval_4(interval_4 > (L-1)) = interval_4(interval_4 > (L-1)) - L;
+    integer_intervals_4 = [integer_intervals_4, interval_4];
+
+    % satellite 4 위치
+    interval_5 = interval_1 + random_number_4; 
+    interval_5(interval_5 > (L-1)) = interval_5(interval_5 > (L-1)) - L;
+    integer_intervals_5 = [integer_intervals_5, interval_5];
+
+    % satellite 5 위치
+    interval_6 = interval_1 + random_number_5; 
+    interval_6(interval_6 > (L-1)) = interval_6(interval_6 > (L-1)) - L;
+    integer_intervals_6 = [integer_intervals_6, interval_6];
+
+    % satellite 6 위치
+    interval_7 = interval_1 + random_number_6; 
+    interval_7(interval_7 > (L-1)) = interval_7(interval_7 > (L-1)) - L;
+    integer_intervals_7 = [integer_intervals_7, interval_7];
+
+    % satellite 7 위치
+    interval_8 = interval_1 + random_number_7; 
+    interval_8(interval_8 > (L-1)) = interval_8(interval_8 > (L-1)) - L;
+    integer_intervals_8 = [integer_intervals_8, interval_8];
+
+    % satellite 8 위치
+    interval_9 = interval_1 + random_number_8; 
+    interval_9(interval_9 > (L-1)) = interval_9(interval_9 > (L-1)) - L;
+    integer_intervals_9 = [integer_intervals_9, interval_9];
+
+    % satellite 9 위치
+    interval_10 = interval_1 + random_number_9; 
+    interval_10(interval_10 > (L-1)) = interval_10(interval_10 > (L-1)) - L;
+    integer_intervals_10 = [integer_intervals_10, interval_10];
+
+    % satellite 10 위치
+    interval_11 = interval_1 + random_number_10; 
+    interval_11(interval_11 > (L-1)) = interval_11(interval_11 > (L-1)) - L;
+    integer_intervals_11 = [integer_intervals_11, interval_11];
+
+    % satellite 11 위치
+    interval_12 = interval_1 + random_number_11; 
+    interval_12(interval_12 > (L-1)) = interval_12(interval_12 > (L-1)) - L;
+    integer_intervals_12 = [integer_intervals_12, interval_12];
+
+    % satellite 12 위치
+    interval_13 = interval_1 + random_number_12; 
+    interval_13(interval_13 > (L-1)) = interval_13(interval_13 > (L-1)) - L;
+    integer_intervals_13 = [integer_intervals_13, interval_13];
+
+    % satellite 13 위치
+    interval_14 = interval_1 + random_number_13; 
+    interval_14(interval_14 > (L-1)) = interval_14(interval_14 > (L-1)) - L;
+    integer_intervals_14 = [integer_intervals_14, interval_14];
+
+    % satellite 14 위치
+    interval_15 = interval_1 + random_number_14; 
+    interval_15(interval_15 > (L-1)) = interval_15(interval_15 > (L-1)) - L;
+    integer_intervals_15 = [integer_intervals_15, interval_15];
+
+    % satellite 15 위치
+    interval_16 = interval_1 + random_number_15; 
+    interval_16(interval_16 > (L-1)) = interval_16(interval_16 > (L-1)) - L;
+    integer_intervals_16 = [integer_intervals_16, interval_16];
+
+    % satellite 16 위치
+    interval_17 = interval_1 + random_number_16; 
+    interval_17(interval_17 > (L-1)) = interval_17(interval_17 > (L-1)) - L;
+    integer_intervals_17 = [integer_intervals_17, interval_17];
+end
+
+
+sum_intervals = ...
+    [integer_intervals_1, ...
+    integer_intervals_2, ...
+    integer_intervals_3, ...
+    integer_intervals_4, ...
+    integer_intervals_5, ...
+    integer_intervals_6, ...
+    integer_intervals_7, ...
+    integer_intervals_8, ...
+    integer_intervals_9, ...
+    integer_intervals_10, ...
+    integer_intervals_11, ...
+    integer_intervals_12, ...
+    integer_intervals_13, ...
+    integer_intervals_14, ...
+    integer_intervals_15, ...
+    integer_intervals_16, ...
+    integer_intervals_17, ...
+    ];
+
+unique_intervals = unique(sort(sum_intervals));
+
+Cov_17 = length(unique_intervals) / L * 100;
+
+
+%% Random17 (위성 18대)
+
+for n = 0 : L-1
+integer_intervals_1 = [];
+integer_intervals_2 = [];
+integer_intervals_3 = [];
+integer_intervals_4 = [];
+integer_intervals_5 = [];
+integer_intervals_6 = [];
+integer_intervals_7 = [];
+integer_intervals_8 = [];
+integer_intervals_9 = [];
+integer_intervals_10 = [];
+integer_intervals_11 = [];
+integer_intervals_12 = [];
+integer_intervals_13 = [];
+integer_intervals_14 = [];
+integer_intervals_15 = [];
+integer_intervals_16 = [];
+integer_intervals_17 = [];
+integer_intervals_18 = [];
+
+
+  for i = 1:length(ff_0)
+      % satellite 1 위치(seed)
+      interval_1 = start_points(i) :end_points(i) ;
+      interval_1(interval_1 > (L-1)) = interval_1(interval_1 > (L-1)) - L; 
+      integer_intervals_1 = [integer_intervals_1, interval_1];
+
+      % satellite 2 위치
+      interval_2 = interval_1 + random_number_1; 
+      interval_2(interval_2 > (L-1)) = interval_2(interval_2 > (L-1)) - L;
+      integer_intervals_2 = [integer_intervals_2, interval_2];
+
+      % satellite 3 위치
+      interval_3 = interval_1 + random_number_2; 
+      interval_3(interval_3 > (L-1)) = interval_3(interval_3 > (L-1)) - L;
+      integer_intervals_3 = [integer_intervals_3, interval_3];
+
+      % satellite 4 위치
+      interval_4 = interval_1 + random_number_3; 
+      interval_4(interval_4 > (L-1)) = interval_4(interval_4 > (L-1)) - L;
+      integer_intervals_4 = [integer_intervals_4, interval_4];
+
+      % satellite 5 위치
+      interval_5 = interval_1 + random_number_4; 
+      interval_5(interval_5 > (L-1)) = interval_5(interval_5 > (L-1)) - L;
+      integer_intervals_5 = [integer_intervals_5, interval_5];
+
+      % satellite 6 위치
+      interval_6 = interval_1 + random_number_5; 
+      interval_6(interval_6 > (L-1)) = interval_6(interval_6 > (L-1)) - L;
+      integer_intervals_6 = [integer_intervals_6, interval_6];
+
+      % satellite 7 위치
+      interval_7 = interval_1 + random_number_6; 
+      interval_7(interval_7 > (L-1)) = interval_7(interval_7 > (L-1)) - L;
+      integer_intervals_7 = [integer_intervals_7, interval_7];
+
+      % satellite 8 위치
+      interval_8 = interval_1 + random_number_7; 
+      interval_8(interval_8 > (L-1)) = interval_8(interval_8 > (L-1)) - L;
+      integer_intervals_8 = [integer_intervals_8, interval_8];
+
+      % satellite 9 위치
+      interval_9 = interval_1 + random_number_8; 
+      interval_9(interval_9 > (L-1)) = interval_9(interval_9 > (L-1)) - L;
+      integer_intervals_9 = [integer_intervals_9, interval_9];
+
+      % satellite 10 위치
+      interval_10 = interval_1 + random_number_9; 
+      interval_10(interval_10 > (L-1)) = interval_10(interval_10 > (L-1)) - L;
+      integer_intervals_10 = [integer_intervals_10, interval_10];
+
+      % satellite 11 위치 
+      interval_11 = interval_1 + random_number_10; 
+      interval_11(interval_11 > (L-1)) = interval_11(interval_11 > (L-1)) - L;
+      integer_intervals_11 = [integer_intervals_11, interval_11];
+
+      % satellite 12 위치
+      interval_12 = interval_1 + random_number_11; 
+      interval_12(interval_12 > (L-1)) = interval_12(interval_12 > (L-1)) - L;
+      integer_intervals_12 = [integer_intervals_12, interval_12];
+
+      % satellite 13 위치
+      interval_13 = interval_1 + random_number_12; 
+      interval_13(interval_13 > (L-1)) = interval_13(interval_13 > (L-1)) - L;
+      integer_intervals_13 = [integer_intervals_13, interval_13];
+
+      % satellite 14 위치
+      interval_14 = interval_1 + random_number_13; 
+      interval_14(interval_14 > (L-1)) = interval_14(interval_14 > (L-1)) - L;
+      integer_intervals_14 = [integer_intervals_14, interval_14];
+
+      % satellite 15 위치
+      interval_15 = interval_1 + random_number_14; 
+      interval_15(interval_15 > (L-1)) = interval_15(interval_15 > (L-1)) - L;
+      integer_intervals_15 = [integer_intervals_15, interval_15];
+
+      % satellite 16 위치
+      interval_16 = interval_1 + random_number_15; 
+      interval_16(interval_16 > (L-1)) = interval_16(interval_16 > (L-1)) - L;
+      integer_intervals_16 = [integer_intervals_16, interval_16];
+
+      % satellite 17 위치
+      interval_17 = interval_1 + random_number_16; 
+      interval_17(interval_17 > (L-1)) = interval_17(interval_17 > (L-1)) - L;
+      integer_intervals_17 = [integer_intervals_17, interval_17];
+
+      % satellite 18 위치 생성
+      interval_18 = interval_1 + n; 
+      interval_18(interval_18 > (L-1)) = interval_18(interval_18 > (L-1)) - L;
+      integer_intervals_18 = [integer_intervals_18, interval_18];
+  end
+
+
+sum_intervals = ...
+    [integer_intervals_1, ...
+    integer_intervals_2, ...
+    integer_intervals_3, ...
+    integer_intervals_4, ...
+    integer_intervals_5, ...
+    integer_intervals_6, ...
+    integer_intervals_7, ...
+    integer_intervals_8, ...
+    integer_intervals_9, ...
+    integer_intervals_10, ...
+    integer_intervals_11, ...
+    integer_intervals_12, ...
+    integer_intervals_13, ...
+    integer_intervals_14, ...
+    integer_intervals_15, ...
+    integer_intervals_16, ...
+    integer_intervals_17, ...
+    integer_intervals_18, ...
+    ];
+
+unique_intervals = unique(sort(sum_intervals));
+
+difference = length(sum_intervals) - length(unique_intervals) ;
+
+result_17 = [result_17; n, difference];
+
+end
+
+
+% 랜덤숫자 생성
+
+result_sum17 = [result_17(:,1), result_17(:,2)];
+
+rows_with_min_sum17 = result_sum17(result_sum17(:, 2) == min(result_sum17(:, 2)), :);
+
+k_sum17 = rows_with_min_sum17(:,1);
+
+random_index_17 = randi([1, length(k_sum17)]);
+
+random_number_17 = k_sum17(random_index_17);
+
+
+% renewal
+integer_intervals_1 = [];
+integer_intervals_2 = [];
+integer_intervals_3 = [];
+integer_intervals_4 = [];
+integer_intervals_5 = [];
+integer_intervals_6 = [];
+integer_intervals_7 = [];
+integer_intervals_8 = [];
+integer_intervals_9 = [];
+integer_intervals_10 = [];
+integer_intervals_11 = [];
+integer_intervals_12 = [];
+integer_intervals_13 = [];
+integer_intervals_14 = [];
+integer_intervals_15 = [];
+integer_intervals_16 = [];
+integer_intervals_17 = [];
+integer_intervals_18 = [];
+
+for i = 1:length(ff_0)
+    % satellite 1 위치 생성(seed)
+    interval_1 = start_points(i) :end_points(i) ;
+    interval_1(interval_1 > (L-1)) = interval_1(interval_1 > (L-1)) - L; 
+    integer_intervals_1 = [integer_intervals_1, interval_1];
+
+    % satellite 2 위치
+    interval_2 = interval_1 + random_number_1; 
+    interval_2(interval_2 > (L-1)) = interval_2(interval_2 > (L-1)) - L;
+    integer_intervals_2 = [integer_intervals_2, interval_2];
+
+    % satellite 2 위치
+    interval_3 = interval_1 + random_number_2; 
+    interval_3(interval_3 > (L-1)) = interval_3(interval_3 > (L-1)) - L;
+    integer_intervals_3 = [integer_intervals_3, interval_3];
+
+    % satellite 3 위치
+    interval_4 = interval_1 + random_number_3; 
+    interval_4(interval_4 > (L-1)) = interval_4(interval_4 > (L-1)) - L;
+    integer_intervals_4 = [integer_intervals_4, interval_4];
+
+    % satellite 4 위치
+    interval_5 = interval_1 + random_number_4; 
+    interval_5(interval_5 > (L-1)) = interval_5(interval_5 > (L-1)) - L;
+    integer_intervals_5 = [integer_intervals_5, interval_5];
+
+    % satellite 5 위치
+    interval_6 = interval_1 + random_number_5; 
+    interval_6(interval_6 > (L-1)) = interval_6(interval_6 > (L-1)) - L;
+    integer_intervals_6 = [integer_intervals_6, interval_6];
+
+    % satellite 6 위치
+    interval_7 = interval_1 + random_number_6; 
+    interval_7(interval_7 > (L-1)) = interval_7(interval_7 > (L-1)) - L;
+    integer_intervals_7 = [integer_intervals_7, interval_7];
+
+    % satellite 7 위치
+    interval_8 = interval_1 + random_number_7; 
+    interval_8(interval_8 > (L-1)) = interval_8(interval_8 > (L-1)) - L;
+    integer_intervals_8 = [integer_intervals_8, interval_8];
+
+    % satellite 8 위치
+    interval_9 = interval_1 + random_number_8; 
+    interval_9(interval_9 > (L-1)) = interval_9(interval_9 > (L-1)) - L;
+    integer_intervals_9 = [integer_intervals_9, interval_9];
+
+    % satellite 9 위치
+    interval_10 = interval_1 + random_number_9; 
+    interval_10(interval_10 > (L-1)) = interval_10(interval_10 > (L-1)) - L;
+    integer_intervals_10 = [integer_intervals_10, interval_10];
+
+    % satellite 10 위치
+    interval_11 = interval_1 + random_number_10; 
+    interval_11(interval_11 > (L-1)) = interval_11(interval_11 > (L-1)) - L;
+    integer_intervals_11 = [integer_intervals_11, interval_11];
+
+    % satellite 11 위치
+    interval_12 = interval_1 + random_number_11; 
+    interval_12(interval_12 > (L-1)) = interval_12(interval_12 > (L-1)) - L;
+    integer_intervals_12 = [integer_intervals_12, interval_12];
+
+    % satellite 12 위치
+    interval_13 = interval_1 + random_number_12; 
+    interval_13(interval_13 > (L-1)) = interval_13(interval_13 > (L-1)) - L;
+    integer_intervals_13 = [integer_intervals_13, interval_13];
+
+    % satellite 13 위치
+    interval_14 = interval_1 + random_number_13; 
+    interval_14(interval_14 > (L-1)) = interval_14(interval_14 > (L-1)) - L;
+    integer_intervals_14 = [integer_intervals_14, interval_14];
+
+    % satellite 14 위치
+    interval_15 = interval_1 + random_number_14; 
+    interval_15(interval_15 > (L-1)) = interval_15(interval_15 > (L-1)) - L;
+    integer_intervals_15 = [integer_intervals_15, interval_15];
+
+    % satellite 15 위치
+    interval_16 = interval_1 + random_number_15; 
+    interval_16(interval_16 > (L-1)) = interval_16(interval_16 > (L-1)) - L;
+    integer_intervals_16 = [integer_intervals_16, interval_16];
+
+    % satellite 16 위치
+    interval_17 = interval_1 + random_number_16; 
+    interval_17(interval_17 > (L-1)) = interval_17(interval_17 > (L-1)) - L;
+    integer_intervals_17 = [integer_intervals_17, interval_17];
+
+    % satellite 17 위치
+    interval_18 = interval_1 + random_number_17; 
+    interval_18(interval_18 > (L-1)) = interval_18(interval_18 > (L-1)) - L;
+    integer_intervals_18 = [integer_intervals_18, interval_18];
+end
+
+
+sum_intervals = ...
+    [integer_intervals_1, ...
+    integer_intervals_2, ...
+    integer_intervals_3, ...
+    integer_intervals_4, ...
+    integer_intervals_5, ...
+    integer_intervals_6, ...
+    integer_intervals_7, ...
+    integer_intervals_8, ...
+    integer_intervals_9, ...
+    integer_intervals_10, ...
+    integer_intervals_11, ...
+    integer_intervals_12, ...
+    integer_intervals_13, ...
+    integer_intervals_14, ...
+    integer_intervals_15, ...
+    integer_intervals_16, ...
+    integer_intervals_17, ...
+    integer_intervals_18, ...
+    ];
+
+unique_intervals = unique(sort(sum_intervals));
+
+Cov_18 = length(unique_intervals) / L * 100;
+
+
+%% Random18 (위성 19대)
+
+for n = 0 : L-1
+integer_intervals_1 = [];
+integer_intervals_2 = [];
+integer_intervals_3 = [];
+integer_intervals_4 = [];
+integer_intervals_5 = [];
+integer_intervals_6 = [];
+integer_intervals_7 = [];
+integer_intervals_8 = [];
+integer_intervals_9 = [];
+integer_intervals_10 = [];
+integer_intervals_11 = [];
+integer_intervals_12 = [];
+integer_intervals_13 = [];
+integer_intervals_14 = [];
+integer_intervals_15 = [];
+integer_intervals_16 = [];
+integer_intervals_17 = [];
+integer_intervals_18 = [];
+integer_intervals_19 = [];
+
+
+  for i = 1:length(ff_0)
+      % satellite 1 위치(seed)
+      interval_1 = start_points(i) :end_points(i) ;
+      interval_1(interval_1 > (L-1)) = interval_1(interval_1 > (L-1)) - L; 
+      integer_intervals_1 = [integer_intervals_1, interval_1];
+
+      % satellite 2 위치
+      interval_2 = interval_1 + random_number_1; 
+      interval_2(interval_2 > (L-1)) = interval_2(interval_2 > (L-1)) - L;
+      integer_intervals_2 = [integer_intervals_2, interval_2];
+
+      % satellite 3 위치
+      interval_3 = interval_1 + random_number_2; 
+      interval_3(interval_3 > (L-1)) = interval_3(interval_3 > (L-1)) - L;
+      integer_intervals_3 = [integer_intervals_3, interval_3];
+
+      % satellite 4 위치
+      interval_4 = interval_1 + random_number_3; 
+      interval_4(interval_4 > (L-1)) = interval_4(interval_4 > (L-1)) - L;
+      integer_intervals_4 = [integer_intervals_4, interval_4];
+
+      % satellite 5 위치
+      interval_5 = interval_1 + random_number_4; 
+      interval_5(interval_5 > (L-1)) = interval_5(interval_5 > (L-1)) - L;
+      integer_intervals_5 = [integer_intervals_5, interval_5];
+
+      % satellite 6 위치
+      interval_6 = interval_1 + random_number_5; 
+      interval_6(interval_6 > (L-1)) = interval_6(interval_6 > (L-1)) - L;
+      integer_intervals_6 = [integer_intervals_6, interval_6];
+
+      % satellite 7 위치
+      interval_7 = interval_1 + random_number_6; 
+      interval_7(interval_7 > (L-1)) = interval_7(interval_7 > (L-1)) - L;
+      integer_intervals_7 = [integer_intervals_7, interval_7];
+
+      % satellite 8 위치
+      interval_8 = interval_1 + random_number_7; 
+      interval_8(interval_8 > (L-1)) = interval_8(interval_8 > (L-1)) - L;
+      integer_intervals_8 = [integer_intervals_8, interval_8];
+
+      % satellite 9 위치
+      interval_9 = interval_1 + random_number_8; 
+      interval_9(interval_9 > (L-1)) = interval_9(interval_9 > (L-1)) - L;
+      integer_intervals_9 = [integer_intervals_9, interval_9];
+
+      % satellite 10 위치
+      interval_10 = interval_1 + random_number_9; 
+      interval_10(interval_10 > (L-1)) = interval_10(interval_10 > (L-1)) - L;
+      integer_intervals_10 = [integer_intervals_10, interval_10];
+
+      % satellite 11 위치 
+      interval_11 = interval_1 + random_number_10; 
+      interval_11(interval_11 > (L-1)) = interval_11(interval_11 > (L-1)) - L;
+      integer_intervals_11 = [integer_intervals_11, interval_11];
+
+      % satellite 12 위치
+      interval_12 = interval_1 + random_number_11; 
+      interval_12(interval_12 > (L-1)) = interval_12(interval_12 > (L-1)) - L;
+      integer_intervals_12 = [integer_intervals_12, interval_12];
+
+      % satellite 13 위치
+      interval_13 = interval_1 + random_number_12; 
+      interval_13(interval_13 > (L-1)) = interval_13(interval_13 > (L-1)) - L;
+      integer_intervals_13 = [integer_intervals_13, interval_13];
+
+      % satellite 14 위치
+      interval_14 = interval_1 + random_number_13; 
+      interval_14(interval_14 > (L-1)) = interval_14(interval_14 > (L-1)) - L;
+      integer_intervals_14 = [integer_intervals_14, interval_14];
+
+      % satellite 15 위치
+      interval_15 = interval_1 + random_number_14; 
+      interval_15(interval_15 > (L-1)) = interval_15(interval_15 > (L-1)) - L;
+      integer_intervals_15 = [integer_intervals_15, interval_15];
+
+      % satellite 16 위치
+      interval_16 = interval_1 + random_number_15; 
+      interval_16(interval_16 > (L-1)) = interval_16(interval_16 > (L-1)) - L;
+      integer_intervals_16 = [integer_intervals_16, interval_16];
+
+      % satellite 17 위치
+      interval_17 = interval_1 + random_number_16; 
+      interval_17(interval_17 > (L-1)) = interval_17(interval_17 > (L-1)) - L;
+      integer_intervals_17 = [integer_intervals_17, interval_17];
+
+      % satellite 18 위치 
+      interval_18 = interval_1 + random_number_17; 
+      interval_18(interval_18 > (L-1)) = interval_18(interval_18 > (L-1)) - L;
+      integer_intervals_18 = [integer_intervals_18, interval_18];
+
+      % satellite 19 위치 생성
+      interval_19 = interval_1 + n; 
+      interval_19(interval_19 > (L-1)) = interval_19(interval_19 > (L-1)) - L;
+      integer_intervals_19 = [integer_intervals_19, interval_19];
+  end
+
+
+sum_intervals = ...
+    [integer_intervals_1, ...
+    integer_intervals_2, ...
+    integer_intervals_3, ...
+    integer_intervals_4, ...
+    integer_intervals_5, ...
+    integer_intervals_6, ...
+    integer_intervals_7, ...
+    integer_intervals_8, ...
+    integer_intervals_9, ...
+    integer_intervals_10, ...
+    integer_intervals_11, ...
+    integer_intervals_12, ...
+    integer_intervals_13, ...
+    integer_intervals_14, ...
+    integer_intervals_15, ...
+    integer_intervals_16, ...
+    integer_intervals_17, ...
+    integer_intervals_18, ...
+    integer_intervals_19, ...
+    ];
+
+unique_intervals = unique(sort(sum_intervals));
+
+difference = length(sum_intervals) - length(unique_intervals) ;
+
+result_18 = [result_18; n, difference];
+
+end
+
+
+% 랜덤숫자 생성
+
+result_sum18 = [result_18(:,1), result_18(:,2)];
+
+rows_with_min_sum18 = result_sum18(result_sum18(:, 2) == min(result_sum18(:, 2)), :);
+
+k_sum18 = rows_with_min_sum18(:,1);
+
+random_index_18 = randi([1, length(k_sum18)]);
+
+random_number_18 = k_sum18(random_index_18);
+
+
+% renewal
+integer_intervals_1 = [];
+integer_intervals_2 = [];
+integer_intervals_3 = [];
+integer_intervals_4 = [];
+integer_intervals_5 = [];
+integer_intervals_6 = [];
+integer_intervals_7 = [];
+integer_intervals_8 = [];
+integer_intervals_9 = [];
+integer_intervals_10 = [];
+integer_intervals_11 = [];
+integer_intervals_12 = [];
+integer_intervals_13 = [];
+integer_intervals_14 = [];
+integer_intervals_15 = [];
+integer_intervals_16 = [];
+integer_intervals_17 = [];
+integer_intervals_18 = [];
+integer_intervals_19 = [];
+
+for i = 1:length(ff_0)
+    % satellite 1 위치 생성(seed)
+    interval_1 = start_points(i) :end_points(i) ;
+    interval_1(interval_1 > (L-1)) = interval_1(interval_1 > (L-1)) - L; 
+    integer_intervals_1 = [integer_intervals_1, interval_1];
+
+    % satellite 2 위치
+    interval_2 = interval_1 + random_number_1; 
+    interval_2(interval_2 > (L-1)) = interval_2(interval_2 > (L-1)) - L;
+    integer_intervals_2 = [integer_intervals_2, interval_2];
+
+    % satellite 2 위치
+    interval_3 = interval_1 + random_number_2; 
+    interval_3(interval_3 > (L-1)) = interval_3(interval_3 > (L-1)) - L;
+    integer_intervals_3 = [integer_intervals_3, interval_3];
+
+    % satellite 3 위치
+    interval_4 = interval_1 + random_number_3; 
+    interval_4(interval_4 > (L-1)) = interval_4(interval_4 > (L-1)) - L;
+    integer_intervals_4 = [integer_intervals_4, interval_4];
+
+    % satellite 4 위치
+    interval_5 = interval_1 + random_number_4; 
+    interval_5(interval_5 > (L-1)) = interval_5(interval_5 > (L-1)) - L;
+    integer_intervals_5 = [integer_intervals_5, interval_5];
+
+    % satellite 5 위치
+    interval_6 = interval_1 + random_number_5; 
+    interval_6(interval_6 > (L-1)) = interval_6(interval_6 > (L-1)) - L;
+    integer_intervals_6 = [integer_intervals_6, interval_6];
+
+    % satellite 6 위치
+    interval_7 = interval_1 + random_number_6; 
+    interval_7(interval_7 > (L-1)) = interval_7(interval_7 > (L-1)) - L;
+    integer_intervals_7 = [integer_intervals_7, interval_7];
+
+    % satellite 7 위치
+    interval_8 = interval_1 + random_number_7; 
+    interval_8(interval_8 > (L-1)) = interval_8(interval_8 > (L-1)) - L;
+    integer_intervals_8 = [integer_intervals_8, interval_8];
+
+    % satellite 8 위치
+    interval_9 = interval_1 + random_number_8; 
+    interval_9(interval_9 > (L-1)) = interval_9(interval_9 > (L-1)) - L;
+    integer_intervals_9 = [integer_intervals_9, interval_9];
+
+    % satellite 9 위치
+    interval_10 = interval_1 + random_number_9; 
+    interval_10(interval_10 > (L-1)) = interval_10(interval_10 > (L-1)) - L;
+    integer_intervals_10 = [integer_intervals_10, interval_10];
+
+    % satellite 10 위치
+    interval_11 = interval_1 + random_number_10; 
+    interval_11(interval_11 > (L-1)) = interval_11(interval_11 > (L-1)) - L;
+    integer_intervals_11 = [integer_intervals_11, interval_11];
+
+    % satellite 11 위치
+    interval_12 = interval_1 + random_number_11; 
+    interval_12(interval_12 > (L-1)) = interval_12(interval_12 > (L-1)) - L;
+    integer_intervals_12 = [integer_intervals_12, interval_12];
+
+    % satellite 12 위치
+    interval_13 = interval_1 + random_number_12; 
+    interval_13(interval_13 > (L-1)) = interval_13(interval_13 > (L-1)) - L;
+    integer_intervals_13 = [integer_intervals_13, interval_13];
+
+    % satellite 13 위치
+    interval_14 = interval_1 + random_number_13; 
+    interval_14(interval_14 > (L-1)) = interval_14(interval_14 > (L-1)) - L;
+    integer_intervals_14 = [integer_intervals_14, interval_14];
+
+    % satellite 14 위치
+    interval_15 = interval_1 + random_number_14; 
+    interval_15(interval_15 > (L-1)) = interval_15(interval_15 > (L-1)) - L;
+    integer_intervals_15 = [integer_intervals_15, interval_15];
+
+    % satellite 15 위치
+    interval_16 = interval_1 + random_number_15; 
+    interval_16(interval_16 > (L-1)) = interval_16(interval_16 > (L-1)) - L;
+    integer_intervals_16 = [integer_intervals_16, interval_16];
+
+    % satellite 16 위치
+    interval_17 = interval_1 + random_number_16; 
+    interval_17(interval_17 > (L-1)) = interval_17(interval_17 > (L-1)) - L;
+    integer_intervals_17 = [integer_intervals_17, interval_17];
+
+    % satellite 17 위치
+    interval_18 = interval_1 + random_number_17; 
+    interval_18(interval_18 > (L-1)) = interval_18(interval_18 > (L-1)) - L;
+    integer_intervals_18 = [integer_intervals_18, interval_18];
+
+    % satellite 18 위치
+    interval_19 = interval_1 + random_number_18; 
+    interval_19(interval_19 > (L-1)) = interval_19(interval_19 > (L-1)) - L;
+    integer_intervals_19 = [integer_intervals_19, interval_19];
+end
+
+
+sum_intervals = ...
+    [integer_intervals_1, ...
+    integer_intervals_2, ...
+    integer_intervals_3, ...
+    integer_intervals_4, ...
+    integer_intervals_5, ...
+    integer_intervals_6, ...
+    integer_intervals_7, ...
+    integer_intervals_8, ...
+    integer_intervals_9, ...
+    integer_intervals_10, ...
+    integer_intervals_11, ...
+    integer_intervals_12, ...
+    integer_intervals_13, ...
+    integer_intervals_14, ...
+    integer_intervals_15, ...
+    integer_intervals_16, ...
+    integer_intervals_17, ...
+    integer_intervals_18, ...
+    integer_intervals_19, ...
+    ];
+
+unique_intervals = unique(sort(sum_intervals));
+
+Cov_19 = length(unique_intervals) / L * 100;
+
+
+%% Random19 (위성 20대)
+
+for n = 0 : L-1
+integer_intervals_1 = [];
+integer_intervals_2 = [];
+integer_intervals_3 = [];
+integer_intervals_4 = [];
+integer_intervals_5 = [];
+integer_intervals_6 = [];
+integer_intervals_7 = [];
+integer_intervals_8 = [];
+integer_intervals_9 = [];
+integer_intervals_10 = [];
+integer_intervals_11 = [];
+integer_intervals_12 = [];
+integer_intervals_13 = [];
+integer_intervals_14 = [];
+integer_intervals_15 = [];
+integer_intervals_16 = [];
+integer_intervals_17 = [];
+integer_intervals_18 = [];
+integer_intervals_19 = [];
+integer_intervals_20 = [];
+
+
+  for i = 1:length(ff_0)
+      % satellite 1 위치(seed)
+      interval_1 = start_points(i) :end_points(i) ;
+      interval_1(interval_1 > (L-1)) = interval_1(interval_1 > (L-1)) - L; 
+      integer_intervals_1 = [integer_intervals_1, interval_1];
+
+      % satellite 2 위치
+      interval_2 = interval_1 + random_number_1; 
+      interval_2(interval_2 > (L-1)) = interval_2(interval_2 > (L-1)) - L;
+      integer_intervals_2 = [integer_intervals_2, interval_2];
+
+      % satellite 3 위치
+      interval_3 = interval_1 + random_number_2; 
+      interval_3(interval_3 > (L-1)) = interval_3(interval_3 > (L-1)) - L;
+      integer_intervals_3 = [integer_intervals_3, interval_3];
+
+      % satellite 4 위치
+      interval_4 = interval_1 + random_number_3; 
+      interval_4(interval_4 > (L-1)) = interval_4(interval_4 > (L-1)) - L;
+      integer_intervals_4 = [integer_intervals_4, interval_4];
+
+      % satellite 5 위치
+      interval_5 = interval_1 + random_number_4; 
+      interval_5(interval_5 > (L-1)) = interval_5(interval_5 > (L-1)) - L;
+      integer_intervals_5 = [integer_intervals_5, interval_5];
+
+      % satellite 6 위치
+      interval_6 = interval_1 + random_number_5; 
+      interval_6(interval_6 > (L-1)) = interval_6(interval_6 > (L-1)) - L;
+      integer_intervals_6 = [integer_intervals_6, interval_6];
+
+      % satellite 7 위치
+      interval_7 = interval_1 + random_number_6; 
+      interval_7(interval_7 > (L-1)) = interval_7(interval_7 > (L-1)) - L;
+      integer_intervals_7 = [integer_intervals_7, interval_7];
+
+      % satellite 8 위치
+      interval_8 = interval_1 + random_number_7; 
+      interval_8(interval_8 > (L-1)) = interval_8(interval_8 > (L-1)) - L;
+      integer_intervals_8 = [integer_intervals_8, interval_8];
+
+      % satellite 9 위치
+      interval_9 = interval_1 + random_number_8; 
+      interval_9(interval_9 > (L-1)) = interval_9(interval_9 > (L-1)) - L;
+      integer_intervals_9 = [integer_intervals_9, interval_9];
+
+      % satellite 10 위치
+      interval_10 = interval_1 + random_number_9; 
+      interval_10(interval_10 > (L-1)) = interval_10(interval_10 > (L-1)) - L;
+      integer_intervals_10 = [integer_intervals_10, interval_10];
+
+      % satellite 11 위치 
+      interval_11 = interval_1 + random_number_10; 
+      interval_11(interval_11 > (L-1)) = interval_11(interval_11 > (L-1)) - L;
+      integer_intervals_11 = [integer_intervals_11, interval_11];
+
+      % satellite 12 위치
+      interval_12 = interval_1 + random_number_11; 
+      interval_12(interval_12 > (L-1)) = interval_12(interval_12 > (L-1)) - L;
+      integer_intervals_12 = [integer_intervals_12, interval_12];
+
+      % satellite 13 위치
+      interval_13 = interval_1 + random_number_12; 
+      interval_13(interval_13 > (L-1)) = interval_13(interval_13 > (L-1)) - L;
+      integer_intervals_13 = [integer_intervals_13, interval_13];
+
+      % satellite 14 위치
+      interval_14 = interval_1 + random_number_13; 
+      interval_14(interval_14 > (L-1)) = interval_14(interval_14 > (L-1)) - L;
+      integer_intervals_14 = [integer_intervals_14, interval_14];
+
+      % satellite 15 위치
+      interval_15 = interval_1 + random_number_14; 
+      interval_15(interval_15 > (L-1)) = interval_15(interval_15 > (L-1)) - L;
+      integer_intervals_15 = [integer_intervals_15, interval_15];
+
+      % satellite 16 위치
+      interval_16 = interval_1 + random_number_15; 
+      interval_16(interval_16 > (L-1)) = interval_16(interval_16 > (L-1)) - L;
+      integer_intervals_16 = [integer_intervals_16, interval_16];
+
+      % satellite 17 위치
+      interval_17 = interval_1 + random_number_16; 
+      interval_17(interval_17 > (L-1)) = interval_17(interval_17 > (L-1)) - L;
+      integer_intervals_17 = [integer_intervals_17, interval_17];
+
+      % satellite 18 위치 
+      interval_18 = interval_1 + random_number_17; 
+      interval_18(interval_18 > (L-1)) = interval_18(interval_18 > (L-1)) - L;
+      integer_intervals_18 = [integer_intervals_18, interval_18];
+
+      % satellite 19 위치
+      interval_19 = interval_1 + random_number_18; 
+      interval_19(interval_19 > (L-1)) = interval_19(interval_19 > (L-1)) - L;
+      integer_intervals_19 = [integer_intervals_19, interval_19];
+
+      % satellite 20 위치 생성
+      interval_20 = interval_1 + n; 
+      interval_20(interval_20 > (L-1)) = interval_20(interval_20 > (L-1)) - L;
+      integer_intervals_20 = [integer_intervals_20, interval_20];
+  end
+
+
+sum_intervals = ...
+    [integer_intervals_1, ...
+    integer_intervals_2, ...
+    integer_intervals_3, ...
+    integer_intervals_4, ...
+    integer_intervals_5, ...
+    integer_intervals_6, ...
+    integer_intervals_7, ...
+    integer_intervals_8, ...
+    integer_intervals_9, ...
+    integer_intervals_10, ...
+    integer_intervals_11, ...
+    integer_intervals_12, ...
+    integer_intervals_13, ...
+    integer_intervals_14, ...
+    integer_intervals_15, ...
+    integer_intervals_16, ...
+    integer_intervals_17, ...
+    integer_intervals_18, ...
+    integer_intervals_19, ...
+    integer_intervals_20, ...
+    ];
+
+unique_intervals = unique(sort(sum_intervals));
+
+difference = length(sum_intervals) - length(unique_intervals) ;
+
+result_19 = [result_19; n, difference];
+
+end
+
+
+% 랜덤숫자 생성
+
+result_sum19 = [result_19(:,1), result_19(:,2)];
+
+rows_with_min_sum19 = result_sum19(result_sum19(:, 2) == min(result_sum19(:, 2)), :);
+
+k_sum19 = rows_with_min_sum19(:,1);
+
+random_index_19 = randi([1, length(k_sum19)]);
+
+random_number_19 = k_sum19(random_index_19);
+
+
+% renewal
+integer_intervals_1 = [];
+integer_intervals_2 = [];
+integer_intervals_3 = [];
+integer_intervals_4 = [];
+integer_intervals_5 = [];
+integer_intervals_6 = [];
+integer_intervals_7 = [];
+integer_intervals_8 = [];
+integer_intervals_9 = [];
+integer_intervals_10 = [];
+integer_intervals_11 = [];
+integer_intervals_12 = [];
+integer_intervals_13 = [];
+integer_intervals_14 = [];
+integer_intervals_15 = [];
+integer_intervals_16 = [];
+integer_intervals_17 = [];
+integer_intervals_18 = [];
+integer_intervals_19 = [];
+integer_intervals_20 = [];
+
+for i = 1:length(ff_0)
+    % satellite 1 위치 생성(seed)
+    interval_1 = start_points(i) :end_points(i) ;
+    interval_1(interval_1 > (L-1)) = interval_1(interval_1 > (L-1)) - L; 
+    integer_intervals_1 = [integer_intervals_1, interval_1];
+
+    % satellite 2 위치
+    interval_2 = interval_1 + random_number_1; 
+    interval_2(interval_2 > (L-1)) = interval_2(interval_2 > (L-1)) - L;
+    integer_intervals_2 = [integer_intervals_2, interval_2];
+
+    % satellite 2 위치
+    interval_3 = interval_1 + random_number_2; 
+    interval_3(interval_3 > (L-1)) = interval_3(interval_3 > (L-1)) - L;
+    integer_intervals_3 = [integer_intervals_3, interval_3];
+
+    % satellite 3 위치
+    interval_4 = interval_1 + random_number_3; 
+    interval_4(interval_4 > (L-1)) = interval_4(interval_4 > (L-1)) - L;
+    integer_intervals_4 = [integer_intervals_4, interval_4];
+
+    % satellite 4 위치
+    interval_5 = interval_1 + random_number_4; 
+    interval_5(interval_5 > (L-1)) = interval_5(interval_5 > (L-1)) - L;
+    integer_intervals_5 = [integer_intervals_5, interval_5];
+
+    % satellite 5 위치
+    interval_6 = interval_1 + random_number_5; 
+    interval_6(interval_6 > (L-1)) = interval_6(interval_6 > (L-1)) - L;
+    integer_intervals_6 = [integer_intervals_6, interval_6];
+
+    % satellite 6 위치
+    interval_7 = interval_1 + random_number_6; 
+    interval_7(interval_7 > (L-1)) = interval_7(interval_7 > (L-1)) - L;
+    integer_intervals_7 = [integer_intervals_7, interval_7];
+
+    % satellite 7 위치
+    interval_8 = interval_1 + random_number_7; 
+    interval_8(interval_8 > (L-1)) = interval_8(interval_8 > (L-1)) - L;
+    integer_intervals_8 = [integer_intervals_8, interval_8];
+
+    % satellite 8 위치
+    interval_9 = interval_1 + random_number_8; 
+    interval_9(interval_9 > (L-1)) = interval_9(interval_9 > (L-1)) - L;
+    integer_intervals_9 = [integer_intervals_9, interval_9];
+
+    % satellite 9 위치
+    interval_10 = interval_1 + random_number_9; 
+    interval_10(interval_10 > (L-1)) = interval_10(interval_10 > (L-1)) - L;
+    integer_intervals_10 = [integer_intervals_10, interval_10];
+
+    % satellite 10 위치
+    interval_11 = interval_1 + random_number_10; 
+    interval_11(interval_11 > (L-1)) = interval_11(interval_11 > (L-1)) - L;
+    integer_intervals_11 = [integer_intervals_11, interval_11];
+
+    % satellite 11 위치
+    interval_12 = interval_1 + random_number_11; 
+    interval_12(interval_12 > (L-1)) = interval_12(interval_12 > (L-1)) - L;
+    integer_intervals_12 = [integer_intervals_12, interval_12];
+
+    % satellite 12 위치
+    interval_13 = interval_1 + random_number_12; 
+    interval_13(interval_13 > (L-1)) = interval_13(interval_13 > (L-1)) - L;
+    integer_intervals_13 = [integer_intervals_13, interval_13];
+
+    % satellite 13 위치
+    interval_14 = interval_1 + random_number_13; 
+    interval_14(interval_14 > (L-1)) = interval_14(interval_14 > (L-1)) - L;
+    integer_intervals_14 = [integer_intervals_14, interval_14];
+
+    % satellite 14 위치
+    interval_15 = interval_1 + random_number_14; 
+    interval_15(interval_15 > (L-1)) = interval_15(interval_15 > (L-1)) - L;
+    integer_intervals_15 = [integer_intervals_15, interval_15];
+
+    % satellite 15 위치
+    interval_16 = interval_1 + random_number_15; 
+    interval_16(interval_16 > (L-1)) = interval_16(interval_16 > (L-1)) - L;
+    integer_intervals_16 = [integer_intervals_16, interval_16];
+
+    % satellite 16 위치
+    interval_17 = interval_1 + random_number_16; 
+    interval_17(interval_17 > (L-1)) = interval_17(interval_17 > (L-1)) - L;
+    integer_intervals_17 = [integer_intervals_17, interval_17];
+
+    % satellite 17 위치
+    interval_18 = interval_1 + random_number_17; 
+    interval_18(interval_18 > (L-1)) = interval_18(interval_18 > (L-1)) - L;
+    integer_intervals_18 = [integer_intervals_18, interval_18];
+
+    % satellite 18 위치
+    interval_19 = interval_1 + random_number_18; 
+    interval_19(interval_19 > (L-1)) = interval_19(interval_19 > (L-1)) - L;
+    integer_intervals_19 = [integer_intervals_19, interval_19];
+
+    % satellite 19 위치
+    interval_20 = interval_1 + random_number_19; 
+    interval_20(interval_20 > (L-1)) = interval_20(interval_20 > (L-1)) - L;
+    integer_intervals_20 = [integer_intervals_20, interval_20];
+end
+
+
+sum_intervals = ...
+    [integer_intervals_1, ...
+    integer_intervals_2, ...
+    integer_intervals_3, ...
+    integer_intervals_4, ...
+    integer_intervals_5, ...
+    integer_intervals_6, ...
+    integer_intervals_7, ...
+    integer_intervals_8, ...
+    integer_intervals_9, ...
+    integer_intervals_10, ...
+    integer_intervals_11, ...
+    integer_intervals_12, ...
+    integer_intervals_13, ...
+    integer_intervals_14, ...
+    integer_intervals_15, ...
+    integer_intervals_16, ...
+    integer_intervals_17, ...
+    integer_intervals_18, ...
+    integer_intervals_19, ...
+    integer_intervals_20, ...
+    ];
+
+unique_intervals = unique(sort(sum_intervals));
+
+Cov_20 = length(unique_intervals) / L * 100;
+
+
+%% Random20 (위성 21대)
+
+for n = 0 : L-1
+integer_intervals_1 = [];
+integer_intervals_2 = [];
+integer_intervals_3 = [];
+integer_intervals_4 = [];
+integer_intervals_5 = [];
+integer_intervals_6 = [];
+integer_intervals_7 = [];
+integer_intervals_8 = [];
+integer_intervals_9 = [];
+integer_intervals_10 = [];
+integer_intervals_11 = [];
+integer_intervals_12 = [];
+integer_intervals_13 = [];
+integer_intervals_14 = [];
+integer_intervals_15 = [];
+integer_intervals_16 = [];
+integer_intervals_17 = [];
+integer_intervals_18 = [];
+integer_intervals_19 = [];
+integer_intervals_20 = [];
+integer_intervals_21 = [];
+
+
+  for i = 1:length(ff_0)
+      % satellite 1 위치(seed)
+      interval_1 = start_points(i) :end_points(i) ;
+      interval_1(interval_1 > (L-1)) = interval_1(interval_1 > (L-1)) - L; 
+      integer_intervals_1 = [integer_intervals_1, interval_1];
+
+      % satellite 2 위치
+      interval_2 = interval_1 + random_number_1; 
+      interval_2(interval_2 > (L-1)) = interval_2(interval_2 > (L-1)) - L;
+      integer_intervals_2 = [integer_intervals_2, interval_2];
+
+      % satellite 3 위치
+      interval_3 = interval_1 + random_number_2; 
+      interval_3(interval_3 > (L-1)) = interval_3(interval_3 > (L-1)) - L;
+      integer_intervals_3 = [integer_intervals_3, interval_3];
+
+      % satellite 4 위치
+      interval_4 = interval_1 + random_number_3; 
+      interval_4(interval_4 > (L-1)) = interval_4(interval_4 > (L-1)) - L;
+      integer_intervals_4 = [integer_intervals_4, interval_4];
+
+      % satellite 5 위치
+      interval_5 = interval_1 + random_number_4; 
+      interval_5(interval_5 > (L-1)) = interval_5(interval_5 > (L-1)) - L;
+      integer_intervals_5 = [integer_intervals_5, interval_5];
+
+      % satellite 6 위치
+      interval_6 = interval_1 + random_number_5; 
+      interval_6(interval_6 > (L-1)) = interval_6(interval_6 > (L-1)) - L;
+      integer_intervals_6 = [integer_intervals_6, interval_6];
+
+      % satellite 7 위치
+      interval_7 = interval_1 + random_number_6; 
+      interval_7(interval_7 > (L-1)) = interval_7(interval_7 > (L-1)) - L;
+      integer_intervals_7 = [integer_intervals_7, interval_7];
+
+      % satellite 8 위치
+      interval_8 = interval_1 + random_number_7; 
+      interval_8(interval_8 > (L-1)) = interval_8(interval_8 > (L-1)) - L;
+      integer_intervals_8 = [integer_intervals_8, interval_8];
+
+      % satellite 9 위치
+      interval_9 = interval_1 + random_number_8; 
+      interval_9(interval_9 > (L-1)) = interval_9(interval_9 > (L-1)) - L;
+      integer_intervals_9 = [integer_intervals_9, interval_9];
+
+      % satellite 10 위치
+      interval_10 = interval_1 + random_number_9; 
+      interval_10(interval_10 > (L-1)) = interval_10(interval_10 > (L-1)) - L;
+      integer_intervals_10 = [integer_intervals_10, interval_10];
+
+      % satellite 11 위치 
+      interval_11 = interval_1 + random_number_10; 
+      interval_11(interval_11 > (L-1)) = interval_11(interval_11 > (L-1)) - L;
+      integer_intervals_11 = [integer_intervals_11, interval_11];
+
+      % satellite 12 위치
+      interval_12 = interval_1 + random_number_11; 
+      interval_12(interval_12 > (L-1)) = interval_12(interval_12 > (L-1)) - L;
+      integer_intervals_12 = [integer_intervals_12, interval_12];
+
+      % satellite 13 위치
+      interval_13 = interval_1 + random_number_12; 
+      interval_13(interval_13 > (L-1)) = interval_13(interval_13 > (L-1)) - L;
+      integer_intervals_13 = [integer_intervals_13, interval_13];
+
+      % satellite 14 위치
+      interval_14 = interval_1 + random_number_13; 
+      interval_14(interval_14 > (L-1)) = interval_14(interval_14 > (L-1)) - L;
+      integer_intervals_14 = [integer_intervals_14, interval_14];
+
+      % satellite 15 위치
+      interval_15 = interval_1 + random_number_14; 
+      interval_15(interval_15 > (L-1)) = interval_15(interval_15 > (L-1)) - L;
+      integer_intervals_15 = [integer_intervals_15, interval_15];
+
+      % satellite 16 위치
+      interval_16 = interval_1 + random_number_15; 
+      interval_16(interval_16 > (L-1)) = interval_16(interval_16 > (L-1)) - L;
+      integer_intervals_16 = [integer_intervals_16, interval_16];
+
+      % satellite 17 위치
+      interval_17 = interval_1 + random_number_16; 
+      interval_17(interval_17 > (L-1)) = interval_17(interval_17 > (L-1)) - L;
+      integer_intervals_17 = [integer_intervals_17, interval_17];
+
+      % satellite 18 위치 
+      interval_18 = interval_1 + random_number_17; 
+      interval_18(interval_18 > (L-1)) = interval_18(interval_18 > (L-1)) - L;
+      integer_intervals_18 = [integer_intervals_18, interval_18];
+
+      % satellite 19 위치
+      interval_19 = interval_1 + random_number_18; 
+      interval_19(interval_19 > (L-1)) = interval_19(interval_19 > (L-1)) - L;
+      integer_intervals_19 = [integer_intervals_19, interval_19];
+
+      % satellite 20 위치 
+      interval_20 = interval_1 + random_number_19; 
+      interval_20(interval_20 > (L-1)) = interval_20(interval_20 > (L-1)) - L;
+      integer_intervals_20 = [integer_intervals_20, interval_20];
+
+      % satellite 21 위치 생성
+      interval_21 = interval_1 + n; 
+      interval_21(interval_21 > (L-1)) = interval_21(interval_21 > (L-1)) - L;
+      integer_intervals_21 = [integer_intervals_21, interval_21];
+  end
+
+
+sum_intervals = ...
+    [integer_intervals_1, ...
+    integer_intervals_2, ...
+    integer_intervals_3, ...
+    integer_intervals_4, ...
+    integer_intervals_5, ...
+    integer_intervals_6, ...
+    integer_intervals_7, ...
+    integer_intervals_8, ...
+    integer_intervals_9, ...
+    integer_intervals_10, ...
+    integer_intervals_11, ...
+    integer_intervals_12, ...
+    integer_intervals_13, ...
+    integer_intervals_14, ...
+    integer_intervals_15, ...
+    integer_intervals_16, ...
+    integer_intervals_17, ...
+    integer_intervals_18, ...
+    integer_intervals_19, ...
+    integer_intervals_20, ...
+    integer_intervals_21, ...
+    ];
+
+unique_intervals = unique(sort(sum_intervals));
+
+difference = length(sum_intervals) - length(unique_intervals) ;
+
+result_20 = [result_20; n, difference];
+
+end
+
+
+% 랜덤숫자 생성
+
+result_sum20 = [result_20(:,1), result_20(:,2)];
+
+rows_with_min_sum20 = result_sum20(result_sum20(:, 2) == min(result_sum20(:, 2)), :);
+
+k_sum20 = rows_with_min_sum20(:,1);
+
+random_index_20 = randi([1, length(k_sum20)]);
+
+random_number_20 = k_sum20(random_index_20);
+
+
+% renewal
+integer_intervals_1 = [];
+integer_intervals_2 = [];
+integer_intervals_3 = [];
+integer_intervals_4 = [];
+integer_intervals_5 = [];
+integer_intervals_6 = [];
+integer_intervals_7 = [];
+integer_intervals_8 = [];
+integer_intervals_9 = [];
+integer_intervals_10 = [];
+integer_intervals_11 = [];
+integer_intervals_12 = [];
+integer_intervals_13 = [];
+integer_intervals_14 = [];
+integer_intervals_15 = [];
+integer_intervals_16 = [];
+integer_intervals_17 = [];
+integer_intervals_18 = [];
+integer_intervals_19 = [];
+integer_intervals_20 = [];
+integer_intervals_21 = [];
+
+for i = 1:length(ff_0)
+    % satellite 1 위치 생성(seed)
+    interval_1 = start_points(i) :end_points(i) ;
+    interval_1(interval_1 > (L-1)) = interval_1(interval_1 > (L-1)) - L; 
+    integer_intervals_1 = [integer_intervals_1, interval_1];
+
+    % satellite 2 위치
+    interval_2 = interval_1 + random_number_1; 
+    interval_2(interval_2 > (L-1)) = interval_2(interval_2 > (L-1)) - L;
+    integer_intervals_2 = [integer_intervals_2, interval_2];
+
+    % satellite 2 위치
+    interval_3 = interval_1 + random_number_2; 
+    interval_3(interval_3 > (L-1)) = interval_3(interval_3 > (L-1)) - L;
+    integer_intervals_3 = [integer_intervals_3, interval_3];
+
+    % satellite 3 위치
+    interval_4 = interval_1 + random_number_3; 
+    interval_4(interval_4 > (L-1)) = interval_4(interval_4 > (L-1)) - L;
+    integer_intervals_4 = [integer_intervals_4, interval_4];
+
+    % satellite 4 위치
+    interval_5 = interval_1 + random_number_4; 
+    interval_5(interval_5 > (L-1)) = interval_5(interval_5 > (L-1)) - L;
+    integer_intervals_5 = [integer_intervals_5, interval_5];
+
+    % satellite 5 위치
+    interval_6 = interval_1 + random_number_5; 
+    interval_6(interval_6 > (L-1)) = interval_6(interval_6 > (L-1)) - L;
+    integer_intervals_6 = [integer_intervals_6, interval_6];
+
+    % satellite 6 위치
+    interval_7 = interval_1 + random_number_6; 
+    interval_7(interval_7 > (L-1)) = interval_7(interval_7 > (L-1)) - L;
+    integer_intervals_7 = [integer_intervals_7, interval_7];
+
+    % satellite 7 위치
+    interval_8 = interval_1 + random_number_7; 
+    interval_8(interval_8 > (L-1)) = interval_8(interval_8 > (L-1)) - L;
+    integer_intervals_8 = [integer_intervals_8, interval_8];
+
+    % satellite 8 위치
+    interval_9 = interval_1 + random_number_8; 
+    interval_9(interval_9 > (L-1)) = interval_9(interval_9 > (L-1)) - L;
+    integer_intervals_9 = [integer_intervals_9, interval_9];
+
+    % satellite 9 위치
+    interval_10 = interval_1 + random_number_9; 
+    interval_10(interval_10 > (L-1)) = interval_10(interval_10 > (L-1)) - L;
+    integer_intervals_10 = [integer_intervals_10, interval_10];
+
+    % satellite 10 위치
+    interval_11 = interval_1 + random_number_10; 
+    interval_11(interval_11 > (L-1)) = interval_11(interval_11 > (L-1)) - L;
+    integer_intervals_11 = [integer_intervals_11, interval_11];
+
+    % satellite 11 위치
+    interval_12 = interval_1 + random_number_11; 
+    interval_12(interval_12 > (L-1)) = interval_12(interval_12 > (L-1)) - L;
+    integer_intervals_12 = [integer_intervals_12, interval_12];
+
+    % satellite 12 위치
+    interval_13 = interval_1 + random_number_12; 
+    interval_13(interval_13 > (L-1)) = interval_13(interval_13 > (L-1)) - L;
+    integer_intervals_13 = [integer_intervals_13, interval_13];
+
+    % satellite 13 위치
+    interval_14 = interval_1 + random_number_13; 
+    interval_14(interval_14 > (L-1)) = interval_14(interval_14 > (L-1)) - L;
+    integer_intervals_14 = [integer_intervals_14, interval_14];
+
+    % satellite 14 위치
+    interval_15 = interval_1 + random_number_14; 
+    interval_15(interval_15 > (L-1)) = interval_15(interval_15 > (L-1)) - L;
+    integer_intervals_15 = [integer_intervals_15, interval_15];
+
+    % satellite 15 위치
+    interval_16 = interval_1 + random_number_15; 
+    interval_16(interval_16 > (L-1)) = interval_16(interval_16 > (L-1)) - L;
+    integer_intervals_16 = [integer_intervals_16, interval_16];
+
+    % satellite 16 위치
+    interval_17 = interval_1 + random_number_16; 
+    interval_17(interval_17 > (L-1)) = interval_17(interval_17 > (L-1)) - L;
+    integer_intervals_17 = [integer_intervals_17, interval_17];
+
+    % satellite 17 위치
+    interval_18 = interval_1 + random_number_17; 
+    interval_18(interval_18 > (L-1)) = interval_18(interval_18 > (L-1)) - L;
+    integer_intervals_18 = [integer_intervals_18, interval_18];
+
+    % satellite 18 위치
+    interval_19 = interval_1 + random_number_18; 
+    interval_19(interval_19 > (L-1)) = interval_19(interval_19 > (L-1)) - L;
+    integer_intervals_19 = [integer_intervals_19, interval_19];
+
+    % satellite 19 위치
+    interval_20 = interval_1 + random_number_19; 
+    interval_20(interval_20 > (L-1)) = interval_20(interval_20 > (L-1)) - L;
+    integer_intervals_20 = [integer_intervals_20, interval_20];
+
+    % satellite 20 위치
+    interval_21 = interval_1 + random_number_20; 
+    interval_21(interval_21 > (L-1)) = interval_21(interval_21 > (L-1)) - L;
+    integer_intervals_21 = [integer_intervals_21, interval_21];
+end
+
+
+sum_intervals = ...
+    [integer_intervals_1, ...
+    integer_intervals_2, ...
+    integer_intervals_3, ...
+    integer_intervals_4, ...
+    integer_intervals_5, ...
+    integer_intervals_6, ...
+    integer_intervals_7, ...
+    integer_intervals_8, ...
+    integer_intervals_9, ...
+    integer_intervals_10, ...
+    integer_intervals_11, ...
+    integer_intervals_12, ...
+    integer_intervals_13, ...
+    integer_intervals_14, ...
+    integer_intervals_15, ...
+    integer_intervals_16, ...
+    integer_intervals_17, ...
+    integer_intervals_18, ...
+    integer_intervals_19, ...
+    integer_intervals_20, ...
+    integer_intervals_21, ...
+    ];
+
+unique_intervals = unique(sort(sum_intervals));
+
+Cov_21 = length(unique_intervals) / L * 100;
+
+
+%% Random21 (위성 22대)
+
+for n = 0 : L-1
+integer_intervals_1 = [];
+integer_intervals_2 = [];
+integer_intervals_3 = [];
+integer_intervals_4 = [];
+integer_intervals_5 = [];
+integer_intervals_6 = [];
+integer_intervals_7 = [];
+integer_intervals_8 = [];
+integer_intervals_9 = [];
+integer_intervals_10 = [];
+integer_intervals_11 = [];
+integer_intervals_12 = [];
+integer_intervals_13 = [];
+integer_intervals_14 = [];
+integer_intervals_15 = [];
+integer_intervals_16 = [];
+integer_intervals_17 = [];
+integer_intervals_18 = [];
+integer_intervals_19 = [];
+integer_intervals_20 = [];
+integer_intervals_21 = [];
+integer_intervals_22 = [];
+
+
+  for i = 1:length(ff_0)
+      % satellite 1 위치(seed)
+      interval_1 = start_points(i) :end_points(i) ;
+      interval_1(interval_1 > (L-1)) = interval_1(interval_1 > (L-1)) - L; 
+      integer_intervals_1 = [integer_intervals_1, interval_1];
+
+      % satellite 2 위치
+      interval_2 = interval_1 + random_number_1; 
+      interval_2(interval_2 > (L-1)) = interval_2(interval_2 > (L-1)) - L;
+      integer_intervals_2 = [integer_intervals_2, interval_2];
+
+      % satellite 3 위치
+      interval_3 = interval_1 + random_number_2; 
+      interval_3(interval_3 > (L-1)) = interval_3(interval_3 > (L-1)) - L;
+      integer_intervals_3 = [integer_intervals_3, interval_3];
+
+      % satellite 4 위치
+      interval_4 = interval_1 + random_number_3; 
+      interval_4(interval_4 > (L-1)) = interval_4(interval_4 > (L-1)) - L;
+      integer_intervals_4 = [integer_intervals_4, interval_4];
+
+      % satellite 5 위치
+      interval_5 = interval_1 + random_number_4; 
+      interval_5(interval_5 > (L-1)) = interval_5(interval_5 > (L-1)) - L;
+      integer_intervals_5 = [integer_intervals_5, interval_5];
+
+      % satellite 6 위치
+      interval_6 = interval_1 + random_number_5; 
+      interval_6(interval_6 > (L-1)) = interval_6(interval_6 > (L-1)) - L;
+      integer_intervals_6 = [integer_intervals_6, interval_6];
+
+      % satellite 7 위치
+      interval_7 = interval_1 + random_number_6; 
+      interval_7(interval_7 > (L-1)) = interval_7(interval_7 > (L-1)) - L;
+      integer_intervals_7 = [integer_intervals_7, interval_7];
+
+      % satellite 8 위치
+      interval_8 = interval_1 + random_number_7; 
+      interval_8(interval_8 > (L-1)) = interval_8(interval_8 > (L-1)) - L;
+      integer_intervals_8 = [integer_intervals_8, interval_8];
+
+      % satellite 9 위치
+      interval_9 = interval_1 + random_number_8; 
+      interval_9(interval_9 > (L-1)) = interval_9(interval_9 > (L-1)) - L;
+      integer_intervals_9 = [integer_intervals_9, interval_9];
+
+      % satellite 10 위치
+      interval_10 = interval_1 + random_number_9; 
+      interval_10(interval_10 > (L-1)) = interval_10(interval_10 > (L-1)) - L;
+      integer_intervals_10 = [integer_intervals_10, interval_10];
+
+      % satellite 11 위치 
+      interval_11 = interval_1 + random_number_10; 
+      interval_11(interval_11 > (L-1)) = interval_11(interval_11 > (L-1)) - L;
+      integer_intervals_11 = [integer_intervals_11, interval_11];
+
+      % satellite 12 위치
+      interval_12 = interval_1 + random_number_11; 
+      interval_12(interval_12 > (L-1)) = interval_12(interval_12 > (L-1)) - L;
+      integer_intervals_12 = [integer_intervals_12, interval_12];
+
+      % satellite 13 위치
+      interval_13 = interval_1 + random_number_12; 
+      interval_13(interval_13 > (L-1)) = interval_13(interval_13 > (L-1)) - L;
+      integer_intervals_13 = [integer_intervals_13, interval_13];
+
+      % satellite 14 위치
+      interval_14 = interval_1 + random_number_13; 
+      interval_14(interval_14 > (L-1)) = interval_14(interval_14 > (L-1)) - L;
+      integer_intervals_14 = [integer_intervals_14, interval_14];
+
+      % satellite 15 위치
+      interval_15 = interval_1 + random_number_14; 
+      interval_15(interval_15 > (L-1)) = interval_15(interval_15 > (L-1)) - L;
+      integer_intervals_15 = [integer_intervals_15, interval_15];
+
+      % satellite 16 위치
+      interval_16 = interval_1 + random_number_15; 
+      interval_16(interval_16 > (L-1)) = interval_16(interval_16 > (L-1)) - L;
+      integer_intervals_16 = [integer_intervals_16, interval_16];
+
+      % satellite 17 위치
+      interval_17 = interval_1 + random_number_16; 
+      interval_17(interval_17 > (L-1)) = interval_17(interval_17 > (L-1)) - L;
+      integer_intervals_17 = [integer_intervals_17, interval_17];
+
+      % satellite 18 위치 
+      interval_18 = interval_1 + random_number_17; 
+      interval_18(interval_18 > (L-1)) = interval_18(interval_18 > (L-1)) - L;
+      integer_intervals_18 = [integer_intervals_18, interval_18];
+
+      % satellite 19 위치
+      interval_19 = interval_1 + random_number_18; 
+      interval_19(interval_19 > (L-1)) = interval_19(interval_19 > (L-1)) - L;
+      integer_intervals_19 = [integer_intervals_19, interval_19];
+
+      % satellite 20 위치 
+      interval_20 = interval_1 + random_number_19; 
+      interval_20(interval_20 > (L-1)) = interval_20(interval_20 > (L-1)) - L;
+      integer_intervals_20 = [integer_intervals_20, interval_20];
+
+      % satellite 21 위치
+      interval_21 = interval_1 + random_number_20; 
+      interval_21(interval_21 > (L-1)) = interval_21(interval_21 > (L-1)) - L;
+      integer_intervals_21 = [integer_intervals_21, interval_21];
+
+      % satellite 22 위치 생성
+      interval_22 = interval_1 + n; 
+      interval_22(interval_22 > (L-1)) = interval_22(interval_22 > (L-1)) - L;
+      integer_intervals_22 = [integer_intervals_22, interval_22];
+  end
+
+
+sum_intervals = ...
+    [integer_intervals_1, ...
+    integer_intervals_2, ...
+    integer_intervals_3, ...
+    integer_intervals_4, ...
+    integer_intervals_5, ...
+    integer_intervals_6, ...
+    integer_intervals_7, ...
+    integer_intervals_8, ...
+    integer_intervals_9, ...
+    integer_intervals_10, ...
+    integer_intervals_11, ...
+    integer_intervals_12, ...
+    integer_intervals_13, ...
+    integer_intervals_14, ...
+    integer_intervals_15, ...
+    integer_intervals_16, ...
+    integer_intervals_17, ...
+    integer_intervals_18, ...
+    integer_intervals_19, ...
+    integer_intervals_20, ...
+    integer_intervals_21, ...
+    integer_intervals_22, ...
+    ];
+
+unique_intervals = unique(sort(sum_intervals));
+
+difference = length(sum_intervals) - length(unique_intervals) ;
+
+result_21 = [result_21; n, difference];
+
+end
+
+
+% 랜덤숫자 생성
+
+result_sum21 = [result_21(:,1), result_21(:,2)];
+
+rows_with_min_sum21 = result_sum21(result_sum21(:, 2) == min(result_sum21(:, 2)), :);
+
+k_sum21 = rows_with_min_sum21(:,1);
+
+random_index_21 = randi([1, length(k_sum21)]);
+
+random_number_21 = k_sum21(random_index_21);
+
+
+% renewal
+integer_intervals_1 = [];
+integer_intervals_2 = [];
+integer_intervals_3 = [];
+integer_intervals_4 = [];
+integer_intervals_5 = [];
+integer_intervals_6 = [];
+integer_intervals_7 = [];
+integer_intervals_8 = [];
+integer_intervals_9 = [];
+integer_intervals_10 = [];
+integer_intervals_11 = [];
+integer_intervals_12 = [];
+integer_intervals_13 = [];
+integer_intervals_14 = [];
+integer_intervals_15 = [];
+integer_intervals_16 = [];
+integer_intervals_17 = [];
+integer_intervals_18 = [];
+integer_intervals_19 = [];
+integer_intervals_20 = [];
+integer_intervals_21 = [];
+integer_intervals_22 = [];
+
+for i = 1:length(ff_0)
+    % satellite 1 위치 생성(seed)
+    interval_1 = start_points(i) :end_points(i) ;
+    interval_1(interval_1 > (L-1)) = interval_1(interval_1 > (L-1)) - L; 
+    integer_intervals_1 = [integer_intervals_1, interval_1];
+
+    % satellite 2 위치
+    interval_2 = interval_1 + random_number_1; 
+    interval_2(interval_2 > (L-1)) = interval_2(interval_2 > (L-1)) - L;
+    integer_intervals_2 = [integer_intervals_2, interval_2];
+
+    % satellite 2 위치
+    interval_3 = interval_1 + random_number_2; 
+    interval_3(interval_3 > (L-1)) = interval_3(interval_3 > (L-1)) - L;
+    integer_intervals_3 = [integer_intervals_3, interval_3];
+
+    % satellite 3 위치
+    interval_4 = interval_1 + random_number_3; 
+    interval_4(interval_4 > (L-1)) = interval_4(interval_4 > (L-1)) - L;
+    integer_intervals_4 = [integer_intervals_4, interval_4];
+
+    % satellite 4 위치
+    interval_5 = interval_1 + random_number_4; 
+    interval_5(interval_5 > (L-1)) = interval_5(interval_5 > (L-1)) - L;
+    integer_intervals_5 = [integer_intervals_5, interval_5];
+
+    % satellite 5 위치
+    interval_6 = interval_1 + random_number_5; 
+    interval_6(interval_6 > (L-1)) = interval_6(interval_6 > (L-1)) - L;
+    integer_intervals_6 = [integer_intervals_6, interval_6];
+
+    % satellite 6 위치
+    interval_7 = interval_1 + random_number_6; 
+    interval_7(interval_7 > (L-1)) = interval_7(interval_7 > (L-1)) - L;
+    integer_intervals_7 = [integer_intervals_7, interval_7];
+
+    % satellite 7 위치
+    interval_8 = interval_1 + random_number_7; 
+    interval_8(interval_8 > (L-1)) = interval_8(interval_8 > (L-1)) - L;
+    integer_intervals_8 = [integer_intervals_8, interval_8];
+
+    % satellite 8 위치
+    interval_9 = interval_1 + random_number_8; 
+    interval_9(interval_9 > (L-1)) = interval_9(interval_9 > (L-1)) - L;
+    integer_intervals_9 = [integer_intervals_9, interval_9];
+
+    % satellite 9 위치
+    interval_10 = interval_1 + random_number_9; 
+    interval_10(interval_10 > (L-1)) = interval_10(interval_10 > (L-1)) - L;
+    integer_intervals_10 = [integer_intervals_10, interval_10];
+
+    % satellite 10 위치
+    interval_11 = interval_1 + random_number_10; 
+    interval_11(interval_11 > (L-1)) = interval_11(interval_11 > (L-1)) - L;
+    integer_intervals_11 = [integer_intervals_11, interval_11];
+
+    % satellite 11 위치
+    interval_12 = interval_1 + random_number_11; 
+    interval_12(interval_12 > (L-1)) = interval_12(interval_12 > (L-1)) - L;
+    integer_intervals_12 = [integer_intervals_12, interval_12];
+
+    % satellite 12 위치
+    interval_13 = interval_1 + random_number_12; 
+    interval_13(interval_13 > (L-1)) = interval_13(interval_13 > (L-1)) - L;
+    integer_intervals_13 = [integer_intervals_13, interval_13];
+
+    % satellite 13 위치
+    interval_14 = interval_1 + random_number_13; 
+    interval_14(interval_14 > (L-1)) = interval_14(interval_14 > (L-1)) - L;
+    integer_intervals_14 = [integer_intervals_14, interval_14];
+
+    % satellite 14 위치
+    interval_15 = interval_1 + random_number_14; 
+    interval_15(interval_15 > (L-1)) = interval_15(interval_15 > (L-1)) - L;
+    integer_intervals_15 = [integer_intervals_15, interval_15];
+
+    % satellite 15 위치
+    interval_16 = interval_1 + random_number_15; 
+    interval_16(interval_16 > (L-1)) = interval_16(interval_16 > (L-1)) - L;
+    integer_intervals_16 = [integer_intervals_16, interval_16];
+
+    % satellite 16 위치
+    interval_17 = interval_1 + random_number_16; 
+    interval_17(interval_17 > (L-1)) = interval_17(interval_17 > (L-1)) - L;
+    integer_intervals_17 = [integer_intervals_17, interval_17];
+
+    % satellite 17 위치
+    interval_18 = interval_1 + random_number_17; 
+    interval_18(interval_18 > (L-1)) = interval_18(interval_18 > (L-1)) - L;
+    integer_intervals_18 = [integer_intervals_18, interval_18];
+
+    % satellite 18 위치
+    interval_19 = interval_1 + random_number_18; 
+    interval_19(interval_19 > (L-1)) = interval_19(interval_19 > (L-1)) - L;
+    integer_intervals_19 = [integer_intervals_19, interval_19];
+
+    % satellite 19 위치
+    interval_20 = interval_1 + random_number_19; 
+    interval_20(interval_20 > (L-1)) = interval_20(interval_20 > (L-1)) - L;
+    integer_intervals_20 = [integer_intervals_20, interval_20];
+
+    % satellite 20 위치
+    interval_21 = interval_1 + random_number_20; 
+    interval_21(interval_21 > (L-1)) = interval_21(interval_21 > (L-1)) - L;
+    integer_intervals_21 = [integer_intervals_21, interval_21];
+
+    % satellite 21 위치
+    interval_22 = interval_1 + random_number_21; 
+    interval_22(interval_22 > (L-1)) = interval_22(interval_22 > (L-1)) - L;
+    integer_intervals_22 = [integer_intervals_22, interval_22];
+end
+
+
+sum_intervals = ...
+    [integer_intervals_1, ...
+    integer_intervals_2, ...
+    integer_intervals_3, ...
+    integer_intervals_4, ...
+    integer_intervals_5, ...
+    integer_intervals_6, ...
+    integer_intervals_7, ...
+    integer_intervals_8, ...
+    integer_intervals_9, ...
+    integer_intervals_10, ...
+    integer_intervals_11, ...
+    integer_intervals_12, ...
+    integer_intervals_13, ...
+    integer_intervals_14, ...
+    integer_intervals_15, ...
+    integer_intervals_16, ...
+    integer_intervals_17, ...
+    integer_intervals_18, ...
+    integer_intervals_19, ...
+    integer_intervals_20, ...
+    integer_intervals_21, ...
+    integer_intervals_22, ...
+    ];
+
+unique_intervals = unique(sort(sum_intervals));
+
+Cov_22 = length(unique_intervals) / L * 100;
+
+
+%% Random22 (위성 23대)
+
+for n = 0 : L-1
+integer_intervals_1 = [];
+integer_intervals_2 = [];
+integer_intervals_3 = [];
+integer_intervals_4 = [];
+integer_intervals_5 = [];
+integer_intervals_6 = [];
+integer_intervals_7 = [];
+integer_intervals_8 = [];
+integer_intervals_9 = [];
+integer_intervals_10 = [];
+integer_intervals_11 = [];
+integer_intervals_12 = [];
+integer_intervals_13 = [];
+integer_intervals_14 = [];
+integer_intervals_15 = [];
+integer_intervals_16 = [];
+integer_intervals_17 = [];
+integer_intervals_18 = [];
+integer_intervals_19 = [];
+integer_intervals_20 = [];
+integer_intervals_21 = [];
+integer_intervals_22 = [];
+integer_intervals_23 = [];
+
+
+  for i = 1:length(ff_0)
+      % satellite 1 위치(seed)
+      interval_1 = start_points(i) :end_points(i) ;
+      interval_1(interval_1 > (L-1)) = interval_1(interval_1 > (L-1)) - L; 
+      integer_intervals_1 = [integer_intervals_1, interval_1];
+
+      % satellite 2 위치
+      interval_2 = interval_1 + random_number_1; 
+      interval_2(interval_2 > (L-1)) = interval_2(interval_2 > (L-1)) - L;
+      integer_intervals_2 = [integer_intervals_2, interval_2];
+
+      % satellite 3 위치
+      interval_3 = interval_1 + random_number_2; 
+      interval_3(interval_3 > (L-1)) = interval_3(interval_3 > (L-1)) - L;
+      integer_intervals_3 = [integer_intervals_3, interval_3];
+
+      % satellite 4 위치
+      interval_4 = interval_1 + random_number_3; 
+      interval_4(interval_4 > (L-1)) = interval_4(interval_4 > (L-1)) - L;
+      integer_intervals_4 = [integer_intervals_4, interval_4];
+
+      % satellite 5 위치
+      interval_5 = interval_1 + random_number_4; 
+      interval_5(interval_5 > (L-1)) = interval_5(interval_5 > (L-1)) - L;
+      integer_intervals_5 = [integer_intervals_5, interval_5];
+
+      % satellite 6 위치
+      interval_6 = interval_1 + random_number_5; 
+      interval_6(interval_6 > (L-1)) = interval_6(interval_6 > (L-1)) - L;
+      integer_intervals_6 = [integer_intervals_6, interval_6];
+
+      % satellite 7 위치
+      interval_7 = interval_1 + random_number_6; 
+      interval_7(interval_7 > (L-1)) = interval_7(interval_7 > (L-1)) - L;
+      integer_intervals_7 = [integer_intervals_7, interval_7];
+
+      % satellite 8 위치
+      interval_8 = interval_1 + random_number_7; 
+      interval_8(interval_8 > (L-1)) = interval_8(interval_8 > (L-1)) - L;
+      integer_intervals_8 = [integer_intervals_8, interval_8];
+
+      % satellite 9 위치
+      interval_9 = interval_1 + random_number_8; 
+      interval_9(interval_9 > (L-1)) = interval_9(interval_9 > (L-1)) - L;
+      integer_intervals_9 = [integer_intervals_9, interval_9];
+
+      % satellite 10 위치
+      interval_10 = interval_1 + random_number_9; 
+      interval_10(interval_10 > (L-1)) = interval_10(interval_10 > (L-1)) - L;
+      integer_intervals_10 = [integer_intervals_10, interval_10];
+
+      % satellite 11 위치 
+      interval_11 = interval_1 + random_number_10; 
+      interval_11(interval_11 > (L-1)) = interval_11(interval_11 > (L-1)) - L;
+      integer_intervals_11 = [integer_intervals_11, interval_11];
+
+      % satellite 12 위치
+      interval_12 = interval_1 + random_number_11; 
+      interval_12(interval_12 > (L-1)) = interval_12(interval_12 > (L-1)) - L;
+      integer_intervals_12 = [integer_intervals_12, interval_12];
+
+      % satellite 13 위치
+      interval_13 = interval_1 + random_number_12; 
+      interval_13(interval_13 > (L-1)) = interval_13(interval_13 > (L-1)) - L;
+      integer_intervals_13 = [integer_intervals_13, interval_13];
+
+      % satellite 14 위치
+      interval_14 = interval_1 + random_number_13; 
+      interval_14(interval_14 > (L-1)) = interval_14(interval_14 > (L-1)) - L;
+      integer_intervals_14 = [integer_intervals_14, interval_14];
+
+      % satellite 15 위치
+      interval_15 = interval_1 + random_number_14; 
+      interval_15(interval_15 > (L-1)) = interval_15(interval_15 > (L-1)) - L;
+      integer_intervals_15 = [integer_intervals_15, interval_15];
+
+      % satellite 16 위치
+      interval_16 = interval_1 + random_number_15; 
+      interval_16(interval_16 > (L-1)) = interval_16(interval_16 > (L-1)) - L;
+      integer_intervals_16 = [integer_intervals_16, interval_16];
+
+      % satellite 17 위치
+      interval_17 = interval_1 + random_number_16; 
+      interval_17(interval_17 > (L-1)) = interval_17(interval_17 > (L-1)) - L;
+      integer_intervals_17 = [integer_intervals_17, interval_17];
+
+      % satellite 18 위치 
+      interval_18 = interval_1 + random_number_17; 
+      interval_18(interval_18 > (L-1)) = interval_18(interval_18 > (L-1)) - L;
+      integer_intervals_18 = [integer_intervals_18, interval_18];
+
+      % satellite 19 위치
+      interval_19 = interval_1 + random_number_18; 
+      interval_19(interval_19 > (L-1)) = interval_19(interval_19 > (L-1)) - L;
+      integer_intervals_19 = [integer_intervals_19, interval_19];
+
+      % satellite 20 위치 
+      interval_20 = interval_1 + random_number_19; 
+      interval_20(interval_20 > (L-1)) = interval_20(interval_20 > (L-1)) - L;
+      integer_intervals_20 = [integer_intervals_20, interval_20];
+
+      % satellite 21 위치
+      interval_21 = interval_1 + random_number_20; 
+      interval_21(interval_21 > (L-1)) = interval_21(interval_21 > (L-1)) - L;
+      integer_intervals_21 = [integer_intervals_21, interval_21];
+
+      % satellite 22 위치 
+      interval_22 = interval_1 + random_number_21; 
+      interval_22(interval_22 > (L-1)) = interval_22(interval_22 > (L-1)) - L;
+      integer_intervals_22 = [integer_intervals_22, interval_22];
+
+      % satellite 23 위치 생성
+      interval_23 = interval_1 + n; 
+      interval_23(interval_23 > (L-1)) = interval_23(interval_23 > (L-1)) - L;
+      integer_intervals_23 = [integer_intervals_23, interval_23];
+  end
+
+
+sum_intervals = ...
+    [integer_intervals_1, ...
+    integer_intervals_2, ...
+    integer_intervals_3, ...
+    integer_intervals_4, ...
+    integer_intervals_5, ...
+    integer_intervals_6, ...
+    integer_intervals_7, ...
+    integer_intervals_8, ...
+    integer_intervals_9, ...
+    integer_intervals_10, ...
+    integer_intervals_11, ...
+    integer_intervals_12, ...
+    integer_intervals_13, ...
+    integer_intervals_14, ...
+    integer_intervals_15, ...
+    integer_intervals_16, ...
+    integer_intervals_17, ...
+    integer_intervals_18, ...
+    integer_intervals_19, ...
+    integer_intervals_20, ...
+    integer_intervals_21, ...
+    integer_intervals_22, ...
+    integer_intervals_23, ...
+    ];
+
+unique_intervals = unique(sort(sum_intervals));
+
+difference = length(sum_intervals) - length(unique_intervals) ;
+
+result_22 = [result_22; n, difference];
+
+end
+
+
+% 랜덤숫자 생성
+
+result_sum22 = [result_22(:,1), result_22(:,2)];
+
+rows_with_min_sum22 = result_sum22(result_sum22(:, 2) == min(result_sum22(:, 2)), :);
+
+k_sum22 = rows_with_min_sum22(:,1);
+
+random_index_22 = randi([1, length(k_sum22)]);
+
+random_number_22 = k_sum22(random_index_22);
+
+
+% renewal
+integer_intervals_1 = [];
+integer_intervals_2 = [];
+integer_intervals_3 = [];
+integer_intervals_4 = [];
+integer_intervals_5 = [];
+integer_intervals_6 = [];
+integer_intervals_7 = [];
+integer_intervals_8 = [];
+integer_intervals_9 = [];
+integer_intervals_10 = [];
+integer_intervals_11 = [];
+integer_intervals_12 = [];
+integer_intervals_13 = [];
+integer_intervals_14 = [];
+integer_intervals_15 = [];
+integer_intervals_16 = [];
+integer_intervals_17 = [];
+integer_intervals_18 = [];
+integer_intervals_19 = [];
+integer_intervals_20 = [];
+integer_intervals_21 = [];
+integer_intervals_22 = [];
+integer_intervals_23 = [];
+
+for i = 1:length(ff_0)
+    % satellite 1 위치 생성(seed)
+    interval_1 = start_points(i) :end_points(i) ;
+    interval_1(interval_1 > (L-1)) = interval_1(interval_1 > (L-1)) - L; 
+    integer_intervals_1 = [integer_intervals_1, interval_1];
+
+    % satellite 2 위치
+    interval_2 = interval_1 + random_number_1; 
+    interval_2(interval_2 > (L-1)) = interval_2(interval_2 > (L-1)) - L;
+    integer_intervals_2 = [integer_intervals_2, interval_2];
+
+    % satellite 2 위치
+    interval_3 = interval_1 + random_number_2; 
+    interval_3(interval_3 > (L-1)) = interval_3(interval_3 > (L-1)) - L;
+    integer_intervals_3 = [integer_intervals_3, interval_3];
+
+    % satellite 3 위치
+    interval_4 = interval_1 + random_number_3; 
+    interval_4(interval_4 > (L-1)) = interval_4(interval_4 > (L-1)) - L;
+    integer_intervals_4 = [integer_intervals_4, interval_4];
+
+    % satellite 4 위치
+    interval_5 = interval_1 + random_number_4; 
+    interval_5(interval_5 > (L-1)) = interval_5(interval_5 > (L-1)) - L;
+    integer_intervals_5 = [integer_intervals_5, interval_5];
+
+    % satellite 5 위치
+    interval_6 = interval_1 + random_number_5; 
+    interval_6(interval_6 > (L-1)) = interval_6(interval_6 > (L-1)) - L;
+    integer_intervals_6 = [integer_intervals_6, interval_6];
+
+    % satellite 6 위치
+    interval_7 = interval_1 + random_number_6; 
+    interval_7(interval_7 > (L-1)) = interval_7(interval_7 > (L-1)) - L;
+    integer_intervals_7 = [integer_intervals_7, interval_7];
+
+    % satellite 7 위치
+    interval_8 = interval_1 + random_number_7; 
+    interval_8(interval_8 > (L-1)) = interval_8(interval_8 > (L-1)) - L;
+    integer_intervals_8 = [integer_intervals_8, interval_8];
+
+    % satellite 8 위치
+    interval_9 = interval_1 + random_number_8; 
+    interval_9(interval_9 > (L-1)) = interval_9(interval_9 > (L-1)) - L;
+    integer_intervals_9 = [integer_intervals_9, interval_9];
+
+    % satellite 9 위치
+    interval_10 = interval_1 + random_number_9; 
+    interval_10(interval_10 > (L-1)) = interval_10(interval_10 > (L-1)) - L;
+    integer_intervals_10 = [integer_intervals_10, interval_10];
+
+    % satellite 10 위치
+    interval_11 = interval_1 + random_number_10; 
+    interval_11(interval_11 > (L-1)) = interval_11(interval_11 > (L-1)) - L;
+    integer_intervals_11 = [integer_intervals_11, interval_11];
+
+    % satellite 11 위치
+    interval_12 = interval_1 + random_number_11; 
+    interval_12(interval_12 > (L-1)) = interval_12(interval_12 > (L-1)) - L;
+    integer_intervals_12 = [integer_intervals_12, interval_12];
+
+    % satellite 12 위치
+    interval_13 = interval_1 + random_number_12; 
+    interval_13(interval_13 > (L-1)) = interval_13(interval_13 > (L-1)) - L;
+    integer_intervals_13 = [integer_intervals_13, interval_13];
+
+    % satellite 13 위치
+    interval_14 = interval_1 + random_number_13; 
+    interval_14(interval_14 > (L-1)) = interval_14(interval_14 > (L-1)) - L;
+    integer_intervals_14 = [integer_intervals_14, interval_14];
+
+    % satellite 14 위치
+    interval_15 = interval_1 + random_number_14; 
+    interval_15(interval_15 > (L-1)) = interval_15(interval_15 > (L-1)) - L;
+    integer_intervals_15 = [integer_intervals_15, interval_15];
+
+    % satellite 15 위치
+    interval_16 = interval_1 + random_number_15; 
+    interval_16(interval_16 > (L-1)) = interval_16(interval_16 > (L-1)) - L;
+    integer_intervals_16 = [integer_intervals_16, interval_16];
+
+    % satellite 16 위치
+    interval_17 = interval_1 + random_number_16; 
+    interval_17(interval_17 > (L-1)) = interval_17(interval_17 > (L-1)) - L;
+    integer_intervals_17 = [integer_intervals_17, interval_17];
+
+    % satellite 17 위치
+    interval_18 = interval_1 + random_number_17; 
+    interval_18(interval_18 > (L-1)) = interval_18(interval_18 > (L-1)) - L;
+    integer_intervals_18 = [integer_intervals_18, interval_18];
+
+    % satellite 18 위치
+    interval_19 = interval_1 + random_number_18; 
+    interval_19(interval_19 > (L-1)) = interval_19(interval_19 > (L-1)) - L;
+    integer_intervals_19 = [integer_intervals_19, interval_19];
+
+    % satellite 19 위치
+    interval_20 = interval_1 + random_number_19; 
+    interval_20(interval_20 > (L-1)) = interval_20(interval_20 > (L-1)) - L;
+    integer_intervals_20 = [integer_intervals_20, interval_20];
+
+    % satellite 20 위치
+    interval_21 = interval_1 + random_number_20; 
+    interval_21(interval_21 > (L-1)) = interval_21(interval_21 > (L-1)) - L;
+    integer_intervals_21 = [integer_intervals_21, interval_21];
+
+    % satellite 21 위치
+    interval_22 = interval_1 + random_number_21; 
+    interval_22(interval_22 > (L-1)) = interval_22(interval_22 > (L-1)) - L;
+    integer_intervals_22 = [integer_intervals_22, interval_22];
+
+    % satellite 22 위치
+    interval_23 = interval_1 + random_number_22; 
+    interval_23(interval_23 > (L-1)) = interval_23(interval_23 > (L-1)) - L;
+    integer_intervals_23 = [integer_intervals_23, interval_23];
+end
+
+
+sum_intervals = ...
+    [integer_intervals_1, ...
+    integer_intervals_2, ...
+    integer_intervals_3, ...
+    integer_intervals_4, ...
+    integer_intervals_5, ...
+    integer_intervals_6, ...
+    integer_intervals_7, ...
+    integer_intervals_8, ...
+    integer_intervals_9, ...
+    integer_intervals_10, ...
+    integer_intervals_11, ...
+    integer_intervals_12, ...
+    integer_intervals_13, ...
+    integer_intervals_14, ...
+    integer_intervals_15, ...
+    integer_intervals_16, ...
+    integer_intervals_17, ...
+    integer_intervals_18, ...
+    integer_intervals_19, ...
+    integer_intervals_20, ...
+    integer_intervals_21, ...
+    integer_intervals_22, ...
+    integer_intervals_23, ...
+    ];
+
+unique_intervals = unique(sort(sum_intervals));
+
+Cov_23 = length(unique_intervals) / L * 100;
+
+
+%% Random23 (위성 24대)
+
+for n = 0 : L-1
+integer_intervals_1 = [];
+integer_intervals_2 = [];
+integer_intervals_3 = [];
+integer_intervals_4 = [];
+integer_intervals_5 = [];
+integer_intervals_6 = [];
+integer_intervals_7 = [];
+integer_intervals_8 = [];
+integer_intervals_9 = [];
+integer_intervals_10 = [];
+integer_intervals_11 = [];
+integer_intervals_12 = [];
+integer_intervals_13 = [];
+integer_intervals_14 = [];
+integer_intervals_15 = [];
+integer_intervals_16 = [];
+integer_intervals_17 = [];
+integer_intervals_18 = [];
+integer_intervals_19 = [];
+integer_intervals_20 = [];
+integer_intervals_21 = [];
+integer_intervals_22 = [];
+integer_intervals_23 = [];
+integer_intervals_24 = [];
+
+
+  for i = 1:length(ff_0)
+      % satellite 1 위치(seed)
+      interval_1 = start_points(i) :end_points(i) ;
+      interval_1(interval_1 > (L-1)) = interval_1(interval_1 > (L-1)) - L; 
+      integer_intervals_1 = [integer_intervals_1, interval_1];
+
+      % satellite 2 위치
+      interval_2 = interval_1 + random_number_1; 
+      interval_2(interval_2 > (L-1)) = interval_2(interval_2 > (L-1)) - L;
+      integer_intervals_2 = [integer_intervals_2, interval_2];
+
+      % satellite 3 위치
+      interval_3 = interval_1 + random_number_2; 
+      interval_3(interval_3 > (L-1)) = interval_3(interval_3 > (L-1)) - L;
+      integer_intervals_3 = [integer_intervals_3, interval_3];
+
+      % satellite 4 위치
+      interval_4 = interval_1 + random_number_3; 
+      interval_4(interval_4 > (L-1)) = interval_4(interval_4 > (L-1)) - L;
+      integer_intervals_4 = [integer_intervals_4, interval_4];
+
+      % satellite 5 위치
+      interval_5 = interval_1 + random_number_4; 
+      interval_5(interval_5 > (L-1)) = interval_5(interval_5 > (L-1)) - L;
+      integer_intervals_5 = [integer_intervals_5, interval_5];
+
+      % satellite 6 위치
+      interval_6 = interval_1 + random_number_5; 
+      interval_6(interval_6 > (L-1)) = interval_6(interval_6 > (L-1)) - L;
+      integer_intervals_6 = [integer_intervals_6, interval_6];
+
+      % satellite 7 위치
+      interval_7 = interval_1 + random_number_6; 
+      interval_7(interval_7 > (L-1)) = interval_7(interval_7 > (L-1)) - L;
+      integer_intervals_7 = [integer_intervals_7, interval_7];
+
+      % satellite 8 위치
+      interval_8 = interval_1 + random_number_7; 
+      interval_8(interval_8 > (L-1)) = interval_8(interval_8 > (L-1)) - L;
+      integer_intervals_8 = [integer_intervals_8, interval_8];
+
+      % satellite 9 위치
+      interval_9 = interval_1 + random_number_8; 
+      interval_9(interval_9 > (L-1)) = interval_9(interval_9 > (L-1)) - L;
+      integer_intervals_9 = [integer_intervals_9, interval_9];
+
+      % satellite 10 위치
+      interval_10 = interval_1 + random_number_9; 
+      interval_10(interval_10 > (L-1)) = interval_10(interval_10 > (L-1)) - L;
+      integer_intervals_10 = [integer_intervals_10, interval_10];
+
+      % satellite 11 위치 
+      interval_11 = interval_1 + random_number_10; 
+      interval_11(interval_11 > (L-1)) = interval_11(interval_11 > (L-1)) - L;
+      integer_intervals_11 = [integer_intervals_11, interval_11];
+
+      % satellite 12 위치
+      interval_12 = interval_1 + random_number_11; 
+      interval_12(interval_12 > (L-1)) = interval_12(interval_12 > (L-1)) - L;
+      integer_intervals_12 = [integer_intervals_12, interval_12];
+
+      % satellite 13 위치
+      interval_13 = interval_1 + random_number_12; 
+      interval_13(interval_13 > (L-1)) = interval_13(interval_13 > (L-1)) - L;
+      integer_intervals_13 = [integer_intervals_13, interval_13];
+
+      % satellite 14 위치
+      interval_14 = interval_1 + random_number_13; 
+      interval_14(interval_14 > (L-1)) = interval_14(interval_14 > (L-1)) - L;
+      integer_intervals_14 = [integer_intervals_14, interval_14];
+
+      % satellite 15 위치
+      interval_15 = interval_1 + random_number_14; 
+      interval_15(interval_15 > (L-1)) = interval_15(interval_15 > (L-1)) - L;
+      integer_intervals_15 = [integer_intervals_15, interval_15];
+
+      % satellite 16 위치
+      interval_16 = interval_1 + random_number_15; 
+      interval_16(interval_16 > (L-1)) = interval_16(interval_16 > (L-1)) - L;
+      integer_intervals_16 = [integer_intervals_16, interval_16];
+
+      % satellite 17 위치
+      interval_17 = interval_1 + random_number_16; 
+      interval_17(interval_17 > (L-1)) = interval_17(interval_17 > (L-1)) - L;
+      integer_intervals_17 = [integer_intervals_17, interval_17];
+
+      % satellite 18 위치 
+      interval_18 = interval_1 + random_number_17; 
+      interval_18(interval_18 > (L-1)) = interval_18(interval_18 > (L-1)) - L;
+      integer_intervals_18 = [integer_intervals_18, interval_18];
+
+      % satellite 19 위치
+      interval_19 = interval_1 + random_number_18; 
+      interval_19(interval_19 > (L-1)) = interval_19(interval_19 > (L-1)) - L;
+      integer_intervals_19 = [integer_intervals_19, interval_19];
+
+      % satellite 20 위치 
+      interval_20 = interval_1 + random_number_19; 
+      interval_20(interval_20 > (L-1)) = interval_20(interval_20 > (L-1)) - L;
+      integer_intervals_20 = [integer_intervals_20, interval_20];
+
+      % satellite 21 위치
+      interval_21 = interval_1 + random_number_20; 
+      interval_21(interval_21 > (L-1)) = interval_21(interval_21 > (L-1)) - L;
+      integer_intervals_21 = [integer_intervals_21, interval_21];
+
+      % satellite 22 위치 
+      interval_22 = interval_1 + random_number_21; 
+      interval_22(interval_22 > (L-1)) = interval_22(interval_22 > (L-1)) - L;
+      integer_intervals_22 = [integer_intervals_22, interval_22];
+
+      % satellite 23 위치
+      interval_23 = interval_1 + random_number_22; 
+      interval_23(interval_23 > (L-1)) = interval_23(interval_23 > (L-1)) - L;
+      integer_intervals_23 = [integer_intervals_23, interval_23];
+
+      % satellite 24 위치 생성
+      interval_24 = interval_1 + n; 
+      interval_24(interval_24 > (L-1)) = interval_24(interval_24 > (L-1)) - L;
+      integer_intervals_24 = [integer_intervals_24, interval_24];
+  end
+
+
+sum_intervals = ...
+    [integer_intervals_1, ...
+    integer_intervals_2, ...
+    integer_intervals_3, ...
+    integer_intervals_4, ...
+    integer_intervals_5, ...
+    integer_intervals_6, ...
+    integer_intervals_7, ...
+    integer_intervals_8, ...
+    integer_intervals_9, ...
+    integer_intervals_10, ...
+    integer_intervals_11, ...
+    integer_intervals_12, ...
+    integer_intervals_13, ...
+    integer_intervals_14, ...
+    integer_intervals_15, ...
+    integer_intervals_16, ...
+    integer_intervals_17, ...
+    integer_intervals_18, ...
+    integer_intervals_19, ...
+    integer_intervals_20, ...
+    integer_intervals_21, ...
+    integer_intervals_22, ...
+    integer_intervals_23, ...
+    integer_intervals_24, ...
+    ];
+
+unique_intervals = unique(sort(sum_intervals));
+
+difference = length(sum_intervals) - length(unique_intervals) ;
+
+result_23 = [result_23; n, difference];
+
+end
+
+
+% 랜덤숫자 생성
+
+result_sum23 = [result_23(:,1), result_23(:,2)];
+
+rows_with_min_sum23 = result_sum23(result_sum23(:, 2) == min(result_sum23(:, 2)), :);
+
+k_sum23 = rows_with_min_sum23(:,1);
+
+random_index_23 = randi([1, length(k_sum23)]);
+
+random_number_23 = k_sum23(random_index_23);
+
+
+% renewal
+integer_intervals_1 = [];
+integer_intervals_2 = [];
+integer_intervals_3 = [];
+integer_intervals_4 = [];
+integer_intervals_5 = [];
+integer_intervals_6 = [];
+integer_intervals_7 = [];
+integer_intervals_8 = [];
+integer_intervals_9 = [];
+integer_intervals_10 = [];
+integer_intervals_11 = [];
+integer_intervals_12 = [];
+integer_intervals_13 = [];
+integer_intervals_14 = [];
+integer_intervals_15 = [];
+integer_intervals_16 = [];
+integer_intervals_17 = [];
+integer_intervals_18 = [];
+integer_intervals_19 = [];
+integer_intervals_20 = [];
+integer_intervals_21 = [];
+integer_intervals_22 = [];
+integer_intervals_23 = [];
+integer_intervals_24 = [];
+
+for i = 1:length(ff_0)
+    % satellite 1 위치 생성(seed)
+    interval_1 = start_points(i) :end_points(i) ;
+    interval_1(interval_1 > (L-1)) = interval_1(interval_1 > (L-1)) - L; 
+    integer_intervals_1 = [integer_intervals_1, interval_1];
+
+    % satellite 2 위치
+    interval_2 = interval_1 + random_number_1; 
+    interval_2(interval_2 > (L-1)) = interval_2(interval_2 > (L-1)) - L;
+    integer_intervals_2 = [integer_intervals_2, interval_2];
+
+    % satellite 2 위치
+    interval_3 = interval_1 + random_number_2; 
+    interval_3(interval_3 > (L-1)) = interval_3(interval_3 > (L-1)) - L;
+    integer_intervals_3 = [integer_intervals_3, interval_3];
+
+    % satellite 3 위치
+    interval_4 = interval_1 + random_number_3; 
+    interval_4(interval_4 > (L-1)) = interval_4(interval_4 > (L-1)) - L;
+    integer_intervals_4 = [integer_intervals_4, interval_4];
+
+    % satellite 4 위치
+    interval_5 = interval_1 + random_number_4; 
+    interval_5(interval_5 > (L-1)) = interval_5(interval_5 > (L-1)) - L;
+    integer_intervals_5 = [integer_intervals_5, interval_5];
+
+    % satellite 5 위치
+    interval_6 = interval_1 + random_number_5; 
+    interval_6(interval_6 > (L-1)) = interval_6(interval_6 > (L-1)) - L;
+    integer_intervals_6 = [integer_intervals_6, interval_6];
+
+    % satellite 6 위치
+    interval_7 = interval_1 + random_number_6; 
+    interval_7(interval_7 > (L-1)) = interval_7(interval_7 > (L-1)) - L;
+    integer_intervals_7 = [integer_intervals_7, interval_7];
+
+    % satellite 7 위치
+    interval_8 = interval_1 + random_number_7; 
+    interval_8(interval_8 > (L-1)) = interval_8(interval_8 > (L-1)) - L;
+    integer_intervals_8 = [integer_intervals_8, interval_8];
+
+    % satellite 8 위치
+    interval_9 = interval_1 + random_number_8; 
+    interval_9(interval_9 > (L-1)) = interval_9(interval_9 > (L-1)) - L;
+    integer_intervals_9 = [integer_intervals_9, interval_9];
+
+    % satellite 9 위치
+    interval_10 = interval_1 + random_number_9; 
+    interval_10(interval_10 > (L-1)) = interval_10(interval_10 > (L-1)) - L;
+    integer_intervals_10 = [integer_intervals_10, interval_10];
+
+    % satellite 10 위치
+    interval_11 = interval_1 + random_number_10; 
+    interval_11(interval_11 > (L-1)) = interval_11(interval_11 > (L-1)) - L;
+    integer_intervals_11 = [integer_intervals_11, interval_11];
+
+    % satellite 11 위치
+    interval_12 = interval_1 + random_number_11; 
+    interval_12(interval_12 > (L-1)) = interval_12(interval_12 > (L-1)) - L;
+    integer_intervals_12 = [integer_intervals_12, interval_12];
+
+    % satellite 12 위치
+    interval_13 = interval_1 + random_number_12; 
+    interval_13(interval_13 > (L-1)) = interval_13(interval_13 > (L-1)) - L;
+    integer_intervals_13 = [integer_intervals_13, interval_13];
+
+    % satellite 13 위치
+    interval_14 = interval_1 + random_number_13; 
+    interval_14(interval_14 > (L-1)) = interval_14(interval_14 > (L-1)) - L;
+    integer_intervals_14 = [integer_intervals_14, interval_14];
+
+    % satellite 14 위치
+    interval_15 = interval_1 + random_number_14; 
+    interval_15(interval_15 > (L-1)) = interval_15(interval_15 > (L-1)) - L;
+    integer_intervals_15 = [integer_intervals_15, interval_15];
+
+    % satellite 15 위치
+    interval_16 = interval_1 + random_number_15; 
+    interval_16(interval_16 > (L-1)) = interval_16(interval_16 > (L-1)) - L;
+    integer_intervals_16 = [integer_intervals_16, interval_16];
+
+    % satellite 16 위치
+    interval_17 = interval_1 + random_number_16; 
+    interval_17(interval_17 > (L-1)) = interval_17(interval_17 > (L-1)) - L;
+    integer_intervals_17 = [integer_intervals_17, interval_17];
+
+    % satellite 17 위치
+    interval_18 = interval_1 + random_number_17; 
+    interval_18(interval_18 > (L-1)) = interval_18(interval_18 > (L-1)) - L;
+    integer_intervals_18 = [integer_intervals_18, interval_18];
+
+    % satellite 18 위치
+    interval_19 = interval_1 + random_number_18; 
+    interval_19(interval_19 > (L-1)) = interval_19(interval_19 > (L-1)) - L;
+    integer_intervals_19 = [integer_intervals_19, interval_19];
+
+    % satellite 19 위치
+    interval_20 = interval_1 + random_number_19; 
+    interval_20(interval_20 > (L-1)) = interval_20(interval_20 > (L-1)) - L;
+    integer_intervals_20 = [integer_intervals_20, interval_20];
+
+    % satellite 20 위치
+    interval_21 = interval_1 + random_number_20; 
+    interval_21(interval_21 > (L-1)) = interval_21(interval_21 > (L-1)) - L;
+    integer_intervals_21 = [integer_intervals_21, interval_21];
+
+    % satellite 21 위치
+    interval_22 = interval_1 + random_number_21; 
+    interval_22(interval_22 > (L-1)) = interval_22(interval_22 > (L-1)) - L;
+    integer_intervals_22 = [integer_intervals_22, interval_22];
+
+    % satellite 22 위치
+    interval_23 = interval_1 + random_number_22; 
+    interval_23(interval_23 > (L-1)) = interval_23(interval_23 > (L-1)) - L;
+    integer_intervals_23 = [integer_intervals_23, interval_23];
+
+    % satellite 23 위치
+    interval_24 = interval_1 + random_number_23; 
+    interval_24(interval_24 > (L-1)) = interval_24(interval_24 > (L-1)) - L;
+    integer_intervals_24 = [integer_intervals_24, interval_24];
+end
+
+
+sum_intervals = ...
+    [integer_intervals_1, ...
+    integer_intervals_2, ...
+    integer_intervals_3, ...
+    integer_intervals_4, ...
+    integer_intervals_5, ...
+    integer_intervals_6, ...
+    integer_intervals_7, ...
+    integer_intervals_8, ...
+    integer_intervals_9, ...
+    integer_intervals_10, ...
+    integer_intervals_11, ...
+    integer_intervals_12, ...
+    integer_intervals_13, ...
+    integer_intervals_14, ...
+    integer_intervals_15, ...
+    integer_intervals_16, ...
+    integer_intervals_17, ...
+    integer_intervals_18, ...
+    integer_intervals_19, ...
+    integer_intervals_20, ...
+    integer_intervals_21, ...
+    integer_intervals_22, ...
+    integer_intervals_23, ...
+    integer_intervals_24, ...
+    ];
+
+unique_intervals = unique(sort(sum_intervals));
+
+Cov_24 = length(unique_intervals) / L * 100;
+
+
+%% Random24 (위성 25대)
+
+for n = 0 : L-1
+integer_intervals_1 = [];
+integer_intervals_2 = [];
+integer_intervals_3 = [];
+integer_intervals_4 = [];
+integer_intervals_5 = [];
+integer_intervals_6 = [];
+integer_intervals_7 = [];
+integer_intervals_8 = [];
+integer_intervals_9 = [];
+integer_intervals_10 = [];
+integer_intervals_11 = [];
+integer_intervals_12 = [];
+integer_intervals_13 = [];
+integer_intervals_14 = [];
+integer_intervals_15 = [];
+integer_intervals_16 = [];
+integer_intervals_17 = [];
+integer_intervals_18 = [];
+integer_intervals_19 = [];
+integer_intervals_20 = [];
+integer_intervals_21 = [];
+integer_intervals_22 = [];
+integer_intervals_23 = [];
+integer_intervals_24 = [];
+integer_intervals_25 = [];
+
+
+  for i = 1:length(ff_0)
+      % satellite 1 위치(seed)
+      interval_1 = start_points(i) :end_points(i) ;
+      interval_1(interval_1 > (L-1)) = interval_1(interval_1 > (L-1)) - L; 
+      integer_intervals_1 = [integer_intervals_1, interval_1];
+
+      % satellite 2 위치
+      interval_2 = interval_1 + random_number_1; 
+      interval_2(interval_2 > (L-1)) = interval_2(interval_2 > (L-1)) - L;
+      integer_intervals_2 = [integer_intervals_2, interval_2];
+
+      % satellite 3 위치
+      interval_3 = interval_1 + random_number_2; 
+      interval_3(interval_3 > (L-1)) = interval_3(interval_3 > (L-1)) - L;
+      integer_intervals_3 = [integer_intervals_3, interval_3];
+
+      % satellite 4 위치
+      interval_4 = interval_1 + random_number_3; 
+      interval_4(interval_4 > (L-1)) = interval_4(interval_4 > (L-1)) - L;
+      integer_intervals_4 = [integer_intervals_4, interval_4];
+
+      % satellite 5 위치
+      interval_5 = interval_1 + random_number_4; 
+      interval_5(interval_5 > (L-1)) = interval_5(interval_5 > (L-1)) - L;
+      integer_intervals_5 = [integer_intervals_5, interval_5];
+
+      % satellite 6 위치
+      interval_6 = interval_1 + random_number_5; 
+      interval_6(interval_6 > (L-1)) = interval_6(interval_6 > (L-1)) - L;
+      integer_intervals_6 = [integer_intervals_6, interval_6];
+
+      % satellite 7 위치
+      interval_7 = interval_1 + random_number_6; 
+      interval_7(interval_7 > (L-1)) = interval_7(interval_7 > (L-1)) - L;
+      integer_intervals_7 = [integer_intervals_7, interval_7];
+
+      % satellite 8 위치
+      interval_8 = interval_1 + random_number_7; 
+      interval_8(interval_8 > (L-1)) = interval_8(interval_8 > (L-1)) - L;
+      integer_intervals_8 = [integer_intervals_8, interval_8];
+
+      % satellite 9 위치
+      interval_9 = interval_1 + random_number_8; 
+      interval_9(interval_9 > (L-1)) = interval_9(interval_9 > (L-1)) - L;
+      integer_intervals_9 = [integer_intervals_9, interval_9];
+
+      % satellite 10 위치
+      interval_10 = interval_1 + random_number_9; 
+      interval_10(interval_10 > (L-1)) = interval_10(interval_10 > (L-1)) - L;
+      integer_intervals_10 = [integer_intervals_10, interval_10];
+
+      % satellite 11 위치 
+      interval_11 = interval_1 + random_number_10; 
+      interval_11(interval_11 > (L-1)) = interval_11(interval_11 > (L-1)) - L;
+      integer_intervals_11 = [integer_intervals_11, interval_11];
+
+      % satellite 12 위치
+      interval_12 = interval_1 + random_number_11; 
+      interval_12(interval_12 > (L-1)) = interval_12(interval_12 > (L-1)) - L;
+      integer_intervals_12 = [integer_intervals_12, interval_12];
+
+      % satellite 13 위치
+      interval_13 = interval_1 + random_number_12; 
+      interval_13(interval_13 > (L-1)) = interval_13(interval_13 > (L-1)) - L;
+      integer_intervals_13 = [integer_intervals_13, interval_13];
+
+      % satellite 14 위치
+      interval_14 = interval_1 + random_number_13; 
+      interval_14(interval_14 > (L-1)) = interval_14(interval_14 > (L-1)) - L;
+      integer_intervals_14 = [integer_intervals_14, interval_14];
+
+      % satellite 15 위치
+      interval_15 = interval_1 + random_number_14; 
+      interval_15(interval_15 > (L-1)) = interval_15(interval_15 > (L-1)) - L;
+      integer_intervals_15 = [integer_intervals_15, interval_15];
+
+      % satellite 16 위치
+      interval_16 = interval_1 + random_number_15; 
+      interval_16(interval_16 > (L-1)) = interval_16(interval_16 > (L-1)) - L;
+      integer_intervals_16 = [integer_intervals_16, interval_16];
+
+      % satellite 17 위치
+      interval_17 = interval_1 + random_number_16; 
+      interval_17(interval_17 > (L-1)) = interval_17(interval_17 > (L-1)) - L;
+      integer_intervals_17 = [integer_intervals_17, interval_17];
+
+      % satellite 18 위치 
+      interval_18 = interval_1 + random_number_17; 
+      interval_18(interval_18 > (L-1)) = interval_18(interval_18 > (L-1)) - L;
+      integer_intervals_18 = [integer_intervals_18, interval_18];
+
+      % satellite 19 위치
+      interval_19 = interval_1 + random_number_18; 
+      interval_19(interval_19 > (L-1)) = interval_19(interval_19 > (L-1)) - L;
+      integer_intervals_19 = [integer_intervals_19, interval_19];
+
+      % satellite 20 위치 
+      interval_20 = interval_1 + random_number_19; 
+      interval_20(interval_20 > (L-1)) = interval_20(interval_20 > (L-1)) - L;
+      integer_intervals_20 = [integer_intervals_20, interval_20];
+
+      % satellite 21 위치
+      interval_21 = interval_1 + random_number_20; 
+      interval_21(interval_21 > (L-1)) = interval_21(interval_21 > (L-1)) - L;
+      integer_intervals_21 = [integer_intervals_21, interval_21];
+
+      % satellite 22 위치 
+      interval_22 = interval_1 + random_number_21; 
+      interval_22(interval_22 > (L-1)) = interval_22(interval_22 > (L-1)) - L;
+      integer_intervals_22 = [integer_intervals_22, interval_22];
+
+      % satellite 23 위치
+      interval_23 = interval_1 + random_number_22; 
+      interval_23(interval_23 > (L-1)) = interval_23(interval_23 > (L-1)) - L;
+      integer_intervals_23 = [integer_intervals_23, interval_23];
+
+      % satellite 24 위치 
+      interval_24 = interval_1 + random_number_23; 
+      interval_24(interval_24 > (L-1)) = interval_24(interval_24 > (L-1)) - L;
+      integer_intervals_24 = [integer_intervals_24, interval_24];
+
+      % satellite 25 위치 생성
+      interval_25 = interval_1 + n; 
+      interval_25(interval_25 > (L-1)) = interval_25(interval_25 > (L-1)) - L;
+      integer_intervals_25 = [integer_intervals_25, interval_25];
+  end
+
+
+sum_intervals = ...
+    [integer_intervals_1, ...
+    integer_intervals_2, ...
+    integer_intervals_3, ...
+    integer_intervals_4, ...
+    integer_intervals_5, ...
+    integer_intervals_6, ...
+    integer_intervals_7, ...
+    integer_intervals_8, ...
+    integer_intervals_9, ...
+    integer_intervals_10, ...
+    integer_intervals_11, ...
+    integer_intervals_12, ...
+    integer_intervals_13, ...
+    integer_intervals_14, ...
+    integer_intervals_15, ...
+    integer_intervals_16, ...
+    integer_intervals_17, ...
+    integer_intervals_18, ...
+    integer_intervals_19, ...
+    integer_intervals_20, ...
+    integer_intervals_21, ...
+    integer_intervals_22, ...
+    integer_intervals_23, ...
+    integer_intervals_24, ...
+    integer_intervals_25, ...
+    ];
+
+unique_intervals = unique(sort(sum_intervals));
+
+difference = length(sum_intervals) - length(unique_intervals) ;
+
+result_24 = [result_24; n, difference];
+
+end
+
+
+% 랜덤숫자 생성
+
+result_sum24 = [result_24(:,1), result_24(:,2)];
+
+rows_with_min_sum24 = result_sum24(result_sum24(:, 2) == min(result_sum24(:, 2)), :);
+
+k_sum24 = rows_with_min_sum24(:,1);
+
+random_index_24 = randi([1, length(k_sum24)]);
+
+random_number_24 = k_sum24(random_index_24);
+
+
+% renewal
+integer_intervals_1 = [];
+integer_intervals_2 = [];
+integer_intervals_3 = [];
+integer_intervals_4 = [];
+integer_intervals_5 = [];
+integer_intervals_6 = [];
+integer_intervals_7 = [];
+integer_intervals_8 = [];
+integer_intervals_9 = [];
+integer_intervals_10 = [];
+integer_intervals_11 = [];
+integer_intervals_12 = [];
+integer_intervals_13 = [];
+integer_intervals_14 = [];
+integer_intervals_15 = [];
+integer_intervals_16 = [];
+integer_intervals_17 = [];
+integer_intervals_18 = [];
+integer_intervals_19 = [];
+integer_intervals_20 = [];
+integer_intervals_21 = [];
+integer_intervals_22 = [];
+integer_intervals_23 = [];
+integer_intervals_24 = [];
+integer_intervals_25 = [];
+
+for i = 1:length(ff_0)
+    % satellite 1 위치 생성(seed)
+    interval_1 = start_points(i) :end_points(i) ;
+    interval_1(interval_1 > (L-1)) = interval_1(interval_1 > (L-1)) - L; 
+    integer_intervals_1 = [integer_intervals_1, interval_1];
+
+    % satellite 2 위치
+    interval_2 = interval_1 + random_number_1; 
+    interval_2(interval_2 > (L-1)) = interval_2(interval_2 > (L-1)) - L;
+    integer_intervals_2 = [integer_intervals_2, interval_2];
+
+    % satellite 2 위치
+    interval_3 = interval_1 + random_number_2; 
+    interval_3(interval_3 > (L-1)) = interval_3(interval_3 > (L-1)) - L;
+    integer_intervals_3 = [integer_intervals_3, interval_3];
+
+    % satellite 3 위치
+    interval_4 = interval_1 + random_number_3; 
+    interval_4(interval_4 > (L-1)) = interval_4(interval_4 > (L-1)) - L;
+    integer_intervals_4 = [integer_intervals_4, interval_4];
+
+    % satellite 4 위치
+    interval_5 = interval_1 + random_number_4; 
+    interval_5(interval_5 > (L-1)) = interval_5(interval_5 > (L-1)) - L;
+    integer_intervals_5 = [integer_intervals_5, interval_5];
+
+    % satellite 5 위치
+    interval_6 = interval_1 + random_number_5; 
+    interval_6(interval_6 > (L-1)) = interval_6(interval_6 > (L-1)) - L;
+    integer_intervals_6 = [integer_intervals_6, interval_6];
+
+    % satellite 6 위치
+    interval_7 = interval_1 + random_number_6; 
+    interval_7(interval_7 > (L-1)) = interval_7(interval_7 > (L-1)) - L;
+    integer_intervals_7 = [integer_intervals_7, interval_7];
+
+    % satellite 7 위치
+    interval_8 = interval_1 + random_number_7; 
+    interval_8(interval_8 > (L-1)) = interval_8(interval_8 > (L-1)) - L;
+    integer_intervals_8 = [integer_intervals_8, interval_8];
+
+    % satellite 8 위치
+    interval_9 = interval_1 + random_number_8; 
+    interval_9(interval_9 > (L-1)) = interval_9(interval_9 > (L-1)) - L;
+    integer_intervals_9 = [integer_intervals_9, interval_9];
+
+    % satellite 9 위치
+    interval_10 = interval_1 + random_number_9; 
+    interval_10(interval_10 > (L-1)) = interval_10(interval_10 > (L-1)) - L;
+    integer_intervals_10 = [integer_intervals_10, interval_10];
+
+    % satellite 10 위치
+    interval_11 = interval_1 + random_number_10; 
+    interval_11(interval_11 > (L-1)) = interval_11(interval_11 > (L-1)) - L;
+    integer_intervals_11 = [integer_intervals_11, interval_11];
+
+    % satellite 11 위치
+    interval_12 = interval_1 + random_number_11; 
+    interval_12(interval_12 > (L-1)) = interval_12(interval_12 > (L-1)) - L;
+    integer_intervals_12 = [integer_intervals_12, interval_12];
+
+    % satellite 12 위치
+    interval_13 = interval_1 + random_number_12; 
+    interval_13(interval_13 > (L-1)) = interval_13(interval_13 > (L-1)) - L;
+    integer_intervals_13 = [integer_intervals_13, interval_13];
+
+    % satellite 13 위치
+    interval_14 = interval_1 + random_number_13; 
+    interval_14(interval_14 > (L-1)) = interval_14(interval_14 > (L-1)) - L;
+    integer_intervals_14 = [integer_intervals_14, interval_14];
+
+    % satellite 14 위치
+    interval_15 = interval_1 + random_number_14; 
+    interval_15(interval_15 > (L-1)) = interval_15(interval_15 > (L-1)) - L;
+    integer_intervals_15 = [integer_intervals_15, interval_15];
+
+    % satellite 15 위치
+    interval_16 = interval_1 + random_number_15; 
+    interval_16(interval_16 > (L-1)) = interval_16(interval_16 > (L-1)) - L;
+    integer_intervals_16 = [integer_intervals_16, interval_16];
+
+    % satellite 16 위치
+    interval_17 = interval_1 + random_number_16; 
+    interval_17(interval_17 > (L-1)) = interval_17(interval_17 > (L-1)) - L;
+    integer_intervals_17 = [integer_intervals_17, interval_17];
+
+    % satellite 17 위치
+    interval_18 = interval_1 + random_number_17; 
+    interval_18(interval_18 > (L-1)) = interval_18(interval_18 > (L-1)) - L;
+    integer_intervals_18 = [integer_intervals_18, interval_18];
+
+    % satellite 18 위치
+    interval_19 = interval_1 + random_number_18; 
+    interval_19(interval_19 > (L-1)) = interval_19(interval_19 > (L-1)) - L;
+    integer_intervals_19 = [integer_intervals_19, interval_19];
+
+    % satellite 19 위치
+    interval_20 = interval_1 + random_number_19; 
+    interval_20(interval_20 > (L-1)) = interval_20(interval_20 > (L-1)) - L;
+    integer_intervals_20 = [integer_intervals_20, interval_20];
+
+    % satellite 20 위치
+    interval_21 = interval_1 + random_number_20; 
+    interval_21(interval_21 > (L-1)) = interval_21(interval_21 > (L-1)) - L;
+    integer_intervals_21 = [integer_intervals_21, interval_21];
+
+    % satellite 21 위치
+    interval_22 = interval_1 + random_number_21; 
+    interval_22(interval_22 > (L-1)) = interval_22(interval_22 > (L-1)) - L;
+    integer_intervals_22 = [integer_intervals_22, interval_22];
+
+    % satellite 22 위치
+    interval_23 = interval_1 + random_number_22; 
+    interval_23(interval_23 > (L-1)) = interval_23(interval_23 > (L-1)) - L;
+    integer_intervals_23 = [integer_intervals_23, interval_23];
+
+    % satellite 23 위치
+    interval_24 = interval_1 + random_number_23; 
+    interval_24(interval_24 > (L-1)) = interval_24(interval_24 > (L-1)) - L;
+    integer_intervals_24 = [integer_intervals_24, interval_24];
+
+    % satellite 24 위치
+    interval_25 = interval_1 + random_number_24; 
+    interval_25(interval_25 > (L-1)) = interval_25(interval_25 > (L-1)) - L;
+    integer_intervals_25 = [integer_intervals_25, interval_25];
+end
+
+
+sum_intervals = ...
+    [integer_intervals_1, ...
+    integer_intervals_2, ...
+    integer_intervals_3, ...
+    integer_intervals_4, ...
+    integer_intervals_5, ...
+    integer_intervals_6, ...
+    integer_intervals_7, ...
+    integer_intervals_8, ...
+    integer_intervals_9, ...
+    integer_intervals_10, ...
+    integer_intervals_11, ...
+    integer_intervals_12, ...
+    integer_intervals_13, ...
+    integer_intervals_14, ...
+    integer_intervals_15, ...
+    integer_intervals_16, ...
+    integer_intervals_17, ...
+    integer_intervals_18, ...
+    integer_intervals_19, ...
+    integer_intervals_20, ...
+    integer_intervals_21, ...
+    integer_intervals_22, ...
+    integer_intervals_23, ...
+    integer_intervals_24, ...
+    integer_intervals_25, ...
+    ];
+
+unique_intervals = unique(sort(sum_intervals));
+
+Cov_25 = length(unique_intervals) / L * 100;
+
+
+%% Random25 (위성 26대)
+
+for n = 0 : L-1
+integer_intervals_1 = [];
+integer_intervals_2 = [];
+integer_intervals_3 = [];
+integer_intervals_4 = [];
+integer_intervals_5 = [];
+integer_intervals_6 = [];
+integer_intervals_7 = [];
+integer_intervals_8 = [];
+integer_intervals_9 = [];
+integer_intervals_10 = [];
+integer_intervals_11 = [];
+integer_intervals_12 = [];
+integer_intervals_13 = [];
+integer_intervals_14 = [];
+integer_intervals_15 = [];
+integer_intervals_16 = [];
+integer_intervals_17 = [];
+integer_intervals_18 = [];
+integer_intervals_19 = [];
+integer_intervals_20 = [];
+integer_intervals_21 = [];
+integer_intervals_22 = [];
+integer_intervals_23 = [];
+integer_intervals_24 = [];
+integer_intervals_25 = [];
+integer_intervals_26 = [];
+
+
+  for i = 1:length(ff_0)
+      % satellite 1 위치(seed)
+      interval_1 = start_points(i) :end_points(i) ;
+      interval_1(interval_1 > (L-1)) = interval_1(interval_1 > (L-1)) - L; 
+      integer_intervals_1 = [integer_intervals_1, interval_1];
+
+      % satellite 2 위치
+      interval_2 = interval_1 + random_number_1; 
+      interval_2(interval_2 > (L-1)) = interval_2(interval_2 > (L-1)) - L;
+      integer_intervals_2 = [integer_intervals_2, interval_2];
+
+      % satellite 3 위치
+      interval_3 = interval_1 + random_number_2; 
+      interval_3(interval_3 > (L-1)) = interval_3(interval_3 > (L-1)) - L;
+      integer_intervals_3 = [integer_intervals_3, interval_3];
+
+      % satellite 4 위치
+      interval_4 = interval_1 + random_number_3; 
+      interval_4(interval_4 > (L-1)) = interval_4(interval_4 > (L-1)) - L;
+      integer_intervals_4 = [integer_intervals_4, interval_4];
+
+      % satellite 5 위치
+      interval_5 = interval_1 + random_number_4; 
+      interval_5(interval_5 > (L-1)) = interval_5(interval_5 > (L-1)) - L;
+      integer_intervals_5 = [integer_intervals_5, interval_5];
+
+      % satellite 6 위치
+      interval_6 = interval_1 + random_number_5; 
+      interval_6(interval_6 > (L-1)) = interval_6(interval_6 > (L-1)) - L;
+      integer_intervals_6 = [integer_intervals_6, interval_6];
+
+      % satellite 7 위치
+      interval_7 = interval_1 + random_number_6; 
+      interval_7(interval_7 > (L-1)) = interval_7(interval_7 > (L-1)) - L;
+      integer_intervals_7 = [integer_intervals_7, interval_7];
+
+      % satellite 8 위치
+      interval_8 = interval_1 + random_number_7; 
+      interval_8(interval_8 > (L-1)) = interval_8(interval_8 > (L-1)) - L;
+      integer_intervals_8 = [integer_intervals_8, interval_8];
+
+      % satellite 9 위치
+      interval_9 = interval_1 + random_number_8; 
+      interval_9(interval_9 > (L-1)) = interval_9(interval_9 > (L-1)) - L;
+      integer_intervals_9 = [integer_intervals_9, interval_9];
+
+      % satellite 10 위치
+      interval_10 = interval_1 + random_number_9; 
+      interval_10(interval_10 > (L-1)) = interval_10(interval_10 > (L-1)) - L;
+      integer_intervals_10 = [integer_intervals_10, interval_10];
+
+      % satellite 11 위치 
+      interval_11 = interval_1 + random_number_10; 
+      interval_11(interval_11 > (L-1)) = interval_11(interval_11 > (L-1)) - L;
+      integer_intervals_11 = [integer_intervals_11, interval_11];
+
+      % satellite 12 위치
+      interval_12 = interval_1 + random_number_11; 
+      interval_12(interval_12 > (L-1)) = interval_12(interval_12 > (L-1)) - L;
+      integer_intervals_12 = [integer_intervals_12, interval_12];
+
+      % satellite 13 위치
+      interval_13 = interval_1 + random_number_12; 
+      interval_13(interval_13 > (L-1)) = interval_13(interval_13 > (L-1)) - L;
+      integer_intervals_13 = [integer_intervals_13, interval_13];
+
+      % satellite 14 위치
+      interval_14 = interval_1 + random_number_13; 
+      interval_14(interval_14 > (L-1)) = interval_14(interval_14 > (L-1)) - L;
+      integer_intervals_14 = [integer_intervals_14, interval_14];
+
+      % satellite 15 위치
+      interval_15 = interval_1 + random_number_14; 
+      interval_15(interval_15 > (L-1)) = interval_15(interval_15 > (L-1)) - L;
+      integer_intervals_15 = [integer_intervals_15, interval_15];
+
+      % satellite 16 위치
+      interval_16 = interval_1 + random_number_15; 
+      interval_16(interval_16 > (L-1)) = interval_16(interval_16 > (L-1)) - L;
+      integer_intervals_16 = [integer_intervals_16, interval_16];
+
+      % satellite 17 위치
+      interval_17 = interval_1 + random_number_16; 
+      interval_17(interval_17 > (L-1)) = interval_17(interval_17 > (L-1)) - L;
+      integer_intervals_17 = [integer_intervals_17, interval_17];
+
+      % satellite 18 위치 
+      interval_18 = interval_1 + random_number_17; 
+      interval_18(interval_18 > (L-1)) = interval_18(interval_18 > (L-1)) - L;
+      integer_intervals_18 = [integer_intervals_18, interval_18];
+
+      % satellite 19 위치
+      interval_19 = interval_1 + random_number_18; 
+      interval_19(interval_19 > (L-1)) = interval_19(interval_19 > (L-1)) - L;
+      integer_intervals_19 = [integer_intervals_19, interval_19];
+
+      % satellite 20 위치 
+      interval_20 = interval_1 + random_number_19; 
+      interval_20(interval_20 > (L-1)) = interval_20(interval_20 > (L-1)) - L;
+      integer_intervals_20 = [integer_intervals_20, interval_20];
+
+      % satellite 21 위치
+      interval_21 = interval_1 + random_number_20; 
+      interval_21(interval_21 > (L-1)) = interval_21(interval_21 > (L-1)) - L;
+      integer_intervals_21 = [integer_intervals_21, interval_21];
+
+      % satellite 22 위치 
+      interval_22 = interval_1 + random_number_21; 
+      interval_22(interval_22 > (L-1)) = interval_22(interval_22 > (L-1)) - L;
+      integer_intervals_22 = [integer_intervals_22, interval_22];
+
+      % satellite 23 위치
+      interval_23 = interval_1 + random_number_22; 
+      interval_23(interval_23 > (L-1)) = interval_23(interval_23 > (L-1)) - L;
+      integer_intervals_23 = [integer_intervals_23, interval_23];
+
+      % satellite 24 위치 
+      interval_24 = interval_1 + random_number_23; 
+      interval_24(interval_24 > (L-1)) = interval_24(interval_24 > (L-1)) - L;
+      integer_intervals_24 = [integer_intervals_24, interval_24];
+
+      % satellite 25 위치
+      interval_25 = interval_1 + random_number_24; 
+      interval_25(interval_25 > (L-1)) = interval_25(interval_25 > (L-1)) - L;
+      integer_intervals_25 = [integer_intervals_25, interval_25];
+
+      % satellite 26 위치 생성
+      interval_26 = interval_1 + n; 
+      interval_26(interval_26 > (L-1)) = interval_26(interval_26 > (L-1)) - L;
+      integer_intervals_26 = [integer_intervals_26, interval_26];
+  end
+
+
+sum_intervals = ...
+    [integer_intervals_1, ...
+    integer_intervals_2, ...
+    integer_intervals_3, ...
+    integer_intervals_4, ...
+    integer_intervals_5, ...
+    integer_intervals_6, ...
+    integer_intervals_7, ...
+    integer_intervals_8, ...
+    integer_intervals_9, ...
+    integer_intervals_10, ...
+    integer_intervals_11, ...
+    integer_intervals_12, ...
+    integer_intervals_13, ...
+    integer_intervals_14, ...
+    integer_intervals_15, ...
+    integer_intervals_16, ...
+    integer_intervals_17, ...
+    integer_intervals_18, ...
+    integer_intervals_19, ...
+    integer_intervals_20, ...
+    integer_intervals_21, ...
+    integer_intervals_22, ...
+    integer_intervals_23, ...
+    integer_intervals_24, ...
+    integer_intervals_25, ...
+    integer_intervals_26, ...
+    ];
+
+unique_intervals = unique(sort(sum_intervals));
+
+difference = length(sum_intervals) - length(unique_intervals) ;
+
+result_25 = [result_25; n, difference];
+
+end
+
+
+% 랜덤숫자 생성
+
+result_sum25 = [result_25(:,1), result_25(:,2)];
+
+rows_with_min_sum25 = result_sum25(result_sum25(:, 2) == min(result_sum25(:, 2)), :);
+
+k_sum25 = rows_with_min_sum25(:,1);
+
+random_index_25 = randi([1, length(k_sum25)]);
+
+random_number_25 = k_sum25(random_index_25);
+
+
+% renewal
+integer_intervals_1 = [];
+integer_intervals_2 = [];
+integer_intervals_3 = [];
+integer_intervals_4 = [];
+integer_intervals_5 = [];
+integer_intervals_6 = [];
+integer_intervals_7 = [];
+integer_intervals_8 = [];
+integer_intervals_9 = [];
+integer_intervals_10 = [];
+integer_intervals_11 = [];
+integer_intervals_12 = [];
+integer_intervals_13 = [];
+integer_intervals_14 = [];
+integer_intervals_15 = [];
+integer_intervals_16 = [];
+integer_intervals_17 = [];
+integer_intervals_18 = [];
+integer_intervals_19 = [];
+integer_intervals_20 = [];
+integer_intervals_21 = [];
+integer_intervals_22 = [];
+integer_intervals_23 = [];
+integer_intervals_24 = [];
+integer_intervals_25 = [];
+integer_intervals_26 = [];
+
+for i = 1:length(ff_0)
+    % satellite 1 위치 생성(seed)
+    interval_1 = start_points(i) :end_points(i) ;
+    interval_1(interval_1 > (L-1)) = interval_1(interval_1 > (L-1)) - L; 
+    integer_intervals_1 = [integer_intervals_1, interval_1];
+
+    % satellite 2 위치
+    interval_2 = interval_1 + random_number_1; 
+    interval_2(interval_2 > (L-1)) = interval_2(interval_2 > (L-1)) - L;
+    integer_intervals_2 = [integer_intervals_2, interval_2];
+
+    % satellite 2 위치
+    interval_3 = interval_1 + random_number_2; 
+    interval_3(interval_3 > (L-1)) = interval_3(interval_3 > (L-1)) - L;
+    integer_intervals_3 = [integer_intervals_3, interval_3];
+
+    % satellite 3 위치
+    interval_4 = interval_1 + random_number_3; 
+    interval_4(interval_4 > (L-1)) = interval_4(interval_4 > (L-1)) - L;
+    integer_intervals_4 = [integer_intervals_4, interval_4];
+
+    % satellite 4 위치
+    interval_5 = interval_1 + random_number_4; 
+    interval_5(interval_5 > (L-1)) = interval_5(interval_5 > (L-1)) - L;
+    integer_intervals_5 = [integer_intervals_5, interval_5];
+
+    % satellite 5 위치
+    interval_6 = interval_1 + random_number_5; 
+    interval_6(interval_6 > (L-1)) = interval_6(interval_6 > (L-1)) - L;
+    integer_intervals_6 = [integer_intervals_6, interval_6];
+
+    % satellite 6 위치
+    interval_7 = interval_1 + random_number_6; 
+    interval_7(interval_7 > (L-1)) = interval_7(interval_7 > (L-1)) - L;
+    integer_intervals_7 = [integer_intervals_7, interval_7];
+
+    % satellite 7 위치
+    interval_8 = interval_1 + random_number_7; 
+    interval_8(interval_8 > (L-1)) = interval_8(interval_8 > (L-1)) - L;
+    integer_intervals_8 = [integer_intervals_8, interval_8];
+
+    % satellite 8 위치
+    interval_9 = interval_1 + random_number_8; 
+    interval_9(interval_9 > (L-1)) = interval_9(interval_9 > (L-1)) - L;
+    integer_intervals_9 = [integer_intervals_9, interval_9];
+
+    % satellite 9 위치
+    interval_10 = interval_1 + random_number_9; 
+    interval_10(interval_10 > (L-1)) = interval_10(interval_10 > (L-1)) - L;
+    integer_intervals_10 = [integer_intervals_10, interval_10];
+
+    % satellite 10 위치
+    interval_11 = interval_1 + random_number_10; 
+    interval_11(interval_11 > (L-1)) = interval_11(interval_11 > (L-1)) - L;
+    integer_intervals_11 = [integer_intervals_11, interval_11];
+
+    % satellite 11 위치
+    interval_12 = interval_1 + random_number_11; 
+    interval_12(interval_12 > (L-1)) = interval_12(interval_12 > (L-1)) - L;
+    integer_intervals_12 = [integer_intervals_12, interval_12];
+
+    % satellite 12 위치
+    interval_13 = interval_1 + random_number_12; 
+    interval_13(interval_13 > (L-1)) = interval_13(interval_13 > (L-1)) - L;
+    integer_intervals_13 = [integer_intervals_13, interval_13];
+
+    % satellite 13 위치
+    interval_14 = interval_1 + random_number_13; 
+    interval_14(interval_14 > (L-1)) = interval_14(interval_14 > (L-1)) - L;
+    integer_intervals_14 = [integer_intervals_14, interval_14];
+
+    % satellite 14 위치
+    interval_15 = interval_1 + random_number_14; 
+    interval_15(interval_15 > (L-1)) = interval_15(interval_15 > (L-1)) - L;
+    integer_intervals_15 = [integer_intervals_15, interval_15];
+
+    % satellite 15 위치
+    interval_16 = interval_1 + random_number_15; 
+    interval_16(interval_16 > (L-1)) = interval_16(interval_16 > (L-1)) - L;
+    integer_intervals_16 = [integer_intervals_16, interval_16];
+
+    % satellite 16 위치
+    interval_17 = interval_1 + random_number_16; 
+    interval_17(interval_17 > (L-1)) = interval_17(interval_17 > (L-1)) - L;
+    integer_intervals_17 = [integer_intervals_17, interval_17];
+
+    % satellite 17 위치
+    interval_18 = interval_1 + random_number_17; 
+    interval_18(interval_18 > (L-1)) = interval_18(interval_18 > (L-1)) - L;
+    integer_intervals_18 = [integer_intervals_18, interval_18];
+
+    % satellite 18 위치
+    interval_19 = interval_1 + random_number_18; 
+    interval_19(interval_19 > (L-1)) = interval_19(interval_19 > (L-1)) - L;
+    integer_intervals_19 = [integer_intervals_19, interval_19];
+
+    % satellite 19 위치
+    interval_20 = interval_1 + random_number_19; 
+    interval_20(interval_20 > (L-1)) = interval_20(interval_20 > (L-1)) - L;
+    integer_intervals_20 = [integer_intervals_20, interval_20];
+
+    % satellite 20 위치
+    interval_21 = interval_1 + random_number_20; 
+    interval_21(interval_21 > (L-1)) = interval_21(interval_21 > (L-1)) - L;
+    integer_intervals_21 = [integer_intervals_21, interval_21];
+
+    % satellite 21 위치
+    interval_22 = interval_1 + random_number_21; 
+    interval_22(interval_22 > (L-1)) = interval_22(interval_22 > (L-1)) - L;
+    integer_intervals_22 = [integer_intervals_22, interval_22];
+
+    % satellite 22 위치
+    interval_23 = interval_1 + random_number_22; 
+    interval_23(interval_23 > (L-1)) = interval_23(interval_23 > (L-1)) - L;
+    integer_intervals_23 = [integer_intervals_23, interval_23];
+
+    % satellite 23 위치
+    interval_24 = interval_1 + random_number_23; 
+    interval_24(interval_24 > (L-1)) = interval_24(interval_24 > (L-1)) - L;
+    integer_intervals_24 = [integer_intervals_24, interval_24];
+
+    % satellite 24 위치
+    interval_25 = interval_1 + random_number_24; 
+    interval_25(interval_25 > (L-1)) = interval_25(interval_25 > (L-1)) - L;
+    integer_intervals_25 = [integer_intervals_25, interval_25];
+
+    % satellite 25 위치
+    interval_26 = interval_1 + random_number_25; 
+    interval_26(interval_26 > (L-1)) = interval_26(interval_26 > (L-1)) - L;
+    integer_intervals_26 = [integer_intervals_26, interval_26];
+end
+
+
+sum_intervals = ...
+    [integer_intervals_1, ...
+    integer_intervals_2, ...
+    integer_intervals_3, ...
+    integer_intervals_4, ...
+    integer_intervals_5, ...
+    integer_intervals_6, ...
+    integer_intervals_7, ...
+    integer_intervals_8, ...
+    integer_intervals_9, ...
+    integer_intervals_10, ...
+    integer_intervals_11, ...
+    integer_intervals_12, ...
+    integer_intervals_13, ...
+    integer_intervals_14, ...
+    integer_intervals_15, ...
+    integer_intervals_16, ...
+    integer_intervals_17, ...
+    integer_intervals_18, ...
+    integer_intervals_19, ...
+    integer_intervals_20, ...
+    integer_intervals_21, ...
+    integer_intervals_22, ...
+    integer_intervals_23, ...
+    integer_intervals_24, ...
+    integer_intervals_25, ...
+    integer_intervals_26, ...
+    ];
+
+unique_intervals = unique(sort(sum_intervals));
+
+Cov_26 = length(unique_intervals) / L * 100
+
+
+% %% Random26 (위성 27대)
+% 
+% for n = 0 : L-1
+% integer_intervals_1 = [];
+% integer_intervals_2 = [];
+% integer_intervals_3 = [];
+% integer_intervals_4 = [];
+% integer_intervals_5 = [];
+% integer_intervals_6 = [];
+% integer_intervals_7 = [];
+% integer_intervals_8 = [];
+% integer_intervals_9 = [];
+% integer_intervals_10 = [];
+% integer_intervals_11 = [];
+% integer_intervals_12 = [];
+% integer_intervals_13 = [];
+% integer_intervals_14 = [];
+% integer_intervals_15 = [];
+% integer_intervals_16 = [];
+% integer_intervals_17 = [];
+% integer_intervals_18 = [];
+% integer_intervals_19 = [];
+% integer_intervals_20 = [];
+% integer_intervals_21 = [];
+% integer_intervals_22 = [];
+% integer_intervals_23 = [];
+% integer_intervals_24 = [];
+% integer_intervals_25 = [];
+% integer_intervals_26 = [];
+% integer_intervals_27 = [];
+% 
+% 
+%   for i = 1:length(ff_0)
+%       % satellite 1 위치(seed)
+%       interval_1 = start_points(i) :end_points(i) ;
+%       interval_1(interval_1 > (L-1)) = interval_1(interval_1 > (L-1)) - L; 
+%       integer_intervals_1 = [integer_intervals_1, interval_1];
+% 
+%       % satellite 2 위치
+%       interval_2 = interval_1 + random_number_1; 
+%       interval_2(interval_2 > (L-1)) = interval_2(interval_2 > (L-1)) - L;
+%       integer_intervals_2 = [integer_intervals_2, interval_2];
+% 
+%       % satellite 3 위치
+%       interval_3 = interval_1 + random_number_2; 
+%       interval_3(interval_3 > (L-1)) = interval_3(interval_3 > (L-1)) - L;
+%       integer_intervals_3 = [integer_intervals_3, interval_3];
+% 
+%       % satellite 4 위치
+%       interval_4 = interval_1 + random_number_3; 
+%       interval_4(interval_4 > (L-1)) = interval_4(interval_4 > (L-1)) - L;
+%       integer_intervals_4 = [integer_intervals_4, interval_4];
+% 
+%       % satellite 5 위치
+%       interval_5 = interval_1 + random_number_4; 
+%       interval_5(interval_5 > (L-1)) = interval_5(interval_5 > (L-1)) - L;
+%       integer_intervals_5 = [integer_intervals_5, interval_5];
+% 
+%       % satellite 6 위치
+%       interval_6 = interval_1 + random_number_5; 
+%       interval_6(interval_6 > (L-1)) = interval_6(interval_6 > (L-1)) - L;
+%       integer_intervals_6 = [integer_intervals_6, interval_6];
+% 
+%       % satellite 7 위치
+%       interval_7 = interval_1 + random_number_6; 
+%       interval_7(interval_7 > (L-1)) = interval_7(interval_7 > (L-1)) - L;
+%       integer_intervals_7 = [integer_intervals_7, interval_7];
+% 
+%       % satellite 8 위치
+%       interval_8 = interval_1 + random_number_7; 
+%       interval_8(interval_8 > (L-1)) = interval_8(interval_8 > (L-1)) - L;
+%       integer_intervals_8 = [integer_intervals_8, interval_8];
+% 
+%       % satellite 9 위치
+%       interval_9 = interval_1 + random_number_8; 
+%       interval_9(interval_9 > (L-1)) = interval_9(interval_9 > (L-1)) - L;
+%       integer_intervals_9 = [integer_intervals_9, interval_9];
+% 
+%       % satellite 10 위치
+%       interval_10 = interval_1 + random_number_9; 
+%       interval_10(interval_10 > (L-1)) = interval_10(interval_10 > (L-1)) - L;
+%       integer_intervals_10 = [integer_intervals_10, interval_10];
+% 
+%       % satellite 11 위치 
+%       interval_11 = interval_1 + random_number_10; 
+%       interval_11(interval_11 > (L-1)) = interval_11(interval_11 > (L-1)) - L;
+%       integer_intervals_11 = [integer_intervals_11, interval_11];
+% 
+%       % satellite 12 위치
+%       interval_12 = interval_1 + random_number_11; 
+%       interval_12(interval_12 > (L-1)) = interval_12(interval_12 > (L-1)) - L;
+%       integer_intervals_12 = [integer_intervals_12, interval_12];
+% 
+%       % satellite 13 위치
+%       interval_13 = interval_1 + random_number_12; 
+%       interval_13(interval_13 > (L-1)) = interval_13(interval_13 > (L-1)) - L;
+%       integer_intervals_13 = [integer_intervals_13, interval_13];
+% 
+%       % satellite 14 위치
+%       interval_14 = interval_1 + random_number_13; 
+%       interval_14(interval_14 > (L-1)) = interval_14(interval_14 > (L-1)) - L;
+%       integer_intervals_14 = [integer_intervals_14, interval_14];
+% 
+%       % satellite 15 위치
+%       interval_15 = interval_1 + random_number_14; 
+%       interval_15(interval_15 > (L-1)) = interval_15(interval_15 > (L-1)) - L;
+%       integer_intervals_15 = [integer_intervals_15, interval_15];
+% 
+%       % satellite 16 위치
+%       interval_16 = interval_1 + random_number_15; 
+%       interval_16(interval_16 > (L-1)) = interval_16(interval_16 > (L-1)) - L;
+%       integer_intervals_16 = [integer_intervals_16, interval_16];
+% 
+%       % satellite 17 위치
+%       interval_17 = interval_1 + random_number_16; 
+%       interval_17(interval_17 > (L-1)) = interval_17(interval_17 > (L-1)) - L;
+%       integer_intervals_17 = [integer_intervals_17, interval_17];
+% 
+%       % satellite 18 위치 
+%       interval_18 = interval_1 + random_number_17; 
+%       interval_18(interval_18 > (L-1)) = interval_18(interval_18 > (L-1)) - L;
+%       integer_intervals_18 = [integer_intervals_18, interval_18];
+% 
+%       % satellite 19 위치
+%       interval_19 = interval_1 + random_number_18; 
+%       interval_19(interval_19 > (L-1)) = interval_19(interval_19 > (L-1)) - L;
+%       integer_intervals_19 = [integer_intervals_19, interval_19];
+% 
+%       % satellite 20 위치 
+%       interval_20 = interval_1 + random_number_19; 
+%       interval_20(interval_20 > (L-1)) = interval_20(interval_20 > (L-1)) - L;
+%       integer_intervals_20 = [integer_intervals_20, interval_20];
+% 
+%       % satellite 21 위치
+%       interval_21 = interval_1 + random_number_20; 
+%       interval_21(interval_21 > (L-1)) = interval_21(interval_21 > (L-1)) - L;
+%       integer_intervals_21 = [integer_intervals_21, interval_21];
+% 
+%       % satellite 22 위치 
+%       interval_22 = interval_1 + random_number_21; 
+%       interval_22(interval_22 > (L-1)) = interval_22(interval_22 > (L-1)) - L;
+%       integer_intervals_22 = [integer_intervals_22, interval_22];
+% 
+%       % satellite 23 위치
+%       interval_23 = interval_1 + random_number_22; 
+%       interval_23(interval_23 > (L-1)) = interval_23(interval_23 > (L-1)) - L;
+%       integer_intervals_23 = [integer_intervals_23, interval_23];
+% 
+%       % satellite 24 위치 
+%       interval_24 = interval_1 + random_number_23; 
+%       interval_24(interval_24 > (L-1)) = interval_24(interval_24 > (L-1)) - L;
+%       integer_intervals_24 = [integer_intervals_24, interval_24];
+% 
+%       % satellite 25 위치
+%       interval_25 = interval_1 + random_number_24; 
+%       interval_25(interval_25 > (L-1)) = interval_25(interval_25 > (L-1)) - L;
+%       integer_intervals_25 = [integer_intervals_25, interval_25];
+% 
+%       % satellite 26 위치
+%       interval_26 = interval_1 + random_number_25; 
+%       interval_26(interval_26 > (L-1)) = interval_26(interval_26 > (L-1)) - L;
+%       integer_intervals_26 = [integer_intervals_26, interval_26];
+% 
+%       % satellite 27 위치 생성
+%       interval_27 = interval_1 + n; 
+%       interval_27(interval_27 > (L-1)) = interval_27(interval_27 > (L-1)) - L;
+%       integer_intervals_27 = [integer_intervals_27, interval_27];
+%   end
+% 
+% 
+% sum_intervals = ...
+%     [integer_intervals_1, ...
+%     integer_intervals_2, ...
+%     integer_intervals_3, ...
+%     integer_intervals_4, ...
+%     integer_intervals_5, ...
+%     integer_intervals_6, ...
+%     integer_intervals_7, ...
+%     integer_intervals_8, ...
+%     integer_intervals_9, ...
+%     integer_intervals_10, ...
+%     integer_intervals_11, ...
+%     integer_intervals_12, ...
+%     integer_intervals_13, ...
+%     integer_intervals_14, ...
+%     integer_intervals_15, ...
+%     integer_intervals_16, ...
+%     integer_intervals_17, ...
+%     integer_intervals_18, ...
+%     integer_intervals_19, ...
+%     integer_intervals_20, ...
+%     integer_intervals_21, ...
+%     integer_intervals_22, ...
+%     integer_intervals_23, ...
+%     integer_intervals_24, ...
+%     integer_intervals_25, ...
+%     integer_intervals_26, ...
+%     integer_intervals_27, ...
+%     ];
+% 
+% unique_intervals = unique(sort(sum_intervals));
+% 
+% difference = length(sum_intervals) - length(unique_intervals) ;
+% 
+% result_26 = [result_26; n, difference];
+% 
+% end
+% 
+% 
+% % 랜덤숫자 생성
+% 
+% result_sum26 = [result_26(:,1), result_26(:,2)];
+% 
+% rows_with_min_sum26 = result_sum26(result_sum26(:, 2) == min(result_sum26(:, 2)), :);
+% 
+% k_sum26 = rows_with_min_sum26(:,1);
+% 
+% random_index_26 = randi([1, length(k_sum26)]);
+% 
+% random_number_26 = k_sum26(random_index_26);
+% 
+% 
+% % renewal
+% integer_intervals_1 = [];
+% integer_intervals_2 = [];
+% integer_intervals_3 = [];
+% integer_intervals_4 = [];
+% integer_intervals_5 = [];
+% integer_intervals_6 = [];
+% integer_intervals_7 = [];
+% integer_intervals_8 = [];
+% integer_intervals_9 = [];
+% integer_intervals_10 = [];
+% integer_intervals_11 = [];
+% integer_intervals_12 = [];
+% integer_intervals_13 = [];
+% integer_intervals_14 = [];
+% integer_intervals_15 = [];
+% integer_intervals_16 = [];
+% integer_intervals_17 = [];
+% integer_intervals_18 = [];
+% integer_intervals_19 = [];
+% integer_intervals_20 = [];
+% integer_intervals_21 = [];
+% integer_intervals_22 = [];
+% integer_intervals_23 = [];
+% integer_intervals_24 = [];
+% integer_intervals_25 = [];
+% integer_intervals_26 = [];
+% integer_intervals_27 = [];
+% 
+% for i = 1:length(ff_0)
+%     % satellite 1 위치 생성(seed)
+%     interval_1 = start_points(i) :end_points(i) ;
+%     interval_1(interval_1 > (L-1)) = interval_1(interval_1 > (L-1)) - L; 
+%     integer_intervals_1 = [integer_intervals_1, interval_1];
+% 
+%     % satellite 2 위치
+%     interval_2 = interval_1 + random_number_1; 
+%     interval_2(interval_2 > (L-1)) = interval_2(interval_2 > (L-1)) - L;
+%     integer_intervals_2 = [integer_intervals_2, interval_2];
+% 
+%     % satellite 2 위치
+%     interval_3 = interval_1 + random_number_2; 
+%     interval_3(interval_3 > (L-1)) = interval_3(interval_3 > (L-1)) - L;
+%     integer_intervals_3 = [integer_intervals_3, interval_3];
+% 
+%     % satellite 3 위치
+%     interval_4 = interval_1 + random_number_3; 
+%     interval_4(interval_4 > (L-1)) = interval_4(interval_4 > (L-1)) - L;
+%     integer_intervals_4 = [integer_intervals_4, interval_4];
+% 
+%     % satellite 4 위치
+%     interval_5 = interval_1 + random_number_4; 
+%     interval_5(interval_5 > (L-1)) = interval_5(interval_5 > (L-1)) - L;
+%     integer_intervals_5 = [integer_intervals_5, interval_5];
+% 
+%     % satellite 5 위치
+%     interval_6 = interval_1 + random_number_5; 
+%     interval_6(interval_6 > (L-1)) = interval_6(interval_6 > (L-1)) - L;
+%     integer_intervals_6 = [integer_intervals_6, interval_6];
+% 
+%     % satellite 6 위치
+%     interval_7 = interval_1 + random_number_6; 
+%     interval_7(interval_7 > (L-1)) = interval_7(interval_7 > (L-1)) - L;
+%     integer_intervals_7 = [integer_intervals_7, interval_7];
+% 
+%     % satellite 7 위치
+%     interval_8 = interval_1 + random_number_7; 
+%     interval_8(interval_8 > (L-1)) = interval_8(interval_8 > (L-1)) - L;
+%     integer_intervals_8 = [integer_intervals_8, interval_8];
+% 
+%     % satellite 8 위치
+%     interval_9 = interval_1 + random_number_8; 
+%     interval_9(interval_9 > (L-1)) = interval_9(interval_9 > (L-1)) - L;
+%     integer_intervals_9 = [integer_intervals_9, interval_9];
+% 
+%     % satellite 9 위치
+%     interval_10 = interval_1 + random_number_9; 
+%     interval_10(interval_10 > (L-1)) = interval_10(interval_10 > (L-1)) - L;
+%     integer_intervals_10 = [integer_intervals_10, interval_10];
+% 
+%     % satellite 10 위치
+%     interval_11 = interval_1 + random_number_10; 
+%     interval_11(interval_11 > (L-1)) = interval_11(interval_11 > (L-1)) - L;
+%     integer_intervals_11 = [integer_intervals_11, interval_11];
+% 
+%     % satellite 11 위치
+%     interval_12 = interval_1 + random_number_11; 
+%     interval_12(interval_12 > (L-1)) = interval_12(interval_12 > (L-1)) - L;
+%     integer_intervals_12 = [integer_intervals_12, interval_12];
+% 
+%     % satellite 12 위치
+%     interval_13 = interval_1 + random_number_12; 
+%     interval_13(interval_13 > (L-1)) = interval_13(interval_13 > (L-1)) - L;
+%     integer_intervals_13 = [integer_intervals_13, interval_13];
+% 
+%     % satellite 13 위치
+%     interval_14 = interval_1 + random_number_13; 
+%     interval_14(interval_14 > (L-1)) = interval_14(interval_14 > (L-1)) - L;
+%     integer_intervals_14 = [integer_intervals_14, interval_14];
+% 
+%     % satellite 14 위치
+%     interval_15 = interval_1 + random_number_14; 
+%     interval_15(interval_15 > (L-1)) = interval_15(interval_15 > (L-1)) - L;
+%     integer_intervals_15 = [integer_intervals_15, interval_15];
+% 
+%     % satellite 15 위치
+%     interval_16 = interval_1 + random_number_15; 
+%     interval_16(interval_16 > (L-1)) = interval_16(interval_16 > (L-1)) - L;
+%     integer_intervals_16 = [integer_intervals_16, interval_16];
+% 
+%     % satellite 16 위치
+%     interval_17 = interval_1 + random_number_16; 
+%     interval_17(interval_17 > (L-1)) = interval_17(interval_17 > (L-1)) - L;
+%     integer_intervals_17 = [integer_intervals_17, interval_17];
+% 
+%     % satellite 17 위치
+%     interval_18 = interval_1 + random_number_17; 
+%     interval_18(interval_18 > (L-1)) = interval_18(interval_18 > (L-1)) - L;
+%     integer_intervals_18 = [integer_intervals_18, interval_18];
+% 
+%     % satellite 18 위치
+%     interval_19 = interval_1 + random_number_18; 
+%     interval_19(interval_19 > (L-1)) = interval_19(interval_19 > (L-1)) - L;
+%     integer_intervals_19 = [integer_intervals_19, interval_19];
+% 
+%     % satellite 19 위치
+%     interval_20 = interval_1 + random_number_19; 
+%     interval_20(interval_20 > (L-1)) = interval_20(interval_20 > (L-1)) - L;
+%     integer_intervals_20 = [integer_intervals_20, interval_20];
+% 
+%     % satellite 20 위치
+%     interval_21 = interval_1 + random_number_20; 
+%     interval_21(interval_21 > (L-1)) = interval_21(interval_21 > (L-1)) - L;
+%     integer_intervals_21 = [integer_intervals_21, interval_21];
+% 
+%     % satellite 21 위치
+%     interval_22 = interval_1 + random_number_21; 
+%     interval_22(interval_22 > (L-1)) = interval_22(interval_22 > (L-1)) - L;
+%     integer_intervals_22 = [integer_intervals_22, interval_22];
+% 
+%     % satellite 22 위치
+%     interval_23 = interval_1 + random_number_22; 
+%     interval_23(interval_23 > (L-1)) = interval_23(interval_23 > (L-1)) - L;
+%     integer_intervals_23 = [integer_intervals_23, interval_23];
+% 
+%     % satellite 23 위치
+%     interval_24 = interval_1 + random_number_23; 
+%     interval_24(interval_24 > (L-1)) = interval_24(interval_24 > (L-1)) - L;
+%     integer_intervals_24 = [integer_intervals_24, interval_24];
+% 
+%     % satellite 24 위치
+%     interval_25 = interval_1 + random_number_24; 
+%     interval_25(interval_25 > (L-1)) = interval_25(interval_25 > (L-1)) - L;
+%     integer_intervals_25 = [integer_intervals_25, interval_25];
+% 
+%     % satellite 25 위치
+%     interval_26 = interval_1 + random_number_25; 
+%     interval_26(interval_26 > (L-1)) = interval_26(interval_26 > (L-1)) - L;
+%     integer_intervals_26 = [integer_intervals_26, interval_26];
+% 
+%      % satellite 26 위치
+%     interval_27 = interval_1 + random_number_26; 
+%     interval_27(interval_27 > (L-1)) = interval_27(interval_27 > (L-1)) - L;
+%     integer_intervals_27 = [integer_intervals_27, interval_27];
+% end
+% 
+% 
+% sum_intervals = ...
+%     [integer_intervals_1, ...
+%     integer_intervals_2, ...
+%     integer_intervals_3, ...
+%     integer_intervals_4, ...
+%     integer_intervals_5, ...
+%     integer_intervals_6, ...
+%     integer_intervals_7, ...
+%     integer_intervals_8, ...
+%     integer_intervals_9, ...
+%     integer_intervals_10, ...
+%     integer_intervals_11, ...
+%     integer_intervals_12, ...
+%     integer_intervals_13, ...
+%     integer_intervals_14, ...
+%     integer_intervals_15, ...
+%     integer_intervals_16, ...
+%     integer_intervals_17, ...
+%     integer_intervals_18, ...
+%     integer_intervals_19, ...
+%     integer_intervals_20, ...
+%     integer_intervals_21, ...
+%     integer_intervals_22, ...
+%     integer_intervals_23, ...
+%     integer_intervals_24, ...
+%     integer_intervals_25, ...
+%     integer_intervals_26, ...
+%     integer_intervals_27, ...
+%     ];
+% 
+% unique_intervals = unique(sort(sum_intervals));
+% 
+% Cov_27 = length(unique_intervals) / L * 100;
+% 
+% 
+% %% Random27 (위성 28대)
+% 
+% for n = 0 : L-1
+% integer_intervals_1 = [];
+% integer_intervals_2 = [];
+% integer_intervals_3 = [];
+% integer_intervals_4 = [];
+% integer_intervals_5 = [];
+% integer_intervals_6 = [];
+% integer_intervals_7 = [];
+% integer_intervals_8 = [];
+% integer_intervals_9 = [];
+% integer_intervals_10 = [];
+% integer_intervals_11 = [];
+% integer_intervals_12 = [];
+% integer_intervals_13 = [];
+% integer_intervals_14 = [];
+% integer_intervals_15 = [];
+% integer_intervals_16 = [];
+% integer_intervals_17 = [];
+% integer_intervals_18 = [];
+% integer_intervals_19 = [];
+% integer_intervals_20 = [];
+% integer_intervals_21 = [];
+% integer_intervals_22 = [];
+% integer_intervals_23 = [];
+% integer_intervals_24 = [];
+% integer_intervals_25 = [];
+% integer_intervals_26 = [];
+% integer_intervals_27 = [];
+% integer_intervals_28 = [];
+% 
+% 
+%   for i = 1:length(ff_0)
+%       % satellite 1 위치(seed)
+%       interval_1 = start_points(i) :end_points(i) ;
+%       interval_1(interval_1 > (L-1)) = interval_1(interval_1 > (L-1)) - L; 
+%       integer_intervals_1 = [integer_intervals_1, interval_1];
+% 
+%       % satellite 2 위치
+%       interval_2 = interval_1 + random_number_1; 
+%       interval_2(interval_2 > (L-1)) = interval_2(interval_2 > (L-1)) - L;
+%       integer_intervals_2 = [integer_intervals_2, interval_2];
+% 
+%       % satellite 3 위치
+%       interval_3 = interval_1 + random_number_2; 
+%       interval_3(interval_3 > (L-1)) = interval_3(interval_3 > (L-1)) - L;
+%       integer_intervals_3 = [integer_intervals_3, interval_3];
+% 
+%       % satellite 4 위치
+%       interval_4 = interval_1 + random_number_3; 
+%       interval_4(interval_4 > (L-1)) = interval_4(interval_4 > (L-1)) - L;
+%       integer_intervals_4 = [integer_intervals_4, interval_4];
+% 
+%       % satellite 5 위치
+%       interval_5 = interval_1 + random_number_4; 
+%       interval_5(interval_5 > (L-1)) = interval_5(interval_5 > (L-1)) - L;
+%       integer_intervals_5 = [integer_intervals_5, interval_5];
+% 
+%       % satellite 6 위치
+%       interval_6 = interval_1 + random_number_5; 
+%       interval_6(interval_6 > (L-1)) = interval_6(interval_6 > (L-1)) - L;
+%       integer_intervals_6 = [integer_intervals_6, interval_6];
+% 
+%       % satellite 7 위치
+%       interval_7 = interval_1 + random_number_6; 
+%       interval_7(interval_7 > (L-1)) = interval_7(interval_7 > (L-1)) - L;
+%       integer_intervals_7 = [integer_intervals_7, interval_7];
+% 
+%       % satellite 8 위치
+%       interval_8 = interval_1 + random_number_7; 
+%       interval_8(interval_8 > (L-1)) = interval_8(interval_8 > (L-1)) - L;
+%       integer_intervals_8 = [integer_intervals_8, interval_8];
+% 
+%       % satellite 9 위치
+%       interval_9 = interval_1 + random_number_8; 
+%       interval_9(interval_9 > (L-1)) = interval_9(interval_9 > (L-1)) - L;
+%       integer_intervals_9 = [integer_intervals_9, interval_9];
+% 
+%       % satellite 10 위치
+%       interval_10 = interval_1 + random_number_9; 
+%       interval_10(interval_10 > (L-1)) = interval_10(interval_10 > (L-1)) - L;
+%       integer_intervals_10 = [integer_intervals_10, interval_10];
+% 
+%       % satellite 11 위치 
+%       interval_11 = interval_1 + random_number_10; 
+%       interval_11(interval_11 > (L-1)) = interval_11(interval_11 > (L-1)) - L;
+%       integer_intervals_11 = [integer_intervals_11, interval_11];
+% 
+%       % satellite 12 위치
+%       interval_12 = interval_1 + random_number_11; 
+%       interval_12(interval_12 > (L-1)) = interval_12(interval_12 > (L-1)) - L;
+%       integer_intervals_12 = [integer_intervals_12, interval_12];
+% 
+%       % satellite 13 위치
+%       interval_13 = interval_1 + random_number_12; 
+%       interval_13(interval_13 > (L-1)) = interval_13(interval_13 > (L-1)) - L;
+%       integer_intervals_13 = [integer_intervals_13, interval_13];
+% 
+%       % satellite 14 위치
+%       interval_14 = interval_1 + random_number_13; 
+%       interval_14(interval_14 > (L-1)) = interval_14(interval_14 > (L-1)) - L;
+%       integer_intervals_14 = [integer_intervals_14, interval_14];
+% 
+%       % satellite 15 위치
+%       interval_15 = interval_1 + random_number_14; 
+%       interval_15(interval_15 > (L-1)) = interval_15(interval_15 > (L-1)) - L;
+%       integer_intervals_15 = [integer_intervals_15, interval_15];
+% 
+%       % satellite 16 위치
+%       interval_16 = interval_1 + random_number_15; 
+%       interval_16(interval_16 > (L-1)) = interval_16(interval_16 > (L-1)) - L;
+%       integer_intervals_16 = [integer_intervals_16, interval_16];
+% 
+%       % satellite 17 위치
+%       interval_17 = interval_1 + random_number_16; 
+%       interval_17(interval_17 > (L-1)) = interval_17(interval_17 > (L-1)) - L;
+%       integer_intervals_17 = [integer_intervals_17, interval_17];
+% 
+%       % satellite 18 위치 
+%       interval_18 = interval_1 + random_number_17; 
+%       interval_18(interval_18 > (L-1)) = interval_18(interval_18 > (L-1)) - L;
+%       integer_intervals_18 = [integer_intervals_18, interval_18];
+% 
+%       % satellite 19 위치
+%       interval_19 = interval_1 + random_number_18; 
+%       interval_19(interval_19 > (L-1)) = interval_19(interval_19 > (L-1)) - L;
+%       integer_intervals_19 = [integer_intervals_19, interval_19];
+% 
+%       % satellite 20 위치 
+%       interval_20 = interval_1 + random_number_19; 
+%       interval_20(interval_20 > (L-1)) = interval_20(interval_20 > (L-1)) - L;
+%       integer_intervals_20 = [integer_intervals_20, interval_20];
+% 
+%       % satellite 21 위치
+%       interval_21 = interval_1 + random_number_20; 
+%       interval_21(interval_21 > (L-1)) = interval_21(interval_21 > (L-1)) - L;
+%       integer_intervals_21 = [integer_intervals_21, interval_21];
+% 
+%       % satellite 22 위치 
+%       interval_22 = interval_1 + random_number_21; 
+%       interval_22(interval_22 > (L-1)) = interval_22(interval_22 > (L-1)) - L;
+%       integer_intervals_22 = [integer_intervals_22, interval_22];
+% 
+%       % satellite 23 위치
+%       interval_23 = interval_1 + random_number_22; 
+%       interval_23(interval_23 > (L-1)) = interval_23(interval_23 > (L-1)) - L;
+%       integer_intervals_23 = [integer_intervals_23, interval_23];
+% 
+%       % satellite 24 위치 
+%       interval_24 = interval_1 + random_number_23; 
+%       interval_24(interval_24 > (L-1)) = interval_24(interval_24 > (L-1)) - L;
+%       integer_intervals_24 = [integer_intervals_24, interval_24];
+% 
+%       % satellite 25 위치
+%       interval_25 = interval_1 + random_number_24; 
+%       interval_25(interval_25 > (L-1)) = interval_25(interval_25 > (L-1)) - L;
+%       integer_intervals_25 = [integer_intervals_25, interval_25];
+% 
+%       % satellite 26 위치
+%       interval_26 = interval_1 + random_number_25; 
+%       interval_26(interval_26 > (L-1)) = interval_26(interval_26 > (L-1)) - L;
+%       integer_intervals_26 = [integer_intervals_26, interval_26];
+% 
+%       % satellite 27 위치
+%       interval_27 = interval_1 + random_number_26; 
+%       interval_27(interval_27 > (L-1)) = interval_27(interval_27 > (L-1)) - L;
+%       integer_intervals_27 = [integer_intervals_27, interval_27];
+% 
+%       % satellite 28 위치 생성
+%       interval_28 = interval_1 + n; 
+%       interval_28(interval_28 > (L-1)) = interval_28(interval_28 > (L-1)) - L;
+%       integer_intervals_28 = [integer_intervals_28, interval_28];
+%   end
+% 
+% 
+% sum_intervals = ...
+%     [integer_intervals_1, ...
+%     integer_intervals_2, ...
+%     integer_intervals_3, ...
+%     integer_intervals_4, ...
+%     integer_intervals_5, ...
+%     integer_intervals_6, ...
+%     integer_intervals_7, ...
+%     integer_intervals_8, ...
+%     integer_intervals_9, ...
+%     integer_intervals_10, ...
+%     integer_intervals_11, ...
+%     integer_intervals_12, ...
+%     integer_intervals_13, ...
+%     integer_intervals_14, ...
+%     integer_intervals_15, ...
+%     integer_intervals_16, ...
+%     integer_intervals_17, ...
+%     integer_intervals_18, ...
+%     integer_intervals_19, ...
+%     integer_intervals_20, ...
+%     integer_intervals_21, ...
+%     integer_intervals_22, ...
+%     integer_intervals_23, ...
+%     integer_intervals_24, ...
+%     integer_intervals_25, ...
+%     integer_intervals_26, ...
+%     integer_intervals_27, ...
+%     integer_intervals_28, ...
+%     ];
+% 
+% unique_intervals = unique(sort(sum_intervals));
+% 
+% difference = length(sum_intervals) - length(unique_intervals) ;
+% 
+% result_27 = [result_27; n, difference];
+% 
+% end
+% 
+% 
+% % 랜덤숫자 생성
+% 
+% result_sum27 = [result_27(:,1), result_27(:,2)];
+% 
+% rows_with_min_sum27 = result_sum27(result_sum27(:, 2) == min(result_sum27(:, 2)), :);
+% 
+% k_sum27 = rows_with_min_sum27(:,1);
+% 
+% random_index_27 = randi([1, length(k_sum27)]);
+% 
+% random_number_27 = k_sum27(random_index_27);
+% 
+% 
+% % renewal
+% integer_intervals_1 = [];
+% integer_intervals_2 = [];
+% integer_intervals_3 = [];
+% integer_intervals_4 = [];
+% integer_intervals_5 = [];
+% integer_intervals_6 = [];
+% integer_intervals_7 = [];
+% integer_intervals_8 = [];
+% integer_intervals_9 = [];
+% integer_intervals_10 = [];
+% integer_intervals_11 = [];
+% integer_intervals_12 = [];
+% integer_intervals_13 = [];
+% integer_intervals_14 = [];
+% integer_intervals_15 = [];
+% integer_intervals_16 = [];
+% integer_intervals_17 = [];
+% integer_intervals_18 = [];
+% integer_intervals_19 = [];
+% integer_intervals_20 = [];
+% integer_intervals_21 = [];
+% integer_intervals_22 = [];
+% integer_intervals_23 = [];
+% integer_intervals_24 = [];
+% integer_intervals_25 = [];
+% integer_intervals_26 = [];
+% integer_intervals_27 = [];
+% integer_intervals_28 = [];
+% 
+% for i = 1:length(ff_0)
+%     % satellite 1 위치 생성(seed)
+%     interval_1 = start_points(i) :end_points(i) ;
+%     interval_1(interval_1 > (L-1)) = interval_1(interval_1 > (L-1)) - L; 
+%     integer_intervals_1 = [integer_intervals_1, interval_1];
+% 
+%     % satellite 2 위치
+%     interval_2 = interval_1 + random_number_1; 
+%     interval_2(interval_2 > (L-1)) = interval_2(interval_2 > (L-1)) - L;
+%     integer_intervals_2 = [integer_intervals_2, interval_2];
+% 
+%     % satellite 2 위치
+%     interval_3 = interval_1 + random_number_2; 
+%     interval_3(interval_3 > (L-1)) = interval_3(interval_3 > (L-1)) - L;
+%     integer_intervals_3 = [integer_intervals_3, interval_3];
+% 
+%     % satellite 3 위치
+%     interval_4 = interval_1 + random_number_3; 
+%     interval_4(interval_4 > (L-1)) = interval_4(interval_4 > (L-1)) - L;
+%     integer_intervals_4 = [integer_intervals_4, interval_4];
+% 
+%     % satellite 4 위치
+%     interval_5 = interval_1 + random_number_4; 
+%     interval_5(interval_5 > (L-1)) = interval_5(interval_5 > (L-1)) - L;
+%     integer_intervals_5 = [integer_intervals_5, interval_5];
+% 
+%     % satellite 5 위치
+%     interval_6 = interval_1 + random_number_5; 
+%     interval_6(interval_6 > (L-1)) = interval_6(interval_6 > (L-1)) - L;
+%     integer_intervals_6 = [integer_intervals_6, interval_6];
+% 
+%     % satellite 6 위치
+%     interval_7 = interval_1 + random_number_6; 
+%     interval_7(interval_7 > (L-1)) = interval_7(interval_7 > (L-1)) - L;
+%     integer_intervals_7 = [integer_intervals_7, interval_7];
+% 
+%     % satellite 7 위치
+%     interval_8 = interval_1 + random_number_7; 
+%     interval_8(interval_8 > (L-1)) = interval_8(interval_8 > (L-1)) - L;
+%     integer_intervals_8 = [integer_intervals_8, interval_8];
+% 
+%     % satellite 8 위치
+%     interval_9 = interval_1 + random_number_8; 
+%     interval_9(interval_9 > (L-1)) = interval_9(interval_9 > (L-1)) - L;
+%     integer_intervals_9 = [integer_intervals_9, interval_9];
+% 
+%     % satellite 9 위치
+%     interval_10 = interval_1 + random_number_9; 
+%     interval_10(interval_10 > (L-1)) = interval_10(interval_10 > (L-1)) - L;
+%     integer_intervals_10 = [integer_intervals_10, interval_10];
+% 
+%     % satellite 10 위치
+%     interval_11 = interval_1 + random_number_10; 
+%     interval_11(interval_11 > (L-1)) = interval_11(interval_11 > (L-1)) - L;
+%     integer_intervals_11 = [integer_intervals_11, interval_11];
+% 
+%     % satellite 11 위치
+%     interval_12 = interval_1 + random_number_11; 
+%     interval_12(interval_12 > (L-1)) = interval_12(interval_12 > (L-1)) - L;
+%     integer_intervals_12 = [integer_intervals_12, interval_12];
+% 
+%     % satellite 12 위치
+%     interval_13 = interval_1 + random_number_12; 
+%     interval_13(interval_13 > (L-1)) = interval_13(interval_13 > (L-1)) - L;
+%     integer_intervals_13 = [integer_intervals_13, interval_13];
+% 
+%     % satellite 13 위치
+%     interval_14 = interval_1 + random_number_13; 
+%     interval_14(interval_14 > (L-1)) = interval_14(interval_14 > (L-1)) - L;
+%     integer_intervals_14 = [integer_intervals_14, interval_14];
+% 
+%     % satellite 14 위치
+%     interval_15 = interval_1 + random_number_14; 
+%     interval_15(interval_15 > (L-1)) = interval_15(interval_15 > (L-1)) - L;
+%     integer_intervals_15 = [integer_intervals_15, interval_15];
+% 
+%     % satellite 15 위치
+%     interval_16 = interval_1 + random_number_15; 
+%     interval_16(interval_16 > (L-1)) = interval_16(interval_16 > (L-1)) - L;
+%     integer_intervals_16 = [integer_intervals_16, interval_16];
+% 
+%     % satellite 16 위치
+%     interval_17 = interval_1 + random_number_16; 
+%     interval_17(interval_17 > (L-1)) = interval_17(interval_17 > (L-1)) - L;
+%     integer_intervals_17 = [integer_intervals_17, interval_17];
+% 
+%     % satellite 17 위치
+%     interval_18 = interval_1 + random_number_17; 
+%     interval_18(interval_18 > (L-1)) = interval_18(interval_18 > (L-1)) - L;
+%     integer_intervals_18 = [integer_intervals_18, interval_18];
+% 
+%     % satellite 18 위치
+%     interval_19 = interval_1 + random_number_18; 
+%     interval_19(interval_19 > (L-1)) = interval_19(interval_19 > (L-1)) - L;
+%     integer_intervals_19 = [integer_intervals_19, interval_19];
+% 
+%     % satellite 19 위치
+%     interval_20 = interval_1 + random_number_19; 
+%     interval_20(interval_20 > (L-1)) = interval_20(interval_20 > (L-1)) - L;
+%     integer_intervals_20 = [integer_intervals_20, interval_20];
+% 
+%     % satellite 20 위치
+%     interval_21 = interval_1 + random_number_20; 
+%     interval_21(interval_21 > (L-1)) = interval_21(interval_21 > (L-1)) - L;
+%     integer_intervals_21 = [integer_intervals_21, interval_21];
+% 
+%     % satellite 21 위치
+%     interval_22 = interval_1 + random_number_21; 
+%     interval_22(interval_22 > (L-1)) = interval_22(interval_22 > (L-1)) - L;
+%     integer_intervals_22 = [integer_intervals_22, interval_22];
+% 
+%     % satellite 22 위치
+%     interval_23 = interval_1 + random_number_22; 
+%     interval_23(interval_23 > (L-1)) = interval_23(interval_23 > (L-1)) - L;
+%     integer_intervals_23 = [integer_intervals_23, interval_23];
+% 
+%     % satellite 23 위치
+%     interval_24 = interval_1 + random_number_23; 
+%     interval_24(interval_24 > (L-1)) = interval_24(interval_24 > (L-1)) - L;
+%     integer_intervals_24 = [integer_intervals_24, interval_24];
+% 
+%     % satellite 24 위치
+%     interval_25 = interval_1 + random_number_24; 
+%     interval_25(interval_25 > (L-1)) = interval_25(interval_25 > (L-1)) - L;
+%     integer_intervals_25 = [integer_intervals_25, interval_25];
+% 
+%     % satellite 25 위치
+%     interval_26 = interval_1 + random_number_25; 
+%     interval_26(interval_26 > (L-1)) = interval_26(interval_26 > (L-1)) - L;
+%     integer_intervals_26 = [integer_intervals_26, interval_26];
+% 
+%     % satellite 26 위치
+%     interval_27 = interval_1 + random_number_26; 
+%     interval_27(interval_27 > (L-1)) = interval_27(interval_27 > (L-1)) - L;
+%     integer_intervals_27 = [integer_intervals_27, interval_27];
+% 
+%     % satellite 27 위치
+%     interval_28 = interval_1 + random_number_27; 
+%     interval_28(interval_28 > (L-1)) = interval_28(interval_28 > (L-1)) - L;
+%     integer_intervals_28 = [integer_intervals_28, interval_28];
+% end
+% 
+% 
+% sum_intervals = ...
+%     [integer_intervals_1, ...
+%     integer_intervals_2, ...
+%     integer_intervals_3, ...
+%     integer_intervals_4, ...
+%     integer_intervals_5, ...
+%     integer_intervals_6, ...
+%     integer_intervals_7, ...
+%     integer_intervals_8, ...
+%     integer_intervals_9, ...
+%     integer_intervals_10, ...
+%     integer_intervals_11, ...
+%     integer_intervals_12, ...
+%     integer_intervals_13, ...
+%     integer_intervals_14, ...
+%     integer_intervals_15, ...
+%     integer_intervals_16, ...
+%     integer_intervals_17, ...
+%     integer_intervals_18, ...
+%     integer_intervals_19, ...
+%     integer_intervals_20, ...
+%     integer_intervals_21, ...
+%     integer_intervals_22, ...
+%     integer_intervals_23, ...
+%     integer_intervals_24, ...
+%     integer_intervals_25, ...
+%     integer_intervals_26, ...
+%     integer_intervals_27, ...
+%     integer_intervals_28, ...
+%     ];
+% 
+% unique_intervals = unique(sort(sum_intervals));
+% 
+% Cov_28 = length(unique_intervals) / L * 100;
+% 
+% 
+% %% Random28 (위성 29대)
+% 
+% for n = 0 : L-1
+% integer_intervals_1 = [];
+% integer_intervals_2 = [];
+% integer_intervals_3 = [];
+% integer_intervals_4 = [];
+% integer_intervals_5 = [];
+% integer_intervals_6 = [];
+% integer_intervals_7 = [];
+% integer_intervals_8 = [];
+% integer_intervals_9 = [];
+% integer_intervals_10 = [];
+% integer_intervals_11 = [];
+% integer_intervals_12 = [];
+% integer_intervals_13 = [];
+% integer_intervals_14 = [];
+% integer_intervals_15 = [];
+% integer_intervals_16 = [];
+% integer_intervals_17 = [];
+% integer_intervals_18 = [];
+% integer_intervals_19 = [];
+% integer_intervals_20 = [];
+% integer_intervals_21 = [];
+% integer_intervals_22 = [];
+% integer_intervals_23 = [];
+% integer_intervals_24 = [];
+% integer_intervals_25 = [];
+% integer_intervals_26 = [];
+% integer_intervals_27 = [];
+% integer_intervals_28 = [];
+% integer_intervals_29 = [];
+% 
+% 
+%   for i = 1:length(ff_0)
+%       % satellite 1 위치(seed)
+%       interval_1 = start_points(i) :end_points(i) ;
+%       interval_1(interval_1 > (L-1)) = interval_1(interval_1 > (L-1)) - L; 
+%       integer_intervals_1 = [integer_intervals_1, interval_1];
+% 
+%       % satellite 2 위치
+%       interval_2 = interval_1 + random_number_1; 
+%       interval_2(interval_2 > (L-1)) = interval_2(interval_2 > (L-1)) - L;
+%       integer_intervals_2 = [integer_intervals_2, interval_2];
+% 
+%       % satellite 3 위치
+%       interval_3 = interval_1 + random_number_2; 
+%       interval_3(interval_3 > (L-1)) = interval_3(interval_3 > (L-1)) - L;
+%       integer_intervals_3 = [integer_intervals_3, interval_3];
+% 
+%       % satellite 4 위치
+%       interval_4 = interval_1 + random_number_3; 
+%       interval_4(interval_4 > (L-1)) = interval_4(interval_4 > (L-1)) - L;
+%       integer_intervals_4 = [integer_intervals_4, interval_4];
+% 
+%       % satellite 5 위치
+%       interval_5 = interval_1 + random_number_4; 
+%       interval_5(interval_5 > (L-1)) = interval_5(interval_5 > (L-1)) - L;
+%       integer_intervals_5 = [integer_intervals_5, interval_5];
+% 
+%       % satellite 6 위치
+%       interval_6 = interval_1 + random_number_5; 
+%       interval_6(interval_6 > (L-1)) = interval_6(interval_6 > (L-1)) - L;
+%       integer_intervals_6 = [integer_intervals_6, interval_6];
+% 
+%       % satellite 7 위치
+%       interval_7 = interval_1 + random_number_6; 
+%       interval_7(interval_7 > (L-1)) = interval_7(interval_7 > (L-1)) - L;
+%       integer_intervals_7 = [integer_intervals_7, interval_7];
+% 
+%       % satellite 8 위치
+%       interval_8 = interval_1 + random_number_7; 
+%       interval_8(interval_8 > (L-1)) = interval_8(interval_8 > (L-1)) - L;
+%       integer_intervals_8 = [integer_intervals_8, interval_8];
+% 
+%       % satellite 9 위치
+%       interval_9 = interval_1 + random_number_8; 
+%       interval_9(interval_9 > (L-1)) = interval_9(interval_9 > (L-1)) - L;
+%       integer_intervals_9 = [integer_intervals_9, interval_9];
+% 
+%       % satellite 10 위치
+%       interval_10 = interval_1 + random_number_9; 
+%       interval_10(interval_10 > (L-1)) = interval_10(interval_10 > (L-1)) - L;
+%       integer_intervals_10 = [integer_intervals_10, interval_10];
+% 
+%       % satellite 11 위치 
+%       interval_11 = interval_1 + random_number_10; 
+%       interval_11(interval_11 > (L-1)) = interval_11(interval_11 > (L-1)) - L;
+%       integer_intervals_11 = [integer_intervals_11, interval_11];
+% 
+%       % satellite 12 위치
+%       interval_12 = interval_1 + random_number_11; 
+%       interval_12(interval_12 > (L-1)) = interval_12(interval_12 > (L-1)) - L;
+%       integer_intervals_12 = [integer_intervals_12, interval_12];
+% 
+%       % satellite 13 위치
+%       interval_13 = interval_1 + random_number_12; 
+%       interval_13(interval_13 > (L-1)) = interval_13(interval_13 > (L-1)) - L;
+%       integer_intervals_13 = [integer_intervals_13, interval_13];
+% 
+%       % satellite 14 위치
+%       interval_14 = interval_1 + random_number_13; 
+%       interval_14(interval_14 > (L-1)) = interval_14(interval_14 > (L-1)) - L;
+%       integer_intervals_14 = [integer_intervals_14, interval_14];
+% 
+%       % satellite 15 위치
+%       interval_15 = interval_1 + random_number_14; 
+%       interval_15(interval_15 > (L-1)) = interval_15(interval_15 > (L-1)) - L;
+%       integer_intervals_15 = [integer_intervals_15, interval_15];
+% 
+%       % satellite 16 위치
+%       interval_16 = interval_1 + random_number_15; 
+%       interval_16(interval_16 > (L-1)) = interval_16(interval_16 > (L-1)) - L;
+%       integer_intervals_16 = [integer_intervals_16, interval_16];
+% 
+%       % satellite 17 위치
+%       interval_17 = interval_1 + random_number_16; 
+%       interval_17(interval_17 > (L-1)) = interval_17(interval_17 > (L-1)) - L;
+%       integer_intervals_17 = [integer_intervals_17, interval_17];
+% 
+%       % satellite 18 위치 
+%       interval_18 = interval_1 + random_number_17; 
+%       interval_18(interval_18 > (L-1)) = interval_18(interval_18 > (L-1)) - L;
+%       integer_intervals_18 = [integer_intervals_18, interval_18];
+% 
+%       % satellite 19 위치
+%       interval_19 = interval_1 + random_number_18; 
+%       interval_19(interval_19 > (L-1)) = interval_19(interval_19 > (L-1)) - L;
+%       integer_intervals_19 = [integer_intervals_19, interval_19];
+% 
+%       % satellite 20 위치 
+%       interval_20 = interval_1 + random_number_19; 
+%       interval_20(interval_20 > (L-1)) = interval_20(interval_20 > (L-1)) - L;
+%       integer_intervals_20 = [integer_intervals_20, interval_20];
+% 
+%       % satellite 21 위치
+%       interval_21 = interval_1 + random_number_20; 
+%       interval_21(interval_21 > (L-1)) = interval_21(interval_21 > (L-1)) - L;
+%       integer_intervals_21 = [integer_intervals_21, interval_21];
+% 
+%       % satellite 22 위치 
+%       interval_22 = interval_1 + random_number_21; 
+%       interval_22(interval_22 > (L-1)) = interval_22(interval_22 > (L-1)) - L;
+%       integer_intervals_22 = [integer_intervals_22, interval_22];
+% 
+%       % satellite 23 위치
+%       interval_23 = interval_1 + random_number_22; 
+%       interval_23(interval_23 > (L-1)) = interval_23(interval_23 > (L-1)) - L;
+%       integer_intervals_23 = [integer_intervals_23, interval_23];
+% 
+%       % satellite 24 위치 
+%       interval_24 = interval_1 + random_number_23; 
+%       interval_24(interval_24 > (L-1)) = interval_24(interval_24 > (L-1)) - L;
+%       integer_intervals_24 = [integer_intervals_24, interval_24];
+% 
+%       % satellite 25 위치
+%       interval_25 = interval_1 + random_number_24; 
+%       interval_25(interval_25 > (L-1)) = interval_25(interval_25 > (L-1)) - L;
+%       integer_intervals_25 = [integer_intervals_25, interval_25];
+% 
+%       % satellite 26 위치
+%       interval_26 = interval_1 + random_number_25; 
+%       interval_26(interval_26 > (L-1)) = interval_26(interval_26 > (L-1)) - L;
+%       integer_intervals_26 = [integer_intervals_26, interval_26];
+% 
+%       % satellite 27 위치
+%       interval_27 = interval_1 + random_number_26; 
+%       interval_27(interval_27 > (L-1)) = interval_27(interval_27 > (L-1)) - L;
+%       integer_intervals_27 = [integer_intervals_27, interval_27];
+% 
+%       % satellite 28 위치
+%       interval_28 = interval_1 + random_number_27; 
+%       interval_28(interval_28 > (L-1)) = interval_28(interval_28 > (L-1)) - L;
+%       integer_intervals_28 = [integer_intervals_28, interval_28];
+% 
+%       % satellite 29 위치 생성
+%       interval_29 = interval_1 + n; 
+%       interval_29(interval_29 > (L-1)) = interval_29(interval_29 > (L-1)) - L;
+%       integer_intervals_29 = [integer_intervals_29, interval_29];
+%   end
+% 
+% 
+% sum_intervals = ...
+%     [integer_intervals_1, ...
+%     integer_intervals_2, ...
+%     integer_intervals_3, ...
+%     integer_intervals_4, ...
+%     integer_intervals_5, ...
+%     integer_intervals_6, ...
+%     integer_intervals_7, ...
+%     integer_intervals_8, ...
+%     integer_intervals_9, ...
+%     integer_intervals_10, ...
+%     integer_intervals_11, ...
+%     integer_intervals_12, ...
+%     integer_intervals_13, ...
+%     integer_intervals_14, ...
+%     integer_intervals_15, ...
+%     integer_intervals_16, ...
+%     integer_intervals_17, ...
+%     integer_intervals_18, ...
+%     integer_intervals_19, ...
+%     integer_intervals_20, ...
+%     integer_intervals_21, ...
+%     integer_intervals_22, ...
+%     integer_intervals_23, ...
+%     integer_intervals_24, ...
+%     integer_intervals_25, ...
+%     integer_intervals_26, ...
+%     integer_intervals_27, ...
+%     integer_intervals_28, ...
+%     integer_intervals_29, ...
+%     ];
+% 
+% unique_intervals = unique(sort(sum_intervals));
+% 
+% difference = length(sum_intervals) - length(unique_intervals) ;
+% 
+% result_28 = [result_28; n, difference];
+% 
+% end
+% 
+% 
+% % 랜덤숫자 생성
+% 
+% result_sum28 = [result_28(:,1), result_28(:,2)];
+% 
+% rows_with_min_sum28 = result_sum28(result_sum28(:, 2) == min(result_sum28(:, 2)), :);
+% 
+% k_sum28 = rows_with_min_sum28(:,1);
+% 
+% random_index_28 = randi([1, length(k_sum28)]);
+% 
+% random_number_28 = k_sum28(random_index_28);
+% 
+% 
+% % renewal
+% integer_intervals_1 = [];
+% integer_intervals_2 = [];
+% integer_intervals_3 = [];
+% integer_intervals_4 = [];
+% integer_intervals_5 = [];
+% integer_intervals_6 = [];
+% integer_intervals_7 = [];
+% integer_intervals_8 = [];
+% integer_intervals_9 = [];
+% integer_intervals_10 = [];
+% integer_intervals_11 = [];
+% integer_intervals_12 = [];
+% integer_intervals_13 = [];
+% integer_intervals_14 = [];
+% integer_intervals_15 = [];
+% integer_intervals_16 = [];
+% integer_intervals_17 = [];
+% integer_intervals_18 = [];
+% integer_intervals_19 = [];
+% integer_intervals_20 = [];
+% integer_intervals_21 = [];
+% integer_intervals_22 = [];
+% integer_intervals_23 = [];
+% integer_intervals_24 = [];
+% integer_intervals_25 = [];
+% integer_intervals_26 = [];
+% integer_intervals_27 = [];
+% integer_intervals_28 = [];
+% integer_intervals_29 = [];
+% 
+% for i = 1:length(ff_0)
+%     % satellite 1 위치 생성(seed)
+%     interval_1 = start_points(i) :end_points(i) ;
+%     interval_1(interval_1 > (L-1)) = interval_1(interval_1 > (L-1)) - L; 
+%     integer_intervals_1 = [integer_intervals_1, interval_1];
+% 
+%     % satellite 2 위치
+%     interval_2 = interval_1 + random_number_1; 
+%     interval_2(interval_2 > (L-1)) = interval_2(interval_2 > (L-1)) - L;
+%     integer_intervals_2 = [integer_intervals_2, interval_2];
+% 
+%     % satellite 2 위치
+%     interval_3 = interval_1 + random_number_2; 
+%     interval_3(interval_3 > (L-1)) = interval_3(interval_3 > (L-1)) - L;
+%     integer_intervals_3 = [integer_intervals_3, interval_3];
+% 
+%     % satellite 3 위치
+%     interval_4 = interval_1 + random_number_3; 
+%     interval_4(interval_4 > (L-1)) = interval_4(interval_4 > (L-1)) - L;
+%     integer_intervals_4 = [integer_intervals_4, interval_4];
+% 
+%     % satellite 4 위치
+%     interval_5 = interval_1 + random_number_4; 
+%     interval_5(interval_5 > (L-1)) = interval_5(interval_5 > (L-1)) - L;
+%     integer_intervals_5 = [integer_intervals_5, interval_5];
+% 
+%     % satellite 5 위치
+%     interval_6 = interval_1 + random_number_5; 
+%     interval_6(interval_6 > (L-1)) = interval_6(interval_6 > (L-1)) - L;
+%     integer_intervals_6 = [integer_intervals_6, interval_6];
+% 
+%     % satellite 6 위치
+%     interval_7 = interval_1 + random_number_6; 
+%     interval_7(interval_7 > (L-1)) = interval_7(interval_7 > (L-1)) - L;
+%     integer_intervals_7 = [integer_intervals_7, interval_7];
+% 
+%     % satellite 7 위치
+%     interval_8 = interval_1 + random_number_7; 
+%     interval_8(interval_8 > (L-1)) = interval_8(interval_8 > (L-1)) - L;
+%     integer_intervals_8 = [integer_intervals_8, interval_8];
+% 
+%     % satellite 8 위치
+%     interval_9 = interval_1 + random_number_8; 
+%     interval_9(interval_9 > (L-1)) = interval_9(interval_9 > (L-1)) - L;
+%     integer_intervals_9 = [integer_intervals_9, interval_9];
+% 
+%     % satellite 9 위치
+%     interval_10 = interval_1 + random_number_9; 
+%     interval_10(interval_10 > (L-1)) = interval_10(interval_10 > (L-1)) - L;
+%     integer_intervals_10 = [integer_intervals_10, interval_10];
+% 
+%     % satellite 10 위치
+%     interval_11 = interval_1 + random_number_10; 
+%     interval_11(interval_11 > (L-1)) = interval_11(interval_11 > (L-1)) - L;
+%     integer_intervals_11 = [integer_intervals_11, interval_11];
+% 
+%     % satellite 11 위치
+%     interval_12 = interval_1 + random_number_11; 
+%     interval_12(interval_12 > (L-1)) = interval_12(interval_12 > (L-1)) - L;
+%     integer_intervals_12 = [integer_intervals_12, interval_12];
+% 
+%     % satellite 12 위치
+%     interval_13 = interval_1 + random_number_12; 
+%     interval_13(interval_13 > (L-1)) = interval_13(interval_13 > (L-1)) - L;
+%     integer_intervals_13 = [integer_intervals_13, interval_13];
+% 
+%     % satellite 13 위치
+%     interval_14 = interval_1 + random_number_13; 
+%     interval_14(interval_14 > (L-1)) = interval_14(interval_14 > (L-1)) - L;
+%     integer_intervals_14 = [integer_intervals_14, interval_14];
+% 
+%     % satellite 14 위치
+%     interval_15 = interval_1 + random_number_14; 
+%     interval_15(interval_15 > (L-1)) = interval_15(interval_15 > (L-1)) - L;
+%     integer_intervals_15 = [integer_intervals_15, interval_15];
+% 
+%     % satellite 15 위치
+%     interval_16 = interval_1 + random_number_15; 
+%     interval_16(interval_16 > (L-1)) = interval_16(interval_16 > (L-1)) - L;
+%     integer_intervals_16 = [integer_intervals_16, interval_16];
+% 
+%     % satellite 16 위치
+%     interval_17 = interval_1 + random_number_16; 
+%     interval_17(interval_17 > (L-1)) = interval_17(interval_17 > (L-1)) - L;
+%     integer_intervals_17 = [integer_intervals_17, interval_17];
+% 
+%     % satellite 17 위치
+%     interval_18 = interval_1 + random_number_17; 
+%     interval_18(interval_18 > (L-1)) = interval_18(interval_18 > (L-1)) - L;
+%     integer_intervals_18 = [integer_intervals_18, interval_18];
+% 
+%     % satellite 18 위치
+%     interval_19 = interval_1 + random_number_18; 
+%     interval_19(interval_19 > (L-1)) = interval_19(interval_19 > (L-1)) - L;
+%     integer_intervals_19 = [integer_intervals_19, interval_19];
+% 
+%     % satellite 19 위치
+%     interval_20 = interval_1 + random_number_19; 
+%     interval_20(interval_20 > (L-1)) = interval_20(interval_20 > (L-1)) - L;
+%     integer_intervals_20 = [integer_intervals_20, interval_20];
+% 
+%     % satellite 20 위치
+%     interval_21 = interval_1 + random_number_20; 
+%     interval_21(interval_21 > (L-1)) = interval_21(interval_21 > (L-1)) - L;
+%     integer_intervals_21 = [integer_intervals_21, interval_21];
+% 
+%     % satellite 21 위치
+%     interval_22 = interval_1 + random_number_21; 
+%     interval_22(interval_22 > (L-1)) = interval_22(interval_22 > (L-1)) - L;
+%     integer_intervals_22 = [integer_intervals_22, interval_22];
+% 
+%     % satellite 22 위치
+%     interval_23 = interval_1 + random_number_22; 
+%     interval_23(interval_23 > (L-1)) = interval_23(interval_23 > (L-1)) - L;
+%     integer_intervals_23 = [integer_intervals_23, interval_23];
+% 
+%     % satellite 23 위치
+%     interval_24 = interval_1 + random_number_23; 
+%     interval_24(interval_24 > (L-1)) = interval_24(interval_24 > (L-1)) - L;
+%     integer_intervals_24 = [integer_intervals_24, interval_24];
+% 
+%     % satellite 24 위치
+%     interval_25 = interval_1 + random_number_24; 
+%     interval_25(interval_25 > (L-1)) = interval_25(interval_25 > (L-1)) - L;
+%     integer_intervals_25 = [integer_intervals_25, interval_25];
+% 
+%     % satellite 25 위치
+%     interval_26 = interval_1 + random_number_25; 
+%     interval_26(interval_26 > (L-1)) = interval_26(interval_26 > (L-1)) - L;
+%     integer_intervals_26 = [integer_intervals_26, interval_26];
+% 
+%     % satellite 26 위치
+%     interval_27 = interval_1 + random_number_26; 
+%     interval_27(interval_27 > (L-1)) = interval_27(interval_27 > (L-1)) - L;
+%     integer_intervals_27 = [integer_intervals_27, interval_27];
+% 
+%     % satellite 27 위치
+%     interval_28 = interval_1 + random_number_27; 
+%     interval_28(interval_28 > (L-1)) = interval_28(interval_28 > (L-1)) - L;
+%     integer_intervals_28 = [integer_intervals_28, interval_28];
+% 
+%     % satellite 28 위치
+%     interval_29 = interval_1 + random_number_28; 
+%     interval_29(interval_29 > (L-1)) = interval_29(interval_29 > (L-1)) - L;
+%     integer_intervals_29 = [integer_intervals_29, interval_29];
+% end
+% 
+% 
+% sum_intervals = ...
+%     [integer_intervals_1, ...
+%     integer_intervals_2, ...
+%     integer_intervals_3, ...
+%     integer_intervals_4, ...
+%     integer_intervals_5, ...
+%     integer_intervals_6, ...
+%     integer_intervals_7, ...
+%     integer_intervals_8, ...
+%     integer_intervals_9, ...
+%     integer_intervals_10, ...
+%     integer_intervals_11, ...
+%     integer_intervals_12, ...
+%     integer_intervals_13, ...
+%     integer_intervals_14, ...
+%     integer_intervals_15, ...
+%     integer_intervals_16, ...
+%     integer_intervals_17, ...
+%     integer_intervals_18, ...
+%     integer_intervals_19, ...
+%     integer_intervals_20, ...
+%     integer_intervals_21, ...
+%     integer_intervals_22, ...
+%     integer_intervals_23, ...
+%     integer_intervals_24, ...
+%     integer_intervals_25, ...
+%     integer_intervals_26, ...
+%     integer_intervals_27, ...
+%     integer_intervals_28, ...
+%     integer_intervals_29, ...
+%     ];
+% 
+% unique_intervals = unique(sort(sum_intervals));
+% 
+% Cov_29 = length(unique_intervals) / L * 100;
+% 
+% 
+% %% Random29 (위성 30대)
+% 
+% for n = 0 : L-1
+% integer_intervals_1 = [];
+% integer_intervals_2 = [];
+% integer_intervals_3 = [];
+% integer_intervals_4 = [];
+% integer_intervals_5 = [];
+% integer_intervals_6 = [];
+% integer_intervals_7 = [];
+% integer_intervals_8 = [];
+% integer_intervals_9 = [];
+% integer_intervals_10 = [];
+% integer_intervals_11 = [];
+% integer_intervals_12 = [];
+% integer_intervals_13 = [];
+% integer_intervals_14 = [];
+% integer_intervals_15 = [];
+% integer_intervals_16 = [];
+% integer_intervals_17 = [];
+% integer_intervals_18 = [];
+% integer_intervals_19 = [];
+% integer_intervals_20 = [];
+% integer_intervals_21 = [];
+% integer_intervals_22 = [];
+% integer_intervals_23 = [];
+% integer_intervals_24 = [];
+% integer_intervals_25 = [];
+% integer_intervals_26 = [];
+% integer_intervals_27 = [];
+% integer_intervals_28 = [];
+% integer_intervals_29 = [];
+% integer_intervals_30 = [];
+% 
+% 
+%   for i = 1:length(ff_0)
+%       % satellite 1 위치(seed)
+%       interval_1 = start_points(i) :end_points(i) ;
+%       interval_1(interval_1 > (L-1)) = interval_1(interval_1 > (L-1)) - L; 
+%       integer_intervals_1 = [integer_intervals_1, interval_1];
+% 
+%       % satellite 2 위치
+%       interval_2 = interval_1 + random_number_1; 
+%       interval_2(interval_2 > (L-1)) = interval_2(interval_2 > (L-1)) - L;
+%       integer_intervals_2 = [integer_intervals_2, interval_2];
+% 
+%       % satellite 3 위치
+%       interval_3 = interval_1 + random_number_2; 
+%       interval_3(interval_3 > (L-1)) = interval_3(interval_3 > (L-1)) - L;
+%       integer_intervals_3 = [integer_intervals_3, interval_3];
+% 
+%       % satellite 4 위치
+%       interval_4 = interval_1 + random_number_3; 
+%       interval_4(interval_4 > (L-1)) = interval_4(interval_4 > (L-1)) - L;
+%       integer_intervals_4 = [integer_intervals_4, interval_4];
+% 
+%       % satellite 5 위치
+%       interval_5 = interval_1 + random_number_4; 
+%       interval_5(interval_5 > (L-1)) = interval_5(interval_5 > (L-1)) - L;
+%       integer_intervals_5 = [integer_intervals_5, interval_5];
+% 
+%       % satellite 6 위치
+%       interval_6 = interval_1 + random_number_5; 
+%       interval_6(interval_6 > (L-1)) = interval_6(interval_6 > (L-1)) - L;
+%       integer_intervals_6 = [integer_intervals_6, interval_6];
+% 
+%       % satellite 7 위치
+%       interval_7 = interval_1 + random_number_6; 
+%       interval_7(interval_7 > (L-1)) = interval_7(interval_7 > (L-1)) - L;
+%       integer_intervals_7 = [integer_intervals_7, interval_7];
+% 
+%       % satellite 8 위치
+%       interval_8 = interval_1 + random_number_7; 
+%       interval_8(interval_8 > (L-1)) = interval_8(interval_8 > (L-1)) - L;
+%       integer_intervals_8 = [integer_intervals_8, interval_8];
+% 
+%       % satellite 9 위치
+%       interval_9 = interval_1 + random_number_8; 
+%       interval_9(interval_9 > (L-1)) = interval_9(interval_9 > (L-1)) - L;
+%       integer_intervals_9 = [integer_intervals_9, interval_9];
+% 
+%       % satellite 10 위치
+%       interval_10 = interval_1 + random_number_9; 
+%       interval_10(interval_10 > (L-1)) = interval_10(interval_10 > (L-1)) - L;
+%       integer_intervals_10 = [integer_intervals_10, interval_10];
+% 
+%       % satellite 11 위치 
+%       interval_11 = interval_1 + random_number_10; 
+%       interval_11(interval_11 > (L-1)) = interval_11(interval_11 > (L-1)) - L;
+%       integer_intervals_11 = [integer_intervals_11, interval_11];
+% 
+%       % satellite 12 위치
+%       interval_12 = interval_1 + random_number_11; 
+%       interval_12(interval_12 > (L-1)) = interval_12(interval_12 > (L-1)) - L;
+%       integer_intervals_12 = [integer_intervals_12, interval_12];
+% 
+%       % satellite 13 위치
+%       interval_13 = interval_1 + random_number_12; 
+%       interval_13(interval_13 > (L-1)) = interval_13(interval_13 > (L-1)) - L;
+%       integer_intervals_13 = [integer_intervals_13, interval_13];
+% 
+%       % satellite 14 위치
+%       interval_14 = interval_1 + random_number_13; 
+%       interval_14(interval_14 > (L-1)) = interval_14(interval_14 > (L-1)) - L;
+%       integer_intervals_14 = [integer_intervals_14, interval_14];
+% 
+%       % satellite 15 위치
+%       interval_15 = interval_1 + random_number_14; 
+%       interval_15(interval_15 > (L-1)) = interval_15(interval_15 > (L-1)) - L;
+%       integer_intervals_15 = [integer_intervals_15, interval_15];
+% 
+%       % satellite 16 위치
+%       interval_16 = interval_1 + random_number_15; 
+%       interval_16(interval_16 > (L-1)) = interval_16(interval_16 > (L-1)) - L;
+%       integer_intervals_16 = [integer_intervals_16, interval_16];
+% 
+%       % satellite 17 위치
+%       interval_17 = interval_1 + random_number_16; 
+%       interval_17(interval_17 > (L-1)) = interval_17(interval_17 > (L-1)) - L;
+%       integer_intervals_17 = [integer_intervals_17, interval_17];
+% 
+%       % satellite 18 위치 
+%       interval_18 = interval_1 + random_number_17; 
+%       interval_18(interval_18 > (L-1)) = interval_18(interval_18 > (L-1)) - L;
+%       integer_intervals_18 = [integer_intervals_18, interval_18];
+% 
+%       % satellite 19 위치
+%       interval_19 = interval_1 + random_number_18; 
+%       interval_19(interval_19 > (L-1)) = interval_19(interval_19 > (L-1)) - L;
+%       integer_intervals_19 = [integer_intervals_19, interval_19];
+% 
+%       % satellite 20 위치 
+%       interval_20 = interval_1 + random_number_19; 
+%       interval_20(interval_20 > (L-1)) = interval_20(interval_20 > (L-1)) - L;
+%       integer_intervals_20 = [integer_intervals_20, interval_20];
+% 
+%       % satellite 21 위치
+%       interval_21 = interval_1 + random_number_20; 
+%       interval_21(interval_21 > (L-1)) = interval_21(interval_21 > (L-1)) - L;
+%       integer_intervals_21 = [integer_intervals_21, interval_21];
+% 
+%       % satellite 22 위치 
+%       interval_22 = interval_1 + random_number_21; 
+%       interval_22(interval_22 > (L-1)) = interval_22(interval_22 > (L-1)) - L;
+%       integer_intervals_22 = [integer_intervals_22, interval_22];
+% 
+%       % satellite 23 위치
+%       interval_23 = interval_1 + random_number_22; 
+%       interval_23(interval_23 > (L-1)) = interval_23(interval_23 > (L-1)) - L;
+%       integer_intervals_23 = [integer_intervals_23, interval_23];
+% 
+%       % satellite 24 위치 
+%       interval_24 = interval_1 + random_number_23; 
+%       interval_24(interval_24 > (L-1)) = interval_24(interval_24 > (L-1)) - L;
+%       integer_intervals_24 = [integer_intervals_24, interval_24];
+% 
+%       % satellite 25 위치
+%       interval_25 = interval_1 + random_number_24; 
+%       interval_25(interval_25 > (L-1)) = interval_25(interval_25 > (L-1)) - L;
+%       integer_intervals_25 = [integer_intervals_25, interval_25];
+% 
+%       % satellite 26 위치
+%       interval_26 = interval_1 + random_number_25; 
+%       interval_26(interval_26 > (L-1)) = interval_26(interval_26 > (L-1)) - L;
+%       integer_intervals_26 = [integer_intervals_26, interval_26];
+% 
+%       % satellite 27 위치
+%       interval_27 = interval_1 + random_number_26; 
+%       interval_27(interval_27 > (L-1)) = interval_27(interval_27 > (L-1)) - L;
+%       integer_intervals_27 = [integer_intervals_27, interval_27];
+% 
+%       % satellite 28 위치
+%       interval_28 = interval_1 + random_number_27; 
+%       interval_28(interval_28 > (L-1)) = interval_28(interval_28 > (L-1)) - L;
+%       integer_intervals_28 = [integer_intervals_28, interval_28];
+% 
+%       % satellite 29 위치
+%       interval_29 = interval_1 + random_number_28; 
+%       interval_29(interval_29 > (L-1)) = interval_29(interval_29 > (L-1)) - L;
+%       integer_intervals_29 = [integer_intervals_29, interval_29];
+% 
+%       % satellite 30 위치 생성
+%       interval_30 = interval_1 + n; 
+%       interval_30(interval_30 > (L-1)) = interval_30(interval_30 > (L-1)) - L;
+%       integer_intervals_30 = [integer_intervals_30, interval_30];
+%   end
+% 
+% 
+% sum_intervals = ...
+%     [integer_intervals_1, ...
+%     integer_intervals_2, ...
+%     integer_intervals_3, ...
+%     integer_intervals_4, ...
+%     integer_intervals_5, ...
+%     integer_intervals_6, ...
+%     integer_intervals_7, ...
+%     integer_intervals_8, ...
+%     integer_intervals_9, ...
+%     integer_intervals_10, ...
+%     integer_intervals_11, ...
+%     integer_intervals_12, ...
+%     integer_intervals_13, ...
+%     integer_intervals_14, ...
+%     integer_intervals_15, ...
+%     integer_intervals_16, ...
+%     integer_intervals_17, ...
+%     integer_intervals_18, ...
+%     integer_intervals_19, ...
+%     integer_intervals_20, ...
+%     integer_intervals_21, ...
+%     integer_intervals_22, ...
+%     integer_intervals_23, ...
+%     integer_intervals_24, ...
+%     integer_intervals_25, ...
+%     integer_intervals_26, ...
+%     integer_intervals_27, ...
+%     integer_intervals_28, ...
+%     integer_intervals_29, ...
+%     integer_intervals_30, ...
+%     ];
+% 
+% unique_intervals = unique(sort(sum_intervals));
+% 
+% difference = length(sum_intervals) - length(unique_intervals) ;
+% 
+% result_29 = [result_29; n, difference];
+% 
+% end
+% 
+% 
+% % 랜덤숫자 생성
+% 
+% result_sum29 = [result_29(:,1), result_29(:,2)];
+% 
+% rows_with_min_sum29 = result_sum29(result_sum29(:, 2) == min(result_sum29(:, 2)), :);
+% 
+% k_sum29 = rows_with_min_sum29(:,1);
+% 
+% random_index_29 = randi([1, length(k_sum29)]);
+% 
+% random_number_29 = k_sum29(random_index_29);
+% 
+% 
+% % renewal
+% integer_intervals_1 = [];
+% integer_intervals_2 = [];
+% integer_intervals_3 = [];
+% integer_intervals_4 = [];
+% integer_intervals_5 = [];
+% integer_intervals_6 = [];
+% integer_intervals_7 = [];
+% integer_intervals_8 = [];
+% integer_intervals_9 = [];
+% integer_intervals_10 = [];
+% integer_intervals_11 = [];
+% integer_intervals_12 = [];
+% integer_intervals_13 = [];
+% integer_intervals_14 = [];
+% integer_intervals_15 = [];
+% integer_intervals_16 = [];
+% integer_intervals_17 = [];
+% integer_intervals_18 = [];
+% integer_intervals_19 = [];
+% integer_intervals_20 = [];
+% integer_intervals_21 = [];
+% integer_intervals_22 = [];
+% integer_intervals_23 = [];
+% integer_intervals_24 = [];
+% integer_intervals_25 = [];
+% integer_intervals_26 = [];
+% integer_intervals_27 = [];
+% integer_intervals_28 = [];
+% integer_intervals_29 = [];
+% integer_intervals_30 = [];
+% 
+% for i = 1:length(ff_0)
+%     % satellite 1 위치 생성(seed)
+%     interval_1 = start_points(i) :end_points(i) ;
+%     interval_1(interval_1 > (L-1)) = interval_1(interval_1 > (L-1)) - L; 
+%     integer_intervals_1 = [integer_intervals_1, interval_1];
+% 
+%     % satellite 2 위치
+%     interval_2 = interval_1 + random_number_1; 
+%     interval_2(interval_2 > (L-1)) = interval_2(interval_2 > (L-1)) - L;
+%     integer_intervals_2 = [integer_intervals_2, interval_2];
+% 
+%     % satellite 2 위치
+%     interval_3 = interval_1 + random_number_2; 
+%     interval_3(interval_3 > (L-1)) = interval_3(interval_3 > (L-1)) - L;
+%     integer_intervals_3 = [integer_intervals_3, interval_3];
+% 
+%     % satellite 3 위치
+%     interval_4 = interval_1 + random_number_3; 
+%     interval_4(interval_4 > (L-1)) = interval_4(interval_4 > (L-1)) - L;
+%     integer_intervals_4 = [integer_intervals_4, interval_4];
+% 
+%     % satellite 4 위치
+%     interval_5 = interval_1 + random_number_4; 
+%     interval_5(interval_5 > (L-1)) = interval_5(interval_5 > (L-1)) - L;
+%     integer_intervals_5 = [integer_intervals_5, interval_5];
+% 
+%     % satellite 5 위치
+%     interval_6 = interval_1 + random_number_5; 
+%     interval_6(interval_6 > (L-1)) = interval_6(interval_6 > (L-1)) - L;
+%     integer_intervals_6 = [integer_intervals_6, interval_6];
+% 
+%     % satellite 6 위치
+%     interval_7 = interval_1 + random_number_6; 
+%     interval_7(interval_7 > (L-1)) = interval_7(interval_7 > (L-1)) - L;
+%     integer_intervals_7 = [integer_intervals_7, interval_7];
+% 
+%     % satellite 7 위치
+%     interval_8 = interval_1 + random_number_7; 
+%     interval_8(interval_8 > (L-1)) = interval_8(interval_8 > (L-1)) - L;
+%     integer_intervals_8 = [integer_intervals_8, interval_8];
+% 
+%     % satellite 8 위치
+%     interval_9 = interval_1 + random_number_8; 
+%     interval_9(interval_9 > (L-1)) = interval_9(interval_9 > (L-1)) - L;
+%     integer_intervals_9 = [integer_intervals_9, interval_9];
+% 
+%     % satellite 9 위치
+%     interval_10 = interval_1 + random_number_9; 
+%     interval_10(interval_10 > (L-1)) = interval_10(interval_10 > (L-1)) - L;
+%     integer_intervals_10 = [integer_intervals_10, interval_10];
+% 
+%     % satellite 10 위치
+%     interval_11 = interval_1 + random_number_10; 
+%     interval_11(interval_11 > (L-1)) = interval_11(interval_11 > (L-1)) - L;
+%     integer_intervals_11 = [integer_intervals_11, interval_11];
+% 
+%     % satellite 11 위치
+%     interval_12 = interval_1 + random_number_11; 
+%     interval_12(interval_12 > (L-1)) = interval_12(interval_12 > (L-1)) - L;
+%     integer_intervals_12 = [integer_intervals_12, interval_12];
+% 
+%     % satellite 12 위치
+%     interval_13 = interval_1 + random_number_12; 
+%     interval_13(interval_13 > (L-1)) = interval_13(interval_13 > (L-1)) - L;
+%     integer_intervals_13 = [integer_intervals_13, interval_13];
+% 
+%     % satellite 13 위치
+%     interval_14 = interval_1 + random_number_13; 
+%     interval_14(interval_14 > (L-1)) = interval_14(interval_14 > (L-1)) - L;
+%     integer_intervals_14 = [integer_intervals_14, interval_14];
+% 
+%     % satellite 14 위치
+%     interval_15 = interval_1 + random_number_14; 
+%     interval_15(interval_15 > (L-1)) = interval_15(interval_15 > (L-1)) - L;
+%     integer_intervals_15 = [integer_intervals_15, interval_15];
+% 
+%     % satellite 15 위치
+%     interval_16 = interval_1 + random_number_15; 
+%     interval_16(interval_16 > (L-1)) = interval_16(interval_16 > (L-1)) - L;
+%     integer_intervals_16 = [integer_intervals_16, interval_16];
+% 
+%     % satellite 16 위치
+%     interval_17 = interval_1 + random_number_16; 
+%     interval_17(interval_17 > (L-1)) = interval_17(interval_17 > (L-1)) - L;
+%     integer_intervals_17 = [integer_intervals_17, interval_17];
+% 
+%     % satellite 17 위치
+%     interval_18 = interval_1 + random_number_17; 
+%     interval_18(interval_18 > (L-1)) = interval_18(interval_18 > (L-1)) - L;
+%     integer_intervals_18 = [integer_intervals_18, interval_18];
+% 
+%     % satellite 18 위치
+%     interval_19 = interval_1 + random_number_18; 
+%     interval_19(interval_19 > (L-1)) = interval_19(interval_19 > (L-1)) - L;
+%     integer_intervals_19 = [integer_intervals_19, interval_19];
+% 
+%     % satellite 19 위치
+%     interval_20 = interval_1 + random_number_19; 
+%     interval_20(interval_20 > (L-1)) = interval_20(interval_20 > (L-1)) - L;
+%     integer_intervals_20 = [integer_intervals_20, interval_20];
+% 
+%     % satellite 20 위치
+%     interval_21 = interval_1 + random_number_20; 
+%     interval_21(interval_21 > (L-1)) = interval_21(interval_21 > (L-1)) - L;
+%     integer_intervals_21 = [integer_intervals_21, interval_21];
+% 
+%     % satellite 21 위치
+%     interval_22 = interval_1 + random_number_21; 
+%     interval_22(interval_22 > (L-1)) = interval_22(interval_22 > (L-1)) - L;
+%     integer_intervals_22 = [integer_intervals_22, interval_22];
+% 
+%     % satellite 22 위치
+%     interval_23 = interval_1 + random_number_22; 
+%     interval_23(interval_23 > (L-1)) = interval_23(interval_23 > (L-1)) - L;
+%     integer_intervals_23 = [integer_intervals_23, interval_23];
+% 
+%     % satellite 23 위치
+%     interval_24 = interval_1 + random_number_23; 
+%     interval_24(interval_24 > (L-1)) = interval_24(interval_24 > (L-1)) - L;
+%     integer_intervals_24 = [integer_intervals_24, interval_24];
+% 
+%     % satellite 24 위치
+%     interval_25 = interval_1 + random_number_24; 
+%     interval_25(interval_25 > (L-1)) = interval_25(interval_25 > (L-1)) - L;
+%     integer_intervals_25 = [integer_intervals_25, interval_25];
+% 
+%     % satellite 25 위치
+%     interval_26 = interval_1 + random_number_25; 
+%     interval_26(interval_26 > (L-1)) = interval_26(interval_26 > (L-1)) - L;
+%     integer_intervals_26 = [integer_intervals_26, interval_26];
+% 
+%     % satellite 26 위치
+%     interval_27 = interval_1 + random_number_26; 
+%     interval_27(interval_27 > (L-1)) = interval_27(interval_27 > (L-1)) - L;
+%     integer_intervals_27 = [integer_intervals_27, interval_27];
+% 
+%     % satellite 27 위치
+%     interval_28 = interval_1 + random_number_27; 
+%     interval_28(interval_28 > (L-1)) = interval_28(interval_28 > (L-1)) - L;
+%     integer_intervals_28 = [integer_intervals_28, interval_28];
+% 
+%     % satellite 28 위치
+%     interval_29 = interval_1 + random_number_28; 
+%     interval_29(interval_29 > (L-1)) = interval_29(interval_29 > (L-1)) - L;
+%     integer_intervals_29 = [integer_intervals_29, interval_29];
+% 
+%     % satellite 29 위치
+%     interval_30 = interval_1 + random_number_29; 
+%     interval_30(interval_30 > (L-1)) = interval_30(interval_30 > (L-1)) - L;
+%     integer_intervals_30 = [integer_intervals_30, interval_30];
+% end
+% 
+% 
+% sum_intervals = ...
+%     [integer_intervals_1, ...
+%     integer_intervals_2, ...
+%     integer_intervals_3, ...
+%     integer_intervals_4, ...
+%     integer_intervals_5, ...
+%     integer_intervals_6, ...
+%     integer_intervals_7, ...
+%     integer_intervals_8, ...
+%     integer_intervals_9, ...
+%     integer_intervals_10, ...
+%     integer_intervals_11, ...
+%     integer_intervals_12, ...
+%     integer_intervals_13, ...
+%     integer_intervals_14, ...
+%     integer_intervals_15, ...
+%     integer_intervals_16, ...
+%     integer_intervals_17, ...
+%     integer_intervals_18, ...
+%     integer_intervals_19, ...
+%     integer_intervals_20, ...
+%     integer_intervals_21, ...
+%     integer_intervals_22, ...
+%     integer_intervals_23, ...
+%     integer_intervals_24, ...
+%     integer_intervals_25, ...
+%     integer_intervals_26, ...
+%     integer_intervals_27, ...
+%     integer_intervals_28, ...
+%     integer_intervals_29, ...
+%     integer_intervals_30, ...
+%     ];
+% 
+% unique_intervals = unique(sort(sum_intervals));
+% 
+% Cov_30 = length(unique_intervals) / L * 100;
+% 
+% 
+% %% Random30 (위성 31대)
+% 
+% for n = 0 : L-1
+% integer_intervals_1 = [];
+% integer_intervals_2 = [];
+% integer_intervals_3 = [];
+% integer_intervals_4 = [];
+% integer_intervals_5 = [];
+% integer_intervals_6 = [];
+% integer_intervals_7 = [];
+% integer_intervals_8 = [];
+% integer_intervals_9 = [];
+% integer_intervals_10 = [];
+% integer_intervals_11 = [];
+% integer_intervals_12 = [];
+% integer_intervals_13 = [];
+% integer_intervals_14 = [];
+% integer_intervals_15 = [];
+% integer_intervals_16 = [];
+% integer_intervals_17 = [];
+% integer_intervals_18 = [];
+% integer_intervals_19 = [];
+% integer_intervals_20 = [];
+% integer_intervals_21 = [];
+% integer_intervals_22 = [];
+% integer_intervals_23 = [];
+% integer_intervals_24 = [];
+% integer_intervals_25 = [];
+% integer_intervals_26 = [];
+% integer_intervals_27 = [];
+% integer_intervals_28 = [];
+% integer_intervals_29 = [];
+% integer_intervals_30 = [];
+% integer_intervals_31 = [];
+% 
+% 
+%   for i = 1:length(ff_0)
+%       % satellite 1 위치(seed)
+%       interval_1 = start_points(i) :end_points(i) ;
+%       interval_1(interval_1 > (L-1)) = interval_1(interval_1 > (L-1)) - L; 
+%       integer_intervals_1 = [integer_intervals_1, interval_1];
+% 
+%       % satellite 2 위치
+%       interval_2 = interval_1 + random_number_1; 
+%       interval_2(interval_2 > (L-1)) = interval_2(interval_2 > (L-1)) - L;
+%       integer_intervals_2 = [integer_intervals_2, interval_2];
+% 
+%       % satellite 3 위치
+%       interval_3 = interval_1 + random_number_2; 
+%       interval_3(interval_3 > (L-1)) = interval_3(interval_3 > (L-1)) - L;
+%       integer_intervals_3 = [integer_intervals_3, interval_3];
+% 
+%       % satellite 4 위치
+%       interval_4 = interval_1 + random_number_3; 
+%       interval_4(interval_4 > (L-1)) = interval_4(interval_4 > (L-1)) - L;
+%       integer_intervals_4 = [integer_intervals_4, interval_4];
+% 
+%       % satellite 5 위치
+%       interval_5 = interval_1 + random_number_4; 
+%       interval_5(interval_5 > (L-1)) = interval_5(interval_5 > (L-1)) - L;
+%       integer_intervals_5 = [integer_intervals_5, interval_5];
+% 
+%       % satellite 6 위치
+%       interval_6 = interval_1 + random_number_5; 
+%       interval_6(interval_6 > (L-1)) = interval_6(interval_6 > (L-1)) - L;
+%       integer_intervals_6 = [integer_intervals_6, interval_6];
+% 
+%       % satellite 7 위치
+%       interval_7 = interval_1 + random_number_6; 
+%       interval_7(interval_7 > (L-1)) = interval_7(interval_7 > (L-1)) - L;
+%       integer_intervals_7 = [integer_intervals_7, interval_7];
+% 
+%       % satellite 8 위치
+%       interval_8 = interval_1 + random_number_7; 
+%       interval_8(interval_8 > (L-1)) = interval_8(interval_8 > (L-1)) - L;
+%       integer_intervals_8 = [integer_intervals_8, interval_8];
+% 
+%       % satellite 9 위치
+%       interval_9 = interval_1 + random_number_8; 
+%       interval_9(interval_9 > (L-1)) = interval_9(interval_9 > (L-1)) - L;
+%       integer_intervals_9 = [integer_intervals_9, interval_9];
+% 
+%       % satellite 10 위치
+%       interval_10 = interval_1 + random_number_9; 
+%       interval_10(interval_10 > (L-1)) = interval_10(interval_10 > (L-1)) - L;
+%       integer_intervals_10 = [integer_intervals_10, interval_10];
+% 
+%       % satellite 11 위치 
+%       interval_11 = interval_1 + random_number_10; 
+%       interval_11(interval_11 > (L-1)) = interval_11(interval_11 > (L-1)) - L;
+%       integer_intervals_11 = [integer_intervals_11, interval_11];
+% 
+%       % satellite 12 위치
+%       interval_12 = interval_1 + random_number_11; 
+%       interval_12(interval_12 > (L-1)) = interval_12(interval_12 > (L-1)) - L;
+%       integer_intervals_12 = [integer_intervals_12, interval_12];
+% 
+%       % satellite 13 위치
+%       interval_13 = interval_1 + random_number_12; 
+%       interval_13(interval_13 > (L-1)) = interval_13(interval_13 > (L-1)) - L;
+%       integer_intervals_13 = [integer_intervals_13, interval_13];
+% 
+%       % satellite 14 위치
+%       interval_14 = interval_1 + random_number_13; 
+%       interval_14(interval_14 > (L-1)) = interval_14(interval_14 > (L-1)) - L;
+%       integer_intervals_14 = [integer_intervals_14, interval_14];
+% 
+%       % satellite 15 위치
+%       interval_15 = interval_1 + random_number_14; 
+%       interval_15(interval_15 > (L-1)) = interval_15(interval_15 > (L-1)) - L;
+%       integer_intervals_15 = [integer_intervals_15, interval_15];
+% 
+%       % satellite 16 위치
+%       interval_16 = interval_1 + random_number_15; 
+%       interval_16(interval_16 > (L-1)) = interval_16(interval_16 > (L-1)) - L;
+%       integer_intervals_16 = [integer_intervals_16, interval_16];
+% 
+%       % satellite 17 위치
+%       interval_17 = interval_1 + random_number_16; 
+%       interval_17(interval_17 > (L-1)) = interval_17(interval_17 > (L-1)) - L;
+%       integer_intervals_17 = [integer_intervals_17, interval_17];
+% 
+%       % satellite 18 위치 
+%       interval_18 = interval_1 + random_number_17; 
+%       interval_18(interval_18 > (L-1)) = interval_18(interval_18 > (L-1)) - L;
+%       integer_intervals_18 = [integer_intervals_18, interval_18];
+% 
+%       % satellite 19 위치
+%       interval_19 = interval_1 + random_number_18; 
+%       interval_19(interval_19 > (L-1)) = interval_19(interval_19 > (L-1)) - L;
+%       integer_intervals_19 = [integer_intervals_19, interval_19];
+% 
+%       % satellite 20 위치 
+%       interval_20 = interval_1 + random_number_19; 
+%       interval_20(interval_20 > (L-1)) = interval_20(interval_20 > (L-1)) - L;
+%       integer_intervals_20 = [integer_intervals_20, interval_20];
+% 
+%       % satellite 21 위치
+%       interval_21 = interval_1 + random_number_20; 
+%       interval_21(interval_21 > (L-1)) = interval_21(interval_21 > (L-1)) - L;
+%       integer_intervals_21 = [integer_intervals_21, interval_21];
+% 
+%       % satellite 22 위치 
+%       interval_22 = interval_1 + random_number_21; 
+%       interval_22(interval_22 > (L-1)) = interval_22(interval_22 > (L-1)) - L;
+%       integer_intervals_22 = [integer_intervals_22, interval_22];
+% 
+%       % satellite 23 위치
+%       interval_23 = interval_1 + random_number_22; 
+%       interval_23(interval_23 > (L-1)) = interval_23(interval_23 > (L-1)) - L;
+%       integer_intervals_23 = [integer_intervals_23, interval_23];
+% 
+%       % satellite 24 위치 
+%       interval_24 = interval_1 + random_number_23; 
+%       interval_24(interval_24 > (L-1)) = interval_24(interval_24 > (L-1)) - L;
+%       integer_intervals_24 = [integer_intervals_24, interval_24];
+% 
+%       % satellite 25 위치
+%       interval_25 = interval_1 + random_number_24; 
+%       interval_25(interval_25 > (L-1)) = interval_25(interval_25 > (L-1)) - L;
+%       integer_intervals_25 = [integer_intervals_25, interval_25];
+% 
+%       % satellite 26 위치
+%       interval_26 = interval_1 + random_number_25; 
+%       interval_26(interval_26 > (L-1)) = interval_26(interval_26 > (L-1)) - L;
+%       integer_intervals_26 = [integer_intervals_26, interval_26];
+% 
+%       % satellite 27 위치
+%       interval_27 = interval_1 + random_number_26; 
+%       interval_27(interval_27 > (L-1)) = interval_27(interval_27 > (L-1)) - L;
+%       integer_intervals_27 = [integer_intervals_27, interval_27];
+% 
+%       % satellite 28 위치
+%       interval_28 = interval_1 + random_number_27; 
+%       interval_28(interval_28 > (L-1)) = interval_28(interval_28 > (L-1)) - L;
+%       integer_intervals_28 = [integer_intervals_28, interval_28];
+% 
+%       % satellite 29 위치
+%       interval_29 = interval_1 + random_number_28; 
+%       interval_29(interval_29 > (L-1)) = interval_29(interval_29 > (L-1)) - L;
+%       integer_intervals_29 = [integer_intervals_29, interval_29];
+% 
+%       % satellite 30 위치 
+%       interval_30 = interval_1 + random_number_29; 
+%       interval_30(interval_30 > (L-1)) = interval_30(interval_30 > (L-1)) - L;
+%       integer_intervals_30 = [integer_intervals_30, interval_30];
+% 
+%       % satellite 31 위치 생성
+%       interval_31 = interval_1 + n; 
+%       interval_31(interval_31 > (L-1)) = interval_31(interval_31 > (L-1)) - L;
+%       integer_intervals_31 = [integer_intervals_31, interval_31];
+%   end
+% 
+% 
+% sum_intervals = ...
+%     [integer_intervals_1, ...
+%     integer_intervals_2, ...
+%     integer_intervals_3, ...
+%     integer_intervals_4, ...
+%     integer_intervals_5, ...
+%     integer_intervals_6, ...
+%     integer_intervals_7, ...
+%     integer_intervals_8, ...
+%     integer_intervals_9, ...
+%     integer_intervals_10, ...
+%     integer_intervals_11, ...
+%     integer_intervals_12, ...
+%     integer_intervals_13, ...
+%     integer_intervals_14, ...
+%     integer_intervals_15, ...
+%     integer_intervals_16, ...
+%     integer_intervals_17, ...
+%     integer_intervals_18, ...
+%     integer_intervals_19, ...
+%     integer_intervals_20, ...
+%     integer_intervals_21, ...
+%     integer_intervals_22, ...
+%     integer_intervals_23, ...
+%     integer_intervals_24, ...
+%     integer_intervals_25, ...
+%     integer_intervals_26, ...
+%     integer_intervals_27, ...
+%     integer_intervals_28, ...
+%     integer_intervals_29, ...
+%     integer_intervals_30, ...
+%     integer_intervals_31, ...
+%     ];
+% 
+% unique_intervals = unique(sort(sum_intervals));
+% 
+% difference = length(sum_intervals) - length(unique_intervals) ;
+% 
+% result_30 = [result_30; n, difference];
+% 
+% end
+% 
+% 
+% % 랜덤숫자 생성
+% 
+% result_sum30 = [result_30(:,1), result_30(:,2)];
+% 
+% rows_with_min_sum30 = result_sum30(result_sum30(:, 2) == min(result_sum30(:, 2)), :);
+% 
+% k_sum30 = rows_with_min_sum30(:,1);
+% 
+% random_index_30 = randi([1, length(k_sum30)]);
+% 
+% random_number_30 = k_sum30(random_index_30);
+% 
+% 
+% % renewal
+% integer_intervals_1 = [];
+% integer_intervals_2 = [];
+% integer_intervals_3 = [];
+% integer_intervals_4 = [];
+% integer_intervals_5 = [];
+% integer_intervals_6 = [];
+% integer_intervals_7 = [];
+% integer_intervals_8 = [];
+% integer_intervals_9 = [];
+% integer_intervals_10 = [];
+% integer_intervals_11 = [];
+% integer_intervals_12 = [];
+% integer_intervals_13 = [];
+% integer_intervals_14 = [];
+% integer_intervals_15 = [];
+% integer_intervals_16 = [];
+% integer_intervals_17 = [];
+% integer_intervals_18 = [];
+% integer_intervals_19 = [];
+% integer_intervals_20 = [];
+% integer_intervals_21 = [];
+% integer_intervals_22 = [];
+% integer_intervals_23 = [];
+% integer_intervals_24 = [];
+% integer_intervals_25 = [];
+% integer_intervals_26 = [];
+% integer_intervals_27 = [];
+% integer_intervals_28 = [];
+% integer_intervals_29 = [];
+% integer_intervals_30 = [];
+% integer_intervals_31 = [];
+% 
+% for i = 1:length(ff_0)
+%     % satellite 1 위치 생성(seed)
+%     interval_1 = start_points(i) :end_points(i) ;
+%     interval_1(interval_1 > (L-1)) = interval_1(interval_1 > (L-1)) - L; 
+%     integer_intervals_1 = [integer_intervals_1, interval_1];
+% 
+%     % satellite 2 위치
+%     interval_2 = interval_1 + random_number_1; 
+%     interval_2(interval_2 > (L-1)) = interval_2(interval_2 > (L-1)) - L;
+%     integer_intervals_2 = [integer_intervals_2, interval_2];
+% 
+%     % satellite 3 위치
+%     interval_3 = interval_1 + random_number_2; 
+%     interval_3(interval_3 > (L-1)) = interval_3(interval_3 > (L-1)) - L;
+%     integer_intervals_3 = [integer_intervals_3, interval_3];
+% 
+%     % satellite 4 위치
+%     interval_4 = interval_1 + random_number_3; 
+%     interval_4(interval_4 > (L-1)) = interval_4(interval_4 > (L-1)) - L;
+%     integer_intervals_4 = [integer_intervals_4, interval_4];
+% 
+%     % satellite 5 위치
+%     interval_5 = interval_1 + random_number_4; 
+%     interval_5(interval_5 > (L-1)) = interval_5(interval_5 > (L-1)) - L;
+%     integer_intervals_5 = [integer_intervals_5, interval_5];
+% 
+%     % satellite 6 위치
+%     interval_6 = interval_1 + random_number_5; 
+%     interval_6(interval_6 > (L-1)) = interval_6(interval_6 > (L-1)) - L;
+%     integer_intervals_6 = [integer_intervals_6, interval_6];
+% 
+%     % satellite 7 위치
+%     interval_7 = interval_1 + random_number_6; 
+%     interval_7(interval_7 > (L-1)) = interval_7(interval_7 > (L-1)) - L;
+%     integer_intervals_7 = [integer_intervals_7, interval_7];
+% 
+%     % satellite 8 위치
+%     interval_8 = interval_1 + random_number_7; 
+%     interval_8(interval_8 > (L-1)) = interval_8(interval_8 > (L-1)) - L;
+%     integer_intervals_8 = [integer_intervals_8, interval_8];
+% 
+%     % satellite 9 위치
+%     interval_9 = interval_1 + random_number_8; 
+%     interval_9(interval_9 > (L-1)) = interval_9(interval_9 > (L-1)) - L;
+%     integer_intervals_9 = [integer_intervals_9, interval_9];
+% 
+%     % satellite 10 위치
+%     interval_10 = interval_1 + random_number_9; 
+%     interval_10(interval_10 > (L-1)) = interval_10(interval_10 > (L-1)) - L;
+%     integer_intervals_10 = [integer_intervals_10, interval_10];
+% 
+%     % satellite 11 위치
+%     interval_11 = interval_1 + random_number_10; 
+%     interval_11(interval_11 > (L-1)) = interval_11(interval_11 > (L-1)) - L;
+%     integer_intervals_11 = [integer_intervals_11, interval_11];
+% 
+%     % satellite 12 위치
+%     interval_12 = interval_1 + random_number_11; 
+%     interval_12(interval_12 > (L-1)) = interval_12(interval_12 > (L-1)) - L;
+%     integer_intervals_12 = [integer_intervals_12, interval_12];
+% 
+%     % satellite 13 위치
+%     interval_13 = interval_1 + random_number_12; 
+%     interval_13(interval_13 > (L-1)) = interval_13(interval_13 > (L-1)) - L;
+%     integer_intervals_13 = [integer_intervals_13, interval_13];
+% 
+%     % satellite 14 위치
+%     interval_14 = interval_1 + random_number_13; 
+%     interval_14(interval_14 > (L-1)) = interval_14(interval_14 > (L-1)) - L;
+%     integer_intervals_14 = [integer_intervals_14, interval_14];
+% 
+%     % satellite 15 위치
+%     interval_15 = interval_1 + random_number_14; 
+%     interval_15(interval_15 > (L-1)) = interval_15(interval_15 > (L-1)) - L;
+%     integer_intervals_15 = [integer_intervals_15, interval_15];
+% 
+%     % satellite 16 위치
+%     interval_16 = interval_1 + random_number_15; 
+%     interval_16(interval_16 > (L-1)) = interval_16(interval_16 > (L-1)) - L;
+%     integer_intervals_16 = [integer_intervals_16, interval_16];
+% 
+%     % satellite 17 위치
+%     interval_17 = interval_1 + random_number_16; 
+%     interval_17(interval_17 > (L-1)) = interval_17(interval_17 > (L-1)) - L;
+%     integer_intervals_17 = [integer_intervals_17, interval_17];
+% 
+%     % satellite 18 위치
+%     interval_18 = interval_1 + random_number_17; 
+%     interval_18(interval_18 > (L-1)) = interval_18(interval_18 > (L-1)) - L;
+%     integer_intervals_18 = [integer_intervals_18, interval_18];
+% 
+%     % satellite 19 위치
+%     interval_19 = interval_1 + random_number_18; 
+%     interval_19(interval_19 > (L-1)) = interval_19(interval_19 > (L-1)) - L;
+%     integer_intervals_19 = [integer_intervals_19, interval_19];
+% 
+%     % satellite 20 위치
+%     interval_20 = interval_1 + random_number_19; 
+%     interval_20(interval_20 > (L-1)) = interval_20(interval_20 > (L-1)) - L;
+%     integer_intervals_20 = [integer_intervals_20, interval_20];
+% 
+%     % satellite 21 위치
+%     interval_21 = interval_1 + random_number_20; 
+%     interval_21(interval_21 > (L-1)) = interval_21(interval_21 > (L-1)) - L;
+%     integer_intervals_21 = [integer_intervals_21, interval_21];
+% 
+%     % satellite 22 위치
+%     interval_22 = interval_1 + random_number_21; 
+%     interval_22(interval_22 > (L-1)) = interval_22(interval_22 > (L-1)) - L;
+%     integer_intervals_22 = [integer_intervals_22, interval_22];
+% 
+%     % satellite 23 위치
+%     interval_23 = interval_1 + random_number_22; 
+%     interval_23(interval_23 > (L-1)) = interval_23(interval_23 > (L-1)) - L;
+%     integer_intervals_23 = [integer_intervals_23, interval_23];
+% 
+%     % satellite 24 위치
+%     interval_24 = interval_1 + random_number_23; 
+%     interval_24(interval_24 > (L-1)) = interval_24(interval_24 > (L-1)) - L;
+%     integer_intervals_24 = [integer_intervals_24, interval_24];
+% 
+%     % satellite 25 위치
+%     interval_25 = interval_1 + random_number_24; 
+%     interval_25(interval_25 > (L-1)) = interval_25(interval_25 > (L-1)) - L;
+%     integer_intervals_25 = [integer_intervals_25, interval_25];
+% 
+%     % satellite 26 위치
+%     interval_26 = interval_1 + random_number_25; 
+%     interval_26(interval_26 > (L-1)) = interval_26(interval_26 > (L-1)) - L;
+%     integer_intervals_26 = [integer_intervals_26, interval_26];
+% 
+%     % satellite 27 위치
+%     interval_27 = interval_1 + random_number_26; 
+%     interval_27(interval_27 > (L-1)) = interval_27(interval_27 > (L-1)) - L;
+%     integer_intervals_27 = [integer_intervals_27, interval_27];
+% 
+%     % satellite 28 위치
+%     interval_28 = interval_1 + random_number_27; 
+%     interval_28(interval_28 > (L-1)) = interval_28(interval_28 > (L-1)) - L;
+%     integer_intervals_28 = [integer_intervals_28, interval_28];
+% 
+%     % satellite 29 위치
+%     interval_29 = interval_1 + random_number_28; 
+%     interval_29(interval_29 > (L-1)) = interval_29(interval_29 > (L-1)) - L;
+%     integer_intervals_29 = [integer_intervals_29, interval_29];
+% 
+%     % satellite 30 위치
+%     interval_30 = interval_1 + random_number_29; 
+%     interval_30(interval_30 > (L-1)) = interval_30(interval_30 > (L-1)) - L;
+%     integer_intervals_30 = [integer_intervals_30, interval_30];
+% 
+%     % satellite 31 위치
+%     interval_31 = interval_1 + random_number_30; 
+%     interval_31(interval_31 > (L-1)) = interval_31(interval_31 > (L-1)) - L;
+%     integer_intervals_31 = [integer_intervals_31, interval_31];
+% end
+% 
+% 
+% sum_intervals = ...
+%     [integer_intervals_1, ...
+%     integer_intervals_2, ...
+%     integer_intervals_3, ...
+%     integer_intervals_4, ...
+%     integer_intervals_5, ...
+%     integer_intervals_6, ...
+%     integer_intervals_7, ...
+%     integer_intervals_8, ...
+%     integer_intervals_9, ...
+%     integer_intervals_10, ...
+%     integer_intervals_11, ...
+%     integer_intervals_12, ...
+%     integer_intervals_13, ...
+%     integer_intervals_14, ...
+%     integer_intervals_15, ...
+%     integer_intervals_16, ...
+%     integer_intervals_17, ...
+%     integer_intervals_18, ...
+%     integer_intervals_19, ...
+%     integer_intervals_20, ...
+%     integer_intervals_21, ...
+%     integer_intervals_22, ...
+%     integer_intervals_23, ...
+%     integer_intervals_24, ...
+%     integer_intervals_25, ...
+%     integer_intervals_26, ...
+%     integer_intervals_27, ...
+%     integer_intervals_28, ...
+%     integer_intervals_29, ...
+%     integer_intervals_30, ...
+%     integer_intervals_31, ...
+%     ];
+% 
+% unique_intervals = unique(sort(sum_intervals));
+% 
+% Cov_31 = length(unique_intervals) / L * 100;
+% 
+% 
+% %% Random31 (위성 32대)
+% 
+% for n = 0 : L-1
+% integer_intervals_1 = [];
+% integer_intervals_2 = [];
+% integer_intervals_3 = [];
+% integer_intervals_4 = [];
+% integer_intervals_5 = [];
+% integer_intervals_6 = [];
+% integer_intervals_7 = [];
+% integer_intervals_8 = [];
+% integer_intervals_9 = [];
+% integer_intervals_10 = [];
+% integer_intervals_11 = [];
+% integer_intervals_12 = [];
+% integer_intervals_13 = [];
+% integer_intervals_14 = [];
+% integer_intervals_15 = [];
+% integer_intervals_16 = [];
+% integer_intervals_17 = [];
+% integer_intervals_18 = [];
+% integer_intervals_19 = [];
+% integer_intervals_20 = [];
+% integer_intervals_21 = [];
+% integer_intervals_22 = [];
+% integer_intervals_23 = [];
+% integer_intervals_24 = [];
+% integer_intervals_25 = [];
+% integer_intervals_26 = [];
+% integer_intervals_27 = [];
+% integer_intervals_28 = [];
+% integer_intervals_29 = [];
+% integer_intervals_30 = [];
+% integer_intervals_31 = [];
+% integer_intervals_32 = [];
+% 
+% 
+%   for i = 1:length(ff_0)
+%       % satellite 1 위치(seed)
+%       interval_1 = start_points(i) :end_points(i) ;
+%       interval_1(interval_1 > (L-1)) = interval_1(interval_1 > (L-1)) - L; 
+%       integer_intervals_1 = [integer_intervals_1, interval_1];
+% 
+%       % satellite 2 위치
+%       interval_2 = interval_1 + random_number_1; 
+%       interval_2(interval_2 > (L-1)) = interval_2(interval_2 > (L-1)) - L;
+%       integer_intervals_2 = [integer_intervals_2, interval_2];
+% 
+%       % satellite 3 위치
+%       interval_3 = interval_1 + random_number_2; 
+%       interval_3(interval_3 > (L-1)) = interval_3(interval_3 > (L-1)) - L;
+%       integer_intervals_3 = [integer_intervals_3, interval_3];
+% 
+%       % satellite 4 위치
+%       interval_4 = interval_1 + random_number_3; 
+%       interval_4(interval_4 > (L-1)) = interval_4(interval_4 > (L-1)) - L;
+%       integer_intervals_4 = [integer_intervals_4, interval_4];
+% 
+%       % satellite 5 위치
+%       interval_5 = interval_1 + random_number_4; 
+%       interval_5(interval_5 > (L-1)) = interval_5(interval_5 > (L-1)) - L;
+%       integer_intervals_5 = [integer_intervals_5, interval_5];
+% 
+%       % satellite 6 위치
+%       interval_6 = interval_1 + random_number_5; 
+%       interval_6(interval_6 > (L-1)) = interval_6(interval_6 > (L-1)) - L;
+%       integer_intervals_6 = [integer_intervals_6, interval_6];
+% 
+%       % satellite 7 위치
+%       interval_7 = interval_1 + random_number_6; 
+%       interval_7(interval_7 > (L-1)) = interval_7(interval_7 > (L-1)) - L;
+%       integer_intervals_7 = [integer_intervals_7, interval_7];
+% 
+%       % satellite 8 위치
+%       interval_8 = interval_1 + random_number_7; 
+%       interval_8(interval_8 > (L-1)) = interval_8(interval_8 > (L-1)) - L;
+%       integer_intervals_8 = [integer_intervals_8, interval_8];
+% 
+%       % satellite 9 위치
+%       interval_9 = interval_1 + random_number_8; 
+%       interval_9(interval_9 > (L-1)) = interval_9(interval_9 > (L-1)) - L;
+%       integer_intervals_9 = [integer_intervals_9, interval_9];
+% 
+%       % satellite 10 위치
+%       interval_10 = interval_1 + random_number_9; 
+%       interval_10(interval_10 > (L-1)) = interval_10(interval_10 > (L-1)) - L;
+%       integer_intervals_10 = [integer_intervals_10, interval_10];
+% 
+%       % satellite 11 위치 
+%       interval_11 = interval_1 + random_number_10; 
+%       interval_11(interval_11 > (L-1)) = interval_11(interval_11 > (L-1)) - L;
+%       integer_intervals_11 = [integer_intervals_11, interval_11];
+% 
+%       % satellite 12 위치
+%       interval_12 = interval_1 + random_number_11; 
+%       interval_12(interval_12 > (L-1)) = interval_12(interval_12 > (L-1)) - L;
+%       integer_intervals_12 = [integer_intervals_12, interval_12];
+% 
+%       % satellite 13 위치
+%       interval_13 = interval_1 + random_number_12; 
+%       interval_13(interval_13 > (L-1)) = interval_13(interval_13 > (L-1)) - L;
+%       integer_intervals_13 = [integer_intervals_13, interval_13];
+% 
+%       % satellite 14 위치
+%       interval_14 = interval_1 + random_number_13; 
+%       interval_14(interval_14 > (L-1)) = interval_14(interval_14 > (L-1)) - L;
+%       integer_intervals_14 = [integer_intervals_14, interval_14];
+% 
+%       % satellite 15 위치
+%       interval_15 = interval_1 + random_number_14; 
+%       interval_15(interval_15 > (L-1)) = interval_15(interval_15 > (L-1)) - L;
+%       integer_intervals_15 = [integer_intervals_15, interval_15];
+% 
+%       % satellite 16 위치
+%       interval_16 = interval_1 + random_number_15; 
+%       interval_16(interval_16 > (L-1)) = interval_16(interval_16 > (L-1)) - L;
+%       integer_intervals_16 = [integer_intervals_16, interval_16];
+% 
+%       % satellite 17 위치
+%       interval_17 = interval_1 + random_number_16; 
+%       interval_17(interval_17 > (L-1)) = interval_17(interval_17 > (L-1)) - L;
+%       integer_intervals_17 = [integer_intervals_17, interval_17];
+% 
+%       % satellite 18 위치 
+%       interval_18 = interval_1 + random_number_17; 
+%       interval_18(interval_18 > (L-1)) = interval_18(interval_18 > (L-1)) - L;
+%       integer_intervals_18 = [integer_intervals_18, interval_18];
+% 
+%       % satellite 19 위치
+%       interval_19 = interval_1 + random_number_18; 
+%       interval_19(interval_19 > (L-1)) = interval_19(interval_19 > (L-1)) - L;
+%       integer_intervals_19 = [integer_intervals_19, interval_19];
+% 
+%       % satellite 20 위치 
+%       interval_20 = interval_1 + random_number_19; 
+%       interval_20(interval_20 > (L-1)) = interval_20(interval_20 > (L-1)) - L;
+%       integer_intervals_20 = [integer_intervals_20, interval_20];
+% 
+%       % satellite 21 위치
+%       interval_21 = interval_1 + random_number_20; 
+%       interval_21(interval_21 > (L-1)) = interval_21(interval_21 > (L-1)) - L;
+%       integer_intervals_21 = [integer_intervals_21, interval_21];
+% 
+%       % satellite 22 위치 
+%       interval_22 = interval_1 + random_number_21; 
+%       interval_22(interval_22 > (L-1)) = interval_22(interval_22 > (L-1)) - L;
+%       integer_intervals_22 = [integer_intervals_22, interval_22];
+% 
+%       % satellite 23 위치
+%       interval_23 = interval_1 + random_number_22; 
+%       interval_23(interval_23 > (L-1)) = interval_23(interval_23 > (L-1)) - L;
+%       integer_intervals_23 = [integer_intervals_23, interval_23];
+% 
+%       % satellite 24 위치 
+%       interval_24 = interval_1 + random_number_23; 
+%       interval_24(interval_24 > (L-1)) = interval_24(interval_24 > (L-1)) - L;
+%       integer_intervals_24 = [integer_intervals_24, interval_24];
+% 
+%       % satellite 25 위치
+%       interval_25 = interval_1 + random_number_24; 
+%       interval_25(interval_25 > (L-1)) = interval_25(interval_25 > (L-1)) - L;
+%       integer_intervals_25 = [integer_intervals_25, interval_25];
+% 
+%       % satellite 26 위치
+%       interval_26 = interval_1 + random_number_25; 
+%       interval_26(interval_26 > (L-1)) = interval_26(interval_26 > (L-1)) - L;
+%       integer_intervals_26 = [integer_intervals_26, interval_26];
+% 
+%       % satellite 27 위치
+%       interval_27 = interval_1 + random_number_26; 
+%       interval_27(interval_27 > (L-1)) = interval_27(interval_27 > (L-1)) - L;
+%       integer_intervals_27 = [integer_intervals_27, interval_27];
+% 
+%       % satellite 28 위치
+%       interval_28 = interval_1 + random_number_27; 
+%       interval_28(interval_28 > (L-1)) = interval_28(interval_28 > (L-1)) - L;
+%       integer_intervals_28 = [integer_intervals_28, interval_28];
+% 
+%       % satellite 29 위치
+%       interval_29 = interval_1 + random_number_28; 
+%       interval_29(interval_29 > (L-1)) = interval_29(interval_29 > (L-1)) - L;
+%       integer_intervals_29 = [integer_intervals_29, interval_29];
+% 
+%       % satellite 30 위치 
+%       interval_30 = interval_1 + random_number_29; 
+%       interval_30(interval_30 > (L-1)) = interval_30(interval_30 > (L-1)) - L;
+%       integer_intervals_30 = [integer_intervals_30, interval_30];
+% 
+%       % satellite 31 위치
+%       interval_31 = interval_1 + random_number_30; 
+%       interval_31(interval_31 > (L-1)) = interval_31(interval_31 > (L-1)) - L;
+%       integer_intervals_31 = [integer_intervals_31, interval_31];
+% 
+%       % satellite 32 위치 생성
+%       interval_32 = interval_1 + n; 
+%       interval_32(interval_32 > (L-1)) = interval_32(interval_32 > (L-1)) - L;
+%       integer_intervals_32 = [integer_intervals_32, interval_32];
+%   end
+% 
+% 
+% sum_intervals = ...
+%     [integer_intervals_1, ...
+%     integer_intervals_2, ...
+%     integer_intervals_3, ...
+%     integer_intervals_4, ...
+%     integer_intervals_5, ...
+%     integer_intervals_6, ...
+%     integer_intervals_7, ...
+%     integer_intervals_8, ...
+%     integer_intervals_9, ...
+%     integer_intervals_10, ...
+%     integer_intervals_11, ...
+%     integer_intervals_12, ...
+%     integer_intervals_13, ...
+%     integer_intervals_14, ...
+%     integer_intervals_15, ...
+%     integer_intervals_16, ...
+%     integer_intervals_17, ...
+%     integer_intervals_18, ...
+%     integer_intervals_19, ...
+%     integer_intervals_20, ...
+%     integer_intervals_21, ...
+%     integer_intervals_22, ...
+%     integer_intervals_23, ...
+%     integer_intervals_24, ...
+%     integer_intervals_25, ...
+%     integer_intervals_26, ...
+%     integer_intervals_27, ...
+%     integer_intervals_28, ...
+%     integer_intervals_29, ...
+%     integer_intervals_30, ...
+%     integer_intervals_31, ...
+%     integer_intervals_32, ...
+%     ];
+% 
+% unique_intervals = unique(sort(sum_intervals));
+% 
+% difference = length(sum_intervals) - length(unique_intervals) ;
+% 
+% result_31 = [result_31; n, difference];
+% 
+% end
+% 
+% 
+% % 랜덤숫자 생성
+% 
+% result_sum31 = [result_31(:,1), result_31(:,2)];
+% 
+% rows_with_min_sum31 = result_sum31(result_sum31(:, 2) == min(result_sum31(:, 2)), :);
+% 
+% k_sum31 = rows_with_min_sum31(:,1);
+% 
+% random_index_31 = randi([1, length(k_sum31)]);
+% 
+% random_number_31 = k_sum31(random_index_31);
+% 
+% 
+% % renewal
+% integer_intervals_1 = [];
+% integer_intervals_2 = [];
+% integer_intervals_3 = [];
+% integer_intervals_4 = [];
+% integer_intervals_5 = [];
+% integer_intervals_6 = [];
+% integer_intervals_7 = [];
+% integer_intervals_8 = [];
+% integer_intervals_9 = [];
+% integer_intervals_10 = [];
+% integer_intervals_11 = [];
+% integer_intervals_12 = [];
+% integer_intervals_13 = [];
+% integer_intervals_14 = [];
+% integer_intervals_15 = [];
+% integer_intervals_16 = [];
+% integer_intervals_17 = [];
+% integer_intervals_18 = [];
+% integer_intervals_19 = [];
+% integer_intervals_20 = [];
+% integer_intervals_21 = [];
+% integer_intervals_22 = [];
+% integer_intervals_23 = [];
+% integer_intervals_24 = [];
+% integer_intervals_25 = [];
+% integer_intervals_26 = [];
+% integer_intervals_27 = [];
+% integer_intervals_28 = [];
+% integer_intervals_29 = [];
+% integer_intervals_30 = [];
+% integer_intervals_31 = [];
+% integer_intervals_32 = [];
+% 
+% for i = 1:length(ff_0)
+%     % satellite 1 위치 생성(seed)
+%     interval_1 = start_points(i) :end_points(i) ;
+%     interval_1(interval_1 > (L-1)) = interval_1(interval_1 > (L-1)) - L; 
+%     integer_intervals_1 = [integer_intervals_1, interval_1];
+% 
+%     % satellite 2 위치
+%     interval_2 = interval_1 + random_number_1; 
+%     interval_2(interval_2 > (L-1)) = interval_2(interval_2 > (L-1)) - L;
+%     integer_intervals_2 = [integer_intervals_2, interval_2];
+% 
+%     % satellite 3 위치
+%     interval_3 = interval_1 + random_number_2; 
+%     interval_3(interval_3 > (L-1)) = interval_3(interval_3 > (L-1)) - L;
+%     integer_intervals_3 = [integer_intervals_3, interval_3];
+% 
+%     % satellite 4 위치
+%     interval_4 = interval_1 + random_number_3; 
+%     interval_4(interval_4 > (L-1)) = interval_4(interval_4 > (L-1)) - L;
+%     integer_intervals_4 = [integer_intervals_4, interval_4];
+% 
+%     % satellite 5 위치
+%     interval_5 = interval_1 + random_number_4; 
+%     interval_5(interval_5 > (L-1)) = interval_5(interval_5 > (L-1)) - L;
+%     integer_intervals_5 = [integer_intervals_5, interval_5];
+% 
+%     % satellite 6 위치
+%     interval_6 = interval_1 + random_number_5; 
+%     interval_6(interval_6 > (L-1)) = interval_6(interval_6 > (L-1)) - L;
+%     integer_intervals_6 = [integer_intervals_6, interval_6];
+% 
+%     % satellite 7 위치
+%     interval_7 = interval_1 + random_number_6; 
+%     interval_7(interval_7 > (L-1)) = interval_7(interval_7 > (L-1)) - L;
+%     integer_intervals_7 = [integer_intervals_7, interval_7];
+% 
+%     % satellite 8 위치
+%     interval_8 = interval_1 + random_number_7; 
+%     interval_8(interval_8 > (L-1)) = interval_8(interval_8 > (L-1)) - L;
+%     integer_intervals_8 = [integer_intervals_8, interval_8];
+% 
+%     % satellite 9 위치
+%     interval_9 = interval_1 + random_number_8; 
+%     interval_9(interval_9 > (L-1)) = interval_9(interval_9 > (L-1)) - L;
+%     integer_intervals_9 = [integer_intervals_9, interval_9];
+% 
+%     % satellite 10 위치
+%     interval_10 = interval_1 + random_number_9; 
+%     interval_10(interval_10 > (L-1)) = interval_10(interval_10 > (L-1)) - L;
+%     integer_intervals_10 = [integer_intervals_10, interval_10];
+% 
+%     % satellite 11 위치
+%     interval_11 = interval_1 + random_number_10; 
+%     interval_11(interval_11 > (L-1)) = interval_11(interval_11 > (L-1)) - L;
+%     integer_intervals_11 = [integer_intervals_11, interval_11];
+% 
+%     % satellite 12 위치
+%     interval_12 = interval_1 + random_number_11; 
+%     interval_12(interval_12 > (L-1)) = interval_12(interval_12 > (L-1)) - L;
+%     integer_intervals_12 = [integer_intervals_12, interval_12];
+% 
+%     % satellite 13 위치
+%     interval_13 = interval_1 + random_number_12; 
+%     interval_13(interval_13 > (L-1)) = interval_13(interval_13 > (L-1)) - L;
+%     integer_intervals_13 = [integer_intervals_13, interval_13];
+% 
+%     % satellite 14 위치
+%     interval_14 = interval_1 + random_number_13; 
+%     interval_14(interval_14 > (L-1)) = interval_14(interval_14 > (L-1)) - L;
+%     integer_intervals_14 = [integer_intervals_14, interval_14];
+% 
+%     % satellite 15 위치
+%     interval_15 = interval_1 + random_number_14; 
+%     interval_15(interval_15 > (L-1)) = interval_15(interval_15 > (L-1)) - L;
+%     integer_intervals_15 = [integer_intervals_15, interval_15];
+% 
+%     % satellite 16 위치
+%     interval_16 = interval_1 + random_number_15; 
+%     interval_16(interval_16 > (L-1)) = interval_16(interval_16 > (L-1)) - L;
+%     integer_intervals_16 = [integer_intervals_16, interval_16];
+% 
+%     % satellite 17 위치
+%     interval_17 = interval_1 + random_number_16; 
+%     interval_17(interval_17 > (L-1)) = interval_17(interval_17 > (L-1)) - L;
+%     integer_intervals_17 = [integer_intervals_17, interval_17];
+% 
+%     % satellite 18 위치
+%     interval_18 = interval_1 + random_number_17; 
+%     interval_18(interval_18 > (L-1)) = interval_18(interval_18 > (L-1)) - L;
+%     integer_intervals_18 = [integer_intervals_18, interval_18];
+% 
+%     % satellite 19 위치
+%     interval_19 = interval_1 + random_number_18; 
+%     interval_19(interval_19 > (L-1)) = interval_19(interval_19 > (L-1)) - L;
+%     integer_intervals_19 = [integer_intervals_19, interval_19];
+% 
+%     % satellite 20 위치
+%     interval_20 = interval_1 + random_number_19; 
+%     interval_20(interval_20 > (L-1)) = interval_20(interval_20 > (L-1)) - L;
+%     integer_intervals_20 = [integer_intervals_20, interval_20];
+% 
+%     % satellite 21 위치
+%     interval_21 = interval_1 + random_number_20; 
+%     interval_21(interval_21 > (L-1)) = interval_21(interval_21 > (L-1)) - L;
+%     integer_intervals_21 = [integer_intervals_21, interval_21];
+% 
+%     % satellite 22 위치
+%     interval_22 = interval_1 + random_number_21; 
+%     interval_22(interval_22 > (L-1)) = interval_22(interval_22 > (L-1)) - L;
+%     integer_intervals_22 = [integer_intervals_22, interval_22];
+% 
+%     % satellite 23 위치
+%     interval_23 = interval_1 + random_number_22; 
+%     interval_23(interval_23 > (L-1)) = interval_23(interval_23 > (L-1)) - L;
+%     integer_intervals_23 = [integer_intervals_23, interval_23];
+% 
+%     % satellite 24 위치
+%     interval_24 = interval_1 + random_number_23; 
+%     interval_24(interval_24 > (L-1)) = interval_24(interval_24 > (L-1)) - L;
+%     integer_intervals_24 = [integer_intervals_24, interval_24];
+% 
+%     % satellite 25 위치
+%     interval_25 = interval_1 + random_number_24; 
+%     interval_25(interval_25 > (L-1)) = interval_25(interval_25 > (L-1)) - L;
+%     integer_intervals_25 = [integer_intervals_25, interval_25];
+% 
+%     % satellite 26 위치
+%     interval_26 = interval_1 + random_number_25; 
+%     interval_26(interval_26 > (L-1)) = interval_26(interval_26 > (L-1)) - L;
+%     integer_intervals_26 = [integer_intervals_26, interval_26];
+% 
+%     % satellite 27 위치
+%     interval_27 = interval_1 + random_number_26; 
+%     interval_27(interval_27 > (L-1)) = interval_27(interval_27 > (L-1)) - L;
+%     integer_intervals_27 = [integer_intervals_27, interval_27];
+% 
+%     % satellite 28 위치
+%     interval_28 = interval_1 + random_number_27; 
+%     interval_28(interval_28 > (L-1)) = interval_28(interval_28 > (L-1)) - L;
+%     integer_intervals_28 = [integer_intervals_28, interval_28];
+% 
+%     % satellite 29 위치
+%     interval_29 = interval_1 + random_number_28; 
+%     interval_29(interval_29 > (L-1)) = interval_29(interval_29 > (L-1)) - L;
+%     integer_intervals_29 = [integer_intervals_29, interval_29];
+% 
+%     % satellite 30 위치
+%     interval_30 = interval_1 + random_number_29; 
+%     interval_30(interval_30 > (L-1)) = interval_30(interval_30 > (L-1)) - L;
+%     integer_intervals_30 = [integer_intervals_30, interval_30];
+% 
+%     % satellite 31 위치
+%     interval_31 = interval_1 + random_number_30; 
+%     interval_31(interval_31 > (L-1)) = interval_31(interval_31 > (L-1)) - L;
+%     integer_intervals_31 = [integer_intervals_31, interval_31];
+% 
+%      % satellite 32 위치
+%     interval_32 = interval_1 + random_number_31; 
+%     interval_32(interval_32 > (L-1)) = interval_32(interval_32 > (L-1)) - L;
+%     integer_intervals_32 = [integer_intervals_32, interval_32];
+% end
+% 
+% 
+% sum_intervals = ...
+%     [integer_intervals_1, ...
+%     integer_intervals_2, ...
+%     integer_intervals_3, ...
+%     integer_intervals_4, ...
+%     integer_intervals_5, ...
+%     integer_intervals_6, ...
+%     integer_intervals_7, ...
+%     integer_intervals_8, ...
+%     integer_intervals_9, ...
+%     integer_intervals_10, ...
+%     integer_intervals_11, ...
+%     integer_intervals_12, ...
+%     integer_intervals_13, ...
+%     integer_intervals_14, ...
+%     integer_intervals_15, ...
+%     integer_intervals_16, ...
+%     integer_intervals_17, ...
+%     integer_intervals_18, ...
+%     integer_intervals_19, ...
+%     integer_intervals_20, ...
+%     integer_intervals_21, ...
+%     integer_intervals_22, ...
+%     integer_intervals_23, ...
+%     integer_intervals_24, ...
+%     integer_intervals_25, ...
+%     integer_intervals_26, ...
+%     integer_intervals_27, ...
+%     integer_intervals_28, ...
+%     integer_intervals_29, ...
+%     integer_intervals_30, ...
+%     integer_intervals_31, ...
+%     integer_intervals_32, ...
+%     ];
+% 
+% unique_intervals = unique(sort(sum_intervals));
+% 
+% Cov_32 = length(unique_intervals) / L * 100;
+% 
+% 
+% %% Random32 (위성 33대)
+% 
+% for n = 0 : L-1
+% integer_intervals_1 = [];
+% integer_intervals_2 = [];
+% integer_intervals_3 = [];
+% integer_intervals_4 = [];
+% integer_intervals_5 = [];
+% integer_intervals_6 = [];
+% integer_intervals_7 = [];
+% integer_intervals_8 = [];
+% integer_intervals_9 = [];
+% integer_intervals_10 = [];
+% integer_intervals_11 = [];
+% integer_intervals_12 = [];
+% integer_intervals_13 = [];
+% integer_intervals_14 = [];
+% integer_intervals_15 = [];
+% integer_intervals_16 = [];
+% integer_intervals_17 = [];
+% integer_intervals_18 = [];
+% integer_intervals_19 = [];
+% integer_intervals_20 = [];
+% integer_intervals_21 = [];
+% integer_intervals_22 = [];
+% integer_intervals_23 = [];
+% integer_intervals_24 = [];
+% integer_intervals_25 = [];
+% integer_intervals_26 = [];
+% integer_intervals_27 = [];
+% integer_intervals_28 = [];
+% integer_intervals_29 = [];
+% integer_intervals_30 = [];
+% integer_intervals_31 = [];
+% integer_intervals_32 = [];
+% integer_intervals_33 = [];
+% 
+% 
+%   for i = 1:length(ff_0)
+%       % satellite 1 위치(seed)
+%       interval_1 = start_points(i) :end_points(i) ;
+%       interval_1(interval_1 > (L-1)) = interval_1(interval_1 > (L-1)) - L; 
+%       integer_intervals_1 = [integer_intervals_1, interval_1];
+% 
+%       % satellite 2 위치
+%       interval_2 = interval_1 + random_number_1; 
+%       interval_2(interval_2 > (L-1)) = interval_2(interval_2 > (L-1)) - L;
+%       integer_intervals_2 = [integer_intervals_2, interval_2];
+% 
+%       % satellite 3 위치
+%       interval_3 = interval_1 + random_number_2; 
+%       interval_3(interval_3 > (L-1)) = interval_3(interval_3 > (L-1)) - L;
+%       integer_intervals_3 = [integer_intervals_3, interval_3];
+% 
+%       % satellite 4 위치
+%       interval_4 = interval_1 + random_number_3; 
+%       interval_4(interval_4 > (L-1)) = interval_4(interval_4 > (L-1)) - L;
+%       integer_intervals_4 = [integer_intervals_4, interval_4];
+% 
+%       % satellite 5 위치
+%       interval_5 = interval_1 + random_number_4; 
+%       interval_5(interval_5 > (L-1)) = interval_5(interval_5 > (L-1)) - L;
+%       integer_intervals_5 = [integer_intervals_5, interval_5];
+% 
+%       % satellite 6 위치
+%       interval_6 = interval_1 + random_number_5; 
+%       interval_6(interval_6 > (L-1)) = interval_6(interval_6 > (L-1)) - L;
+%       integer_intervals_6 = [integer_intervals_6, interval_6];
+% 
+%       % satellite 7 위치
+%       interval_7 = interval_1 + random_number_6; 
+%       interval_7(interval_7 > (L-1)) = interval_7(interval_7 > (L-1)) - L;
+%       integer_intervals_7 = [integer_intervals_7, interval_7];
+% 
+%       % satellite 8 위치
+%       interval_8 = interval_1 + random_number_7; 
+%       interval_8(interval_8 > (L-1)) = interval_8(interval_8 > (L-1)) - L;
+%       integer_intervals_8 = [integer_intervals_8, interval_8];
+% 
+%       % satellite 9 위치
+%       interval_9 = interval_1 + random_number_8; 
+%       interval_9(interval_9 > (L-1)) = interval_9(interval_9 > (L-1)) - L;
+%       integer_intervals_9 = [integer_intervals_9, interval_9];
+% 
+%       % satellite 10 위치
+%       interval_10 = interval_1 + random_number_9; 
+%       interval_10(interval_10 > (L-1)) = interval_10(interval_10 > (L-1)) - L;
+%       integer_intervals_10 = [integer_intervals_10, interval_10];
+% 
+%       % satellite 11 위치 
+%       interval_11 = interval_1 + random_number_10; 
+%       interval_11(interval_11 > (L-1)) = interval_11(interval_11 > (L-1)) - L;
+%       integer_intervals_11 = [integer_intervals_11, interval_11];
+% 
+%       % satellite 12 위치
+%       interval_12 = interval_1 + random_number_11; 
+%       interval_12(interval_12 > (L-1)) = interval_12(interval_12 > (L-1)) - L;
+%       integer_intervals_12 = [integer_intervals_12, interval_12];
+% 
+%       % satellite 13 위치
+%       interval_13 = interval_1 + random_number_12; 
+%       interval_13(interval_13 > (L-1)) = interval_13(interval_13 > (L-1)) - L;
+%       integer_intervals_13 = [integer_intervals_13, interval_13];
+% 
+%       % satellite 14 위치
+%       interval_14 = interval_1 + random_number_13; 
+%       interval_14(interval_14 > (L-1)) = interval_14(interval_14 > (L-1)) - L;
+%       integer_intervals_14 = [integer_intervals_14, interval_14];
+% 
+%       % satellite 15 위치
+%       interval_15 = interval_1 + random_number_14; 
+%       interval_15(interval_15 > (L-1)) = interval_15(interval_15 > (L-1)) - L;
+%       integer_intervals_15 = [integer_intervals_15, interval_15];
+% 
+%       % satellite 16 위치
+%       interval_16 = interval_1 + random_number_15; 
+%       interval_16(interval_16 > (L-1)) = interval_16(interval_16 > (L-1)) - L;
+%       integer_intervals_16 = [integer_intervals_16, interval_16];
+% 
+%       % satellite 17 위치
+%       interval_17 = interval_1 + random_number_16; 
+%       interval_17(interval_17 > (L-1)) = interval_17(interval_17 > (L-1)) - L;
+%       integer_intervals_17 = [integer_intervals_17, interval_17];
+% 
+%       % satellite 18 위치 
+%       interval_18 = interval_1 + random_number_17; 
+%       interval_18(interval_18 > (L-1)) = interval_18(interval_18 > (L-1)) - L;
+%       integer_intervals_18 = [integer_intervals_18, interval_18];
+% 
+%       % satellite 19 위치
+%       interval_19 = interval_1 + random_number_18; 
+%       interval_19(interval_19 > (L-1)) = interval_19(interval_19 > (L-1)) - L;
+%       integer_intervals_19 = [integer_intervals_19, interval_19];
+% 
+%       % satellite 20 위치 
+%       interval_20 = interval_1 + random_number_19; 
+%       interval_20(interval_20 > (L-1)) = interval_20(interval_20 > (L-1)) - L;
+%       integer_intervals_20 = [integer_intervals_20, interval_20];
+% 
+%       % satellite 21 위치
+%       interval_21 = interval_1 + random_number_20; 
+%       interval_21(interval_21 > (L-1)) = interval_21(interval_21 > (L-1)) - L;
+%       integer_intervals_21 = [integer_intervals_21, interval_21];
+% 
+%       % satellite 22 위치 
+%       interval_22 = interval_1 + random_number_21; 
+%       interval_22(interval_22 > (L-1)) = interval_22(interval_22 > (L-1)) - L;
+%       integer_intervals_22 = [integer_intervals_22, interval_22];
+% 
+%       % satellite 23 위치
+%       interval_23 = interval_1 + random_number_22; 
+%       interval_23(interval_23 > (L-1)) = interval_23(interval_23 > (L-1)) - L;
+%       integer_intervals_23 = [integer_intervals_23, interval_23];
+% 
+%       % satellite 24 위치 
+%       interval_24 = interval_1 + random_number_23; 
+%       interval_24(interval_24 > (L-1)) = interval_24(interval_24 > (L-1)) - L;
+%       integer_intervals_24 = [integer_intervals_24, interval_24];
+% 
+%       % satellite 25 위치
+%       interval_25 = interval_1 + random_number_24; 
+%       interval_25(interval_25 > (L-1)) = interval_25(interval_25 > (L-1)) - L;
+%       integer_intervals_25 = [integer_intervals_25, interval_25];
+% 
+%       % satellite 26 위치
+%       interval_26 = interval_1 + random_number_25; 
+%       interval_26(interval_26 > (L-1)) = interval_26(interval_26 > (L-1)) - L;
+%       integer_intervals_26 = [integer_intervals_26, interval_26];
+% 
+%       % satellite 27 위치
+%       interval_27 = interval_1 + random_number_26; 
+%       interval_27(interval_27 > (L-1)) = interval_27(interval_27 > (L-1)) - L;
+%       integer_intervals_27 = [integer_intervals_27, interval_27];
+% 
+%       % satellite 28 위치
+%       interval_28 = interval_1 + random_number_27; 
+%       interval_28(interval_28 > (L-1)) = interval_28(interval_28 > (L-1)) - L;
+%       integer_intervals_28 = [integer_intervals_28, interval_28];
+% 
+%       % satellite 29 위치
+%       interval_29 = interval_1 + random_number_28; 
+%       interval_29(interval_29 > (L-1)) = interval_29(interval_29 > (L-1)) - L;
+%       integer_intervals_29 = [integer_intervals_29, interval_29];
+% 
+%       % satellite 30 위치 
+%       interval_30 = interval_1 + random_number_29; 
+%       interval_30(interval_30 > (L-1)) = interval_30(interval_30 > (L-1)) - L;
+%       integer_intervals_30 = [integer_intervals_30, interval_30];
+% 
+%       % satellite 31 위치
+%       interval_31 = interval_1 + random_number_30; 
+%       interval_31(interval_31 > (L-1)) = interval_31(interval_31 > (L-1)) - L;
+%       integer_intervals_31 = [integer_intervals_31, interval_31];
+% 
+%       % satellite 32 위치
+%       interval_32 = interval_1 + random_number_31; 
+%       interval_32(interval_32 > (L-1)) = interval_32(interval_32 > (L-1)) - L;
+%       integer_intervals_32 = [integer_intervals_32, interval_32];
+% 
+%       % satellite 33 위치 생성
+%       interval_33 = interval_1 + n; 
+%       interval_33(interval_33 > (L-1)) = interval_33(interval_33 > (L-1)) - L;
+%       integer_intervals_33 = [integer_intervals_33, interval_33];
+%   end
+% 
+% 
+% sum_intervals = ...
+%     [integer_intervals_1, ...
+%     integer_intervals_2, ...
+%     integer_intervals_3, ...
+%     integer_intervals_4, ...
+%     integer_intervals_5, ...
+%     integer_intervals_6, ...
+%     integer_intervals_7, ...
+%     integer_intervals_8, ...
+%     integer_intervals_9, ...
+%     integer_intervals_10, ...
+%     integer_intervals_11, ...
+%     integer_intervals_12, ...
+%     integer_intervals_13, ...
+%     integer_intervals_14, ...
+%     integer_intervals_15, ...
+%     integer_intervals_16, ...
+%     integer_intervals_17, ...
+%     integer_intervals_18, ...
+%     integer_intervals_19, ...
+%     integer_intervals_20, ...
+%     integer_intervals_21, ...
+%     integer_intervals_22, ...
+%     integer_intervals_23, ...
+%     integer_intervals_24, ...
+%     integer_intervals_25, ...
+%     integer_intervals_26, ...
+%     integer_intervals_27, ...
+%     integer_intervals_28, ...
+%     integer_intervals_29, ...
+%     integer_intervals_30, ...
+%     integer_intervals_31, ...
+%     integer_intervals_32, ...
+%     integer_intervals_33, ...
+%     ];
+% 
+% unique_intervals = unique(sort(sum_intervals));
+% 
+% difference = length(sum_intervals) - length(unique_intervals) ;
+% 
+% result_32 = [result_32; n, difference];
+% 
+% end
+% 
+% 
+% % 랜덤숫자 생성
+% 
+% result_sum32 = [result_32(:,1), result_32(:,2)];
+% 
+% rows_with_min_sum32 = result_sum32(result_sum32(:, 2) == min(result_sum32(:, 2)), :);
+% 
+% k_sum32 = rows_with_min_sum32(:,1);
+% 
+% random_index_32 = randi([1, length(k_sum32)]);
+% 
+% random_number_32 = k_sum32(random_index_32);
+% 
+% 
+% % renewal
+% integer_intervals_1 = [];
+% integer_intervals_2 = [];
+% integer_intervals_3 = [];
+% integer_intervals_4 = [];
+% integer_intervals_5 = [];
+% integer_intervals_6 = [];
+% integer_intervals_7 = [];
+% integer_intervals_8 = [];
+% integer_intervals_9 = [];
+% integer_intervals_10 = [];
+% integer_intervals_11 = [];
+% integer_intervals_12 = [];
+% integer_intervals_13 = [];
+% integer_intervals_14 = [];
+% integer_intervals_15 = [];
+% integer_intervals_16 = [];
+% integer_intervals_17 = [];
+% integer_intervals_18 = [];
+% integer_intervals_19 = [];
+% integer_intervals_20 = [];
+% integer_intervals_21 = [];
+% integer_intervals_22 = [];
+% integer_intervals_23 = [];
+% integer_intervals_24 = [];
+% integer_intervals_25 = [];
+% integer_intervals_26 = [];
+% integer_intervals_27 = [];
+% integer_intervals_28 = [];
+% integer_intervals_29 = [];
+% integer_intervals_30 = [];
+% integer_intervals_31 = [];
+% integer_intervals_32 = [];
+% integer_intervals_33 = [];
+% 
+% for i = 1:length(ff_0)
+%     % satellite 1 위치 생성(seed)
+%     interval_1 = start_points(i) :end_points(i) ;
+%     interval_1(interval_1 > (L-1)) = interval_1(interval_1 > (L-1)) - L; 
+%     integer_intervals_1 = [integer_intervals_1, interval_1];
+% 
+%     % satellite 2 위치
+%     interval_2 = interval_1 + random_number_1; 
+%     interval_2(interval_2 > (L-1)) = interval_2(interval_2 > (L-1)) - L;
+%     integer_intervals_2 = [integer_intervals_2, interval_2];
+% 
+%     % satellite 3 위치
+%     interval_3 = interval_1 + random_number_2; 
+%     interval_3(interval_3 > (L-1)) = interval_3(interval_3 > (L-1)) - L;
+%     integer_intervals_3 = [integer_intervals_3, interval_3];
+% 
+%     % satellite 4 위치
+%     interval_4 = interval_1 + random_number_3; 
+%     interval_4(interval_4 > (L-1)) = interval_4(interval_4 > (L-1)) - L;
+%     integer_intervals_4 = [integer_intervals_4, interval_4];
+% 
+%     % satellite 5 위치
+%     interval_5 = interval_1 + random_number_4; 
+%     interval_5(interval_5 > (L-1)) = interval_5(interval_5 > (L-1)) - L;
+%     integer_intervals_5 = [integer_intervals_5, interval_5];
+% 
+%     % satellite 6 위치
+%     interval_6 = interval_1 + random_number_5; 
+%     interval_6(interval_6 > (L-1)) = interval_6(interval_6 > (L-1)) - L;
+%     integer_intervals_6 = [integer_intervals_6, interval_6];
+% 
+%     % satellite 7 위치
+%     interval_7 = interval_1 + random_number_6; 
+%     interval_7(interval_7 > (L-1)) = interval_7(interval_7 > (L-1)) - L;
+%     integer_intervals_7 = [integer_intervals_7, interval_7];
+% 
+%     % satellite 8 위치
+%     interval_8 = interval_1 + random_number_7; 
+%     interval_8(interval_8 > (L-1)) = interval_8(interval_8 > (L-1)) - L;
+%     integer_intervals_8 = [integer_intervals_8, interval_8];
+% 
+%     % satellite 9 위치
+%     interval_9 = interval_1 + random_number_8; 
+%     interval_9(interval_9 > (L-1)) = interval_9(interval_9 > (L-1)) - L;
+%     integer_intervals_9 = [integer_intervals_9, interval_9];
+% 
+%     % satellite 10 위치
+%     interval_10 = interval_1 + random_number_9; 
+%     interval_10(interval_10 > (L-1)) = interval_10(interval_10 > (L-1)) - L;
+%     integer_intervals_10 = [integer_intervals_10, interval_10];
+% 
+%     % satellite 11 위치
+%     interval_11 = interval_1 + random_number_10; 
+%     interval_11(interval_11 > (L-1)) = interval_11(interval_11 > (L-1)) - L;
+%     integer_intervals_11 = [integer_intervals_11, interval_11];
+% 
+%     % satellite 12 위치
+%     interval_12 = interval_1 + random_number_11; 
+%     interval_12(interval_12 > (L-1)) = interval_12(interval_12 > (L-1)) - L;
+%     integer_intervals_12 = [integer_intervals_12, interval_12];
+% 
+%     % satellite 13 위치
+%     interval_13 = interval_1 + random_number_12; 
+%     interval_13(interval_13 > (L-1)) = interval_13(interval_13 > (L-1)) - L;
+%     integer_intervals_13 = [integer_intervals_13, interval_13];
+% 
+%     % satellite 14 위치
+%     interval_14 = interval_1 + random_number_13; 
+%     interval_14(interval_14 > (L-1)) = interval_14(interval_14 > (L-1)) - L;
+%     integer_intervals_14 = [integer_intervals_14, interval_14];
+% 
+%     % satellite 15 위치
+%     interval_15 = interval_1 + random_number_14; 
+%     interval_15(interval_15 > (L-1)) = interval_15(interval_15 > (L-1)) - L;
+%     integer_intervals_15 = [integer_intervals_15, interval_15];
+% 
+%     % satellite 16 위치
+%     interval_16 = interval_1 + random_number_15; 
+%     interval_16(interval_16 > (L-1)) = interval_16(interval_16 > (L-1)) - L;
+%     integer_intervals_16 = [integer_intervals_16, interval_16];
+% 
+%     % satellite 17 위치
+%     interval_17 = interval_1 + random_number_16; 
+%     interval_17(interval_17 > (L-1)) = interval_17(interval_17 > (L-1)) - L;
+%     integer_intervals_17 = [integer_intervals_17, interval_17];
+% 
+%     % satellite 18 위치
+%     interval_18 = interval_1 + random_number_17; 
+%     interval_18(interval_18 > (L-1)) = interval_18(interval_18 > (L-1)) - L;
+%     integer_intervals_18 = [integer_intervals_18, interval_18];
+% 
+%     % satellite 19 위치
+%     interval_19 = interval_1 + random_number_18; 
+%     interval_19(interval_19 > (L-1)) = interval_19(interval_19 > (L-1)) - L;
+%     integer_intervals_19 = [integer_intervals_19, interval_19];
+% 
+%     % satellite 20 위치
+%     interval_20 = interval_1 + random_number_19; 
+%     interval_20(interval_20 > (L-1)) = interval_20(interval_20 > (L-1)) - L;
+%     integer_intervals_20 = [integer_intervals_20, interval_20];
+% 
+%     % satellite 21 위치
+%     interval_21 = interval_1 + random_number_20; 
+%     interval_21(interval_21 > (L-1)) = interval_21(interval_21 > (L-1)) - L;
+%     integer_intervals_21 = [integer_intervals_21, interval_21];
+% 
+%     % satellite 22 위치
+%     interval_22 = interval_1 + random_number_21; 
+%     interval_22(interval_22 > (L-1)) = interval_22(interval_22 > (L-1)) - L;
+%     integer_intervals_22 = [integer_intervals_22, interval_22];
+% 
+%     % satellite 23 위치
+%     interval_23 = interval_1 + random_number_22; 
+%     interval_23(interval_23 > (L-1)) = interval_23(interval_23 > (L-1)) - L;
+%     integer_intervals_23 = [integer_intervals_23, interval_23];
+% 
+%     % satellite 24 위치
+%     interval_24 = interval_1 + random_number_23; 
+%     interval_24(interval_24 > (L-1)) = interval_24(interval_24 > (L-1)) - L;
+%     integer_intervals_24 = [integer_intervals_24, interval_24];
+% 
+%     % satellite 25 위치
+%     interval_25 = interval_1 + random_number_24; 
+%     interval_25(interval_25 > (L-1)) = interval_25(interval_25 > (L-1)) - L;
+%     integer_intervals_25 = [integer_intervals_25, interval_25];
+% 
+%     % satellite 26 위치
+%     interval_26 = interval_1 + random_number_25; 
+%     interval_26(interval_26 > (L-1)) = interval_26(interval_26 > (L-1)) - L;
+%     integer_intervals_26 = [integer_intervals_26, interval_26];
+% 
+%     % satellite 27 위치
+%     interval_27 = interval_1 + random_number_26; 
+%     interval_27(interval_27 > (L-1)) = interval_27(interval_27 > (L-1)) - L;
+%     integer_intervals_27 = [integer_intervals_27, interval_27];
+% 
+%     % satellite 28 위치
+%     interval_28 = interval_1 + random_number_27; 
+%     interval_28(interval_28 > (L-1)) = interval_28(interval_28 > (L-1)) - L;
+%     integer_intervals_28 = [integer_intervals_28, interval_28];
+% 
+%     % satellite 29 위치
+%     interval_29 = interval_1 + random_number_28; 
+%     interval_29(interval_29 > (L-1)) = interval_29(interval_29 > (L-1)) - L;
+%     integer_intervals_29 = [integer_intervals_29, interval_29];
+% 
+%     % satellite 30 위치
+%     interval_30 = interval_1 + random_number_29; 
+%     interval_30(interval_30 > (L-1)) = interval_30(interval_30 > (L-1)) - L;
+%     integer_intervals_30 = [integer_intervals_30, interval_30];
+% 
+%     % satellite 31 위치
+%     interval_31 = interval_1 + random_number_30; 
+%     interval_31(interval_31 > (L-1)) = interval_31(interval_31 > (L-1)) - L;
+%     integer_intervals_31 = [integer_intervals_31, interval_31];
+% 
+%      % satellite 32 위치
+%     interval_32 = interval_1 + random_number_31; 
+%     interval_32(interval_32 > (L-1)) = interval_32(interval_32 > (L-1)) - L;
+%     integer_intervals_32 = [integer_intervals_32, interval_32];
+% 
+%     % satellite 33 위치
+%     interval_33 = interval_1 + random_number_32; 
+%     interval_33(interval_33 > (L-1)) = interval_33(interval_33 > (L-1)) - L;
+%     integer_intervals_33 = [integer_intervals_33, interval_33];
+% end
+% 
+% 
+% sum_intervals = ...
+%     [integer_intervals_1, ...
+%     integer_intervals_2, ...
+%     integer_intervals_3, ...
+%     integer_intervals_4, ...
+%     integer_intervals_5, ...
+%     integer_intervals_6, ...
+%     integer_intervals_7, ...
+%     integer_intervals_8, ...
+%     integer_intervals_9, ...
+%     integer_intervals_10, ...
+%     integer_intervals_11, ...
+%     integer_intervals_12, ...
+%     integer_intervals_13, ...
+%     integer_intervals_14, ...
+%     integer_intervals_15, ...
+%     integer_intervals_16, ...
+%     integer_intervals_17, ...
+%     integer_intervals_18, ...
+%     integer_intervals_19, ...
+%     integer_intervals_20, ...
+%     integer_intervals_21, ...
+%     integer_intervals_22, ...
+%     integer_intervals_23, ...
+%     integer_intervals_24, ...
+%     integer_intervals_25, ...
+%     integer_intervals_26, ...
+%     integer_intervals_27, ...
+%     integer_intervals_28, ...
+%     integer_intervals_29, ...
+%     integer_intervals_30, ...
+%     integer_intervals_31, ...
+%     integer_intervals_32, ...
+%     integer_intervals_33, ...
+%     ];
+% 
+% unique_intervals = unique(sort(sum_intervals));
+% 
+% Cov_33 = length(unique_intervals) / L * 100
+% 
+% 
+% % Random33 (위성 34대)
+% 
+% for n = 0 : L-1
+% integer_intervals_1 = [];
+% integer_intervals_2 = [];
+% integer_intervals_3 = [];
+% integer_intervals_4 = [];
+% integer_intervals_5 = [];
+% integer_intervals_6 = [];
+% integer_intervals_7 = [];
+% integer_intervals_8 = [];
+% integer_intervals_9 = [];
+% integer_intervals_10 = [];
+% integer_intervals_11 = [];
+% integer_intervals_12 = [];
+% integer_intervals_13 = [];
+% integer_intervals_14 = [];
+% integer_intervals_15 = [];
+% integer_intervals_16 = [];
+% integer_intervals_17 = [];
+% integer_intervals_18 = [];
+% integer_intervals_19 = [];
+% integer_intervals_20 = [];
+% integer_intervals_21 = [];
+% integer_intervals_22 = [];
+% integer_intervals_23 = [];
+% integer_intervals_24 = [];
+% integer_intervals_25 = [];
+% integer_intervals_26 = [];
+% integer_intervals_27 = [];
+% integer_intervals_28 = [];
+% integer_intervals_29 = [];
+% integer_intervals_30 = [];
+% integer_intervals_31 = [];
+% integer_intervals_32 = [];
+% integer_intervals_33 = [];
+% integer_intervals_34 = [];
+% 
+% 
+%   for i = 1:length(ff_0)
+%       satellite 1 위치(seed)
+%       interval_1 = start_points(i) :end_points(i) ;
+%       interval_1(interval_1 > (L-1)) = interval_1(interval_1 > (L-1)) - L; 
+%       integer_intervals_1 = [integer_intervals_1, interval_1];
+% 
+%       satellite 2 위치
+%       interval_2 = interval_1 + random_number_1; 
+%       interval_2(interval_2 > (L-1)) = interval_2(interval_2 > (L-1)) - L;
+%       integer_intervals_2 = [integer_intervals_2, interval_2];
+% 
+%       satellite 3 위치
+%       interval_3 = interval_1 + random_number_2; 
+%       interval_3(interval_3 > (L-1)) = interval_3(interval_3 > (L-1)) - L;
+%       integer_intervals_3 = [integer_intervals_3, interval_3];
+% 
+%       satellite 4 위치
+%       interval_4 = interval_1 + random_number_3; 
+%       interval_4(interval_4 > (L-1)) = interval_4(interval_4 > (L-1)) - L;
+%       integer_intervals_4 = [integer_intervals_4, interval_4];
+% 
+%       satellite 5 위치
+%       interval_5 = interval_1 + random_number_4; 
+%       interval_5(interval_5 > (L-1)) = interval_5(interval_5 > (L-1)) - L;
+%       integer_intervals_5 = [integer_intervals_5, interval_5];
+% 
+%       satellite 6 위치
+%       interval_6 = interval_1 + random_number_5; 
+%       interval_6(interval_6 > (L-1)) = interval_6(interval_6 > (L-1)) - L;
+%       integer_intervals_6 = [integer_intervals_6, interval_6];
+% 
+%       satellite 7 위치
+%       interval_7 = interval_1 + random_number_6; 
+%       interval_7(interval_7 > (L-1)) = interval_7(interval_7 > (L-1)) - L;
+%       integer_intervals_7 = [integer_intervals_7, interval_7];
+% 
+%       satellite 8 위치
+%       interval_8 = interval_1 + random_number_7; 
+%       interval_8(interval_8 > (L-1)) = interval_8(interval_8 > (L-1)) - L;
+%       integer_intervals_8 = [integer_intervals_8, interval_8];
+% 
+%       satellite 9 위치
+%       interval_9 = interval_1 + random_number_8; 
+%       interval_9(interval_9 > (L-1)) = interval_9(interval_9 > (L-1)) - L;
+%       integer_intervals_9 = [integer_intervals_9, interval_9];
+% 
+%       satellite 10 위치
+%       interval_10 = interval_1 + random_number_9; 
+%       interval_10(interval_10 > (L-1)) = interval_10(interval_10 > (L-1)) - L;
+%       integer_intervals_10 = [integer_intervals_10, interval_10];
+% 
+%       satellite 11 위치 
+%       interval_11 = interval_1 + random_number_10; 
+%       interval_11(interval_11 > (L-1)) = interval_11(interval_11 > (L-1)) - L;
+%       integer_intervals_11 = [integer_intervals_11, interval_11];
+% 
+%       satellite 12 위치
+%       interval_12 = interval_1 + random_number_11; 
+%       interval_12(interval_12 > (L-1)) = interval_12(interval_12 > (L-1)) - L;
+%       integer_intervals_12 = [integer_intervals_12, interval_12];
+% 
+%       satellite 13 위치
+%       interval_13 = interval_1 + random_number_12; 
+%       interval_13(interval_13 > (L-1)) = interval_13(interval_13 > (L-1)) - L;
+%       integer_intervals_13 = [integer_intervals_13, interval_13];
+% 
+%       satellite 14 위치
+%       interval_14 = interval_1 + random_number_13; 
+%       interval_14(interval_14 > (L-1)) = interval_14(interval_14 > (L-1)) - L;
+%       integer_intervals_14 = [integer_intervals_14, interval_14];
+% 
+%       satellite 15 위치
+%       interval_15 = interval_1 + random_number_14; 
+%       interval_15(interval_15 > (L-1)) = interval_15(interval_15 > (L-1)) - L;
+%       integer_intervals_15 = [integer_intervals_15, interval_15];
+% 
+%       satellite 16 위치
+%       interval_16 = interval_1 + random_number_15; 
+%       interval_16(interval_16 > (L-1)) = interval_16(interval_16 > (L-1)) - L;
+%       integer_intervals_16 = [integer_intervals_16, interval_16];
+% 
+%       satellite 17 위치
+%       interval_17 = interval_1 + random_number_16; 
+%       interval_17(interval_17 > (L-1)) = interval_17(interval_17 > (L-1)) - L;
+%       integer_intervals_17 = [integer_intervals_17, interval_17];
+% 
+%       satellite 18 위치 
+%       interval_18 = interval_1 + random_number_17; 
+%       interval_18(interval_18 > (L-1)) = interval_18(interval_18 > (L-1)) - L;
+%       integer_intervals_18 = [integer_intervals_18, interval_18];
+% 
+%       satellite 19 위치
+%       interval_19 = interval_1 + random_number_18; 
+%       interval_19(interval_19 > (L-1)) = interval_19(interval_19 > (L-1)) - L;
+%       integer_intervals_19 = [integer_intervals_19, interval_19];
+% 
+%       satellite 20 위치 
+%       interval_20 = interval_1 + random_number_19; 
+%       interval_20(interval_20 > (L-1)) = interval_20(interval_20 > (L-1)) - L;
+%       integer_intervals_20 = [integer_intervals_20, interval_20];
+% 
+%       satellite 21 위치
+%       interval_21 = interval_1 + random_number_20; 
+%       interval_21(interval_21 > (L-1)) = interval_21(interval_21 > (L-1)) - L;
+%       integer_intervals_21 = [integer_intervals_21, interval_21];
+% 
+%       satellite 22 위치 
+%       interval_22 = interval_1 + random_number_21; 
+%       interval_22(interval_22 > (L-1)) = interval_22(interval_22 > (L-1)) - L;
+%       integer_intervals_22 = [integer_intervals_22, interval_22];
+% 
+%       satellite 23 위치
+%       interval_23 = interval_1 + random_number_22; 
+%       interval_23(interval_23 > (L-1)) = interval_23(interval_23 > (L-1)) - L;
+%       integer_intervals_23 = [integer_intervals_23, interval_23];
+% 
+%       satellite 24 위치 
+%       interval_24 = interval_1 + random_number_23; 
+%       interval_24(interval_24 > (L-1)) = interval_24(interval_24 > (L-1)) - L;
+%       integer_intervals_24 = [integer_intervals_24, interval_24];
+% 
+%       satellite 25 위치
+%       interval_25 = interval_1 + random_number_24; 
+%       interval_25(interval_25 > (L-1)) = interval_25(interval_25 > (L-1)) - L;
+%       integer_intervals_25 = [integer_intervals_25, interval_25];
+% 
+%       satellite 26 위치
+%       interval_26 = interval_1 + random_number_25; 
+%       interval_26(interval_26 > (L-1)) = interval_26(interval_26 > (L-1)) - L;
+%       integer_intervals_26 = [integer_intervals_26, interval_26];
+% 
+%       satellite 27 위치
+%       interval_27 = interval_1 + random_number_26; 
+%       interval_27(interval_27 > (L-1)) = interval_27(interval_27 > (L-1)) - L;
+%       integer_intervals_27 = [integer_intervals_27, interval_27];
+% 
+%       satellite 28 위치
+%       interval_28 = interval_1 + random_number_27; 
+%       interval_28(interval_28 > (L-1)) = interval_28(interval_28 > (L-1)) - L;
+%       integer_intervals_28 = [integer_intervals_28, interval_28];
+% 
+%       satellite 29 위치
+%       interval_29 = interval_1 + random_number_28; 
+%       interval_29(interval_29 > (L-1)) = interval_29(interval_29 > (L-1)) - L;
+%       integer_intervals_29 = [integer_intervals_29, interval_29];
+% 
+%       satellite 30 위치 
+%       interval_30 = interval_1 + random_number_29; 
+%       interval_30(interval_30 > (L-1)) = interval_30(interval_30 > (L-1)) - L;
+%       integer_intervals_30 = [integer_intervals_30, interval_30];
+% 
+%       satellite 31 위치
+%       interval_31 = interval_1 + random_number_30; 
+%       interval_31(interval_31 > (L-1)) = interval_31(interval_31 > (L-1)) - L;
+%       integer_intervals_31 = [integer_intervals_31, interval_31];
+% 
+%       satellite 32 위치
+%       interval_32 = interval_1 + random_number_31; 
+%       interval_32(interval_32 > (L-1)) = interval_32(interval_32 > (L-1)) - L;
+%       integer_intervals_32 = [integer_intervals_32, interval_32];
+% 
+%       satellite 33 위치 생성
+%       interval_33 = interval_1 + random_number_32; 
+%       interval_33(interval_33 > (L-1)) = interval_33(interval_33 > (L-1)) - L;
+%       integer_intervals_33 = [integer_intervals_33, interval_33];
+% 
+%       satellite 34 위치 생성
+%       interval_34 = interval_1 + n; 
+%       interval_34(interval_34 > (L-1)) = interval_34(interval_34 > (L-1)) - L;
+%       integer_intervals_34 = [integer_intervals_34, interval_34];
+%   end
+% 
+% 
+% sum_intervals = ...
+%     [integer_intervals_1, ...
+%     integer_intervals_2, ...
+%     integer_intervals_3, ...
+%     integer_intervals_4, ...
+%     integer_intervals_5, ...
+%     integer_intervals_6, ...
+%     integer_intervals_7, ...
+%     integer_intervals_8, ...
+%     integer_intervals_9, ...
+%     integer_intervals_10, ...
+%     integer_intervals_11, ...
+%     integer_intervals_12, ...
+%     integer_intervals_13, ...
+%     integer_intervals_14, ...
+%     integer_intervals_15, ...
+%     integer_intervals_16, ...
+%     integer_intervals_17, ...
+%     integer_intervals_18, ...
+%     integer_intervals_19, ...
+%     integer_intervals_20, ...
+%     integer_intervals_21, ...
+%     integer_intervals_22, ...
+%     integer_intervals_23, ...
+%     integer_intervals_24, ...
+%     integer_intervals_25, ...
+%     integer_intervals_26, ...
+%     integer_intervals_27, ...
+%     integer_intervals_28, ...
+%     integer_intervals_29, ...
+%     integer_intervals_30, ...
+%     integer_intervals_31, ...
+%     integer_intervals_32, ...
+%     integer_intervals_33, ...
+%     integer_intervals_34, ...
+%     ];
+% 
+% unique_intervals = unique(sort(sum_intervals));
+% 
+% difference = length(sum_intervals) - length(unique_intervals) ;
+% 
+% result_33 = [result_33; n, difference];
+% 
+% end
+% 
+% 
+% 랜덤숫자 생성
+% 
+% result_sum33 = [result_33(:,1), result_33(:,2)];
+% 
+% rows_with_min_sum33 = result_sum33(result_sum33(:, 2) == min(result_sum33(:, 2)), :);
+% 
+% k_sum33 = rows_with_min_sum33(:,1);
+% 
+% random_index_33 = randi([1, length(k_sum33)]);
+% 
+% random_number_33 = k_sum33(random_index_33);
+% 
+% 
+% renewal
+% integer_intervals_1 = [];
+% integer_intervals_2 = [];
+% integer_intervals_3 = [];
+% integer_intervals_4 = [];
+% integer_intervals_5 = [];
+% integer_intervals_6 = [];
+% integer_intervals_7 = [];
+% integer_intervals_8 = [];
+% integer_intervals_9 = [];
+% integer_intervals_10 = [];
+% integer_intervals_11 = [];
+% integer_intervals_12 = [];
+% integer_intervals_13 = [];
+% integer_intervals_14 = [];
+% integer_intervals_15 = [];
+% integer_intervals_16 = [];
+% integer_intervals_17 = [];
+% integer_intervals_18 = [];
+% integer_intervals_19 = [];
+% integer_intervals_20 = [];
+% integer_intervals_21 = [];
+% integer_intervals_22 = [];
+% integer_intervals_23 = [];
+% integer_intervals_24 = [];
+% integer_intervals_25 = [];
+% integer_intervals_26 = [];
+% integer_intervals_27 = [];
+% integer_intervals_28 = [];
+% integer_intervals_29 = [];
+% integer_intervals_30 = [];
+% integer_intervals_31 = [];
+% integer_intervals_32 = [];
+% integer_intervals_33 = [];
+% integer_intervals_34 = [];
+% 
+% for i = 1:length(ff_0)
+%     satellite 1 위치 생성(seed)
+%     interval_1 = start_points(i) :end_points(i) ;
+%     interval_1(interval_1 > (L-1)) = interval_1(interval_1 > (L-1)) - L; 
+%     integer_intervals_1 = [integer_intervals_1, interval_1];
+% 
+%     satellite 2 위치
+%     interval_2 = interval_1 + random_number_1; 
+%     interval_2(interval_2 > (L-1)) = interval_2(interval_2 > (L-1)) - L;
+%     integer_intervals_2 = [integer_intervals_2, interval_2];
+% 
+%     satellite 3 위치
+%     interval_3 = interval_1 + random_number_2; 
+%     interval_3(interval_3 > (L-1)) = interval_3(interval_3 > (L-1)) - L;
+%     integer_intervals_3 = [integer_intervals_3, interval_3];
+% 
+%     satellite 4 위치
+%     interval_4 = interval_1 + random_number_3; 
+%     interval_4(interval_4 > (L-1)) = interval_4(interval_4 > (L-1)) - L;
+%     integer_intervals_4 = [integer_intervals_4, interval_4];
+% 
+%     satellite 5 위치
+%     interval_5 = interval_1 + random_number_4; 
+%     interval_5(interval_5 > (L-1)) = interval_5(interval_5 > (L-1)) - L;
+%     integer_intervals_5 = [integer_intervals_5, interval_5];
+% 
+%     satellite 6 위치
+%     interval_6 = interval_1 + random_number_5; 
+%     interval_6(interval_6 > (L-1)) = interval_6(interval_6 > (L-1)) - L;
+%     integer_intervals_6 = [integer_intervals_6, interval_6];
+% 
+%     satellite 7 위치
+%     interval_7 = interval_1 + random_number_6; 
+%     interval_7(interval_7 > (L-1)) = interval_7(interval_7 > (L-1)) - L;
+%     integer_intervals_7 = [integer_intervals_7, interval_7];
+% 
+%     satellite 8 위치
+%     interval_8 = interval_1 + random_number_7; 
+%     interval_8(interval_8 > (L-1)) = interval_8(interval_8 > (L-1)) - L;
+%     integer_intervals_8 = [integer_intervals_8, interval_8];
+% 
+%     satellite 9 위치
+%     interval_9 = interval_1 + random_number_8; 
+%     interval_9(interval_9 > (L-1)) = interval_9(interval_9 > (L-1)) - L;
+%     integer_intervals_9 = [integer_intervals_9, interval_9];
+% 
+%     satellite 10 위치
+%     interval_10 = interval_1 + random_number_9; 
+%     interval_10(interval_10 > (L-1)) = interval_10(interval_10 > (L-1)) - L;
+%     integer_intervals_10 = [integer_intervals_10, interval_10];
+% 
+%     satellite 11 위치
+%     interval_11 = interval_1 + random_number_10; 
+%     interval_11(interval_11 > (L-1)) = interval_11(interval_11 > (L-1)) - L;
+%     integer_intervals_11 = [integer_intervals_11, interval_11];
+% 
+%     satellite 12 위치
+%     interval_12 = interval_1 + random_number_11; 
+%     interval_12(interval_12 > (L-1)) = interval_12(interval_12 > (L-1)) - L;
+%     integer_intervals_12 = [integer_intervals_12, interval_12];
+% 
+%     satellite 13 위치
+%     interval_13 = interval_1 + random_number_12; 
+%     interval_13(interval_13 > (L-1)) = interval_13(interval_13 > (L-1)) - L;
+%     integer_intervals_13 = [integer_intervals_13, interval_13];
+% 
+%     satellite 14 위치
+%     interval_14 = interval_1 + random_number_13; 
+%     interval_14(interval_14 > (L-1)) = interval_14(interval_14 > (L-1)) - L;
+%     integer_intervals_14 = [integer_intervals_14, interval_14];
+% 
+%     satellite 15 위치
+%     interval_15 = interval_1 + random_number_14; 
+%     interval_15(interval_15 > (L-1)) = interval_15(interval_15 > (L-1)) - L;
+%     integer_intervals_15 = [integer_intervals_15, interval_15];
+% 
+%     satellite 16 위치
+%     interval_16 = interval_1 + random_number_15; 
+%     interval_16(interval_16 > (L-1)) = interval_16(interval_16 > (L-1)) - L;
+%     integer_intervals_16 = [integer_intervals_16, interval_16];
+% 
+%     satellite 17 위치
+%     interval_17 = interval_1 + random_number_16; 
+%     interval_17(interval_17 > (L-1)) = interval_17(interval_17 > (L-1)) - L;
+%     integer_intervals_17 = [integer_intervals_17, interval_17];
+% 
+%     satellite 18 위치
+%     interval_18 = interval_1 + random_number_17; 
+%     interval_18(interval_18 > (L-1)) = interval_18(interval_18 > (L-1)) - L;
+%     integer_intervals_18 = [integer_intervals_18, interval_18];
+% 
+%     satellite 19 위치
+%     interval_19 = interval_1 + random_number_18; 
+%     interval_19(interval_19 > (L-1)) = interval_19(interval_19 > (L-1)) - L;
+%     integer_intervals_19 = [integer_intervals_19, interval_19];
+% 
+%     satellite 20 위치
+%     interval_20 = interval_1 + random_number_19; 
+%     interval_20(interval_20 > (L-1)) = interval_20(interval_20 > (L-1)) - L;
+%     integer_intervals_20 = [integer_intervals_20, interval_20];
+% 
+%     satellite 21 위치
+%     interval_21 = interval_1 + random_number_20; 
+%     interval_21(interval_21 > (L-1)) = interval_21(interval_21 > (L-1)) - L;
+%     integer_intervals_21 = [integer_intervals_21, interval_21];
+% 
+%     satellite 22 위치
+%     interval_22 = interval_1 + random_number_21; 
+%     interval_22(interval_22 > (L-1)) = interval_22(interval_22 > (L-1)) - L;
+%     integer_intervals_22 = [integer_intervals_22, interval_22];
+% 
+%     satellite 23 위치
+%     interval_23 = interval_1 + random_number_22; 
+%     interval_23(interval_23 > (L-1)) = interval_23(interval_23 > (L-1)) - L;
+%     integer_intervals_23 = [integer_intervals_23, interval_23];
+% 
+%     satellite 24 위치
+%     interval_24 = interval_1 + random_number_23; 
+%     interval_24(interval_24 > (L-1)) = interval_24(interval_24 > (L-1)) - L;
+%     integer_intervals_24 = [integer_intervals_24, interval_24];
+% 
+%     satellite 25 위치
+%     interval_25 = interval_1 + random_number_24; 
+%     interval_25(interval_25 > (L-1)) = interval_25(interval_25 > (L-1)) - L;
+%     integer_intervals_25 = [integer_intervals_25, interval_25];
+% 
+%     satellite 26 위치
+%     interval_26 = interval_1 + random_number_25; 
+%     interval_26(interval_26 > (L-1)) = interval_26(interval_26 > (L-1)) - L;
+%     integer_intervals_26 = [integer_intervals_26, interval_26];
+% 
+%     satellite 27 위치
+%     interval_27 = interval_1 + random_number_26; 
+%     interval_27(interval_27 > (L-1)) = interval_27(interval_27 > (L-1)) - L;
+%     integer_intervals_27 = [integer_intervals_27, interval_27];
+% 
+%     satellite 28 위치
+%     interval_28 = interval_1 + random_number_27; 
+%     interval_28(interval_28 > (L-1)) = interval_28(interval_28 > (L-1)) - L;
+%     integer_intervals_28 = [integer_intervals_28, interval_28];
+% 
+%     satellite 29 위치
+%     interval_29 = interval_1 + random_number_28; 
+%     interval_29(interval_29 > (L-1)) = interval_29(interval_29 > (L-1)) - L;
+%     integer_intervals_29 = [integer_intervals_29, interval_29];
+% 
+%     satellite 30 위치
+%     interval_30 = interval_1 + random_number_29; 
+%     interval_30(interval_30 > (L-1)) = interval_30(interval_30 > (L-1)) - L;
+%     integer_intervals_30 = [integer_intervals_30, interval_30];
+% 
+%     satellite 31 위치
+%     interval_31 = interval_1 + random_number_30; 
+%     interval_31(interval_31 > (L-1)) = interval_31(interval_31 > (L-1)) - L;
+%     integer_intervals_31 = [integer_intervals_31, interval_31];
+% 
+%      satellite 32 위치
+%     interval_32 = interval_1 + random_number_31; 
+%     interval_32(interval_32 > (L-1)) = interval_32(interval_32 > (L-1)) - L;
+%     integer_intervals_32 = [integer_intervals_32, interval_32];
+% 
+%     satellite 33 위치
+%     interval_33 = interval_1 + random_number_32; 
+%     interval_33(interval_33 > (L-1)) = interval_33(interval_33 > (L-1)) - L;
+%     integer_intervals_33 = [integer_intervals_33, interval_33];
+% 
+%     satellite 34 위치
+%     interval_34 = interval_1 + random_number_33; 
+%     interval_34(interval_34 > (L-1)) = interval_34(interval_34 > (L-1)) - L;
+%     integer_intervals_34 = [integer_intervals_34, interval_34];
+% end
+% 
+% 
+% sum_intervals = ...
+%     [integer_intervals_1, ...
+%     integer_intervals_2, ...
+%     integer_intervals_3, ...
+%     integer_intervals_4, ...
+%     integer_intervals_5, ...
+%     integer_intervals_6, ...
+%     integer_intervals_7, ...
+%     integer_intervals_8, ...
+%     integer_intervals_9, ...
+%     integer_intervals_10, ...
+%     integer_intervals_11, ...
+%     integer_intervals_12, ...
+%     integer_intervals_13, ...
+%     integer_intervals_14, ...
+%     integer_intervals_15, ...
+%     integer_intervals_16, ...
+%     integer_intervals_17, ...
+%     integer_intervals_18, ...
+%     integer_intervals_19, ...
+%     integer_intervals_20, ...
+%     integer_intervals_21, ...
+%     integer_intervals_22, ...
+%     integer_intervals_23, ...
+%     integer_intervals_24, ...
+%     integer_intervals_25, ...
+%     integer_intervals_26, ...
+%     integer_intervals_27, ...
+%     integer_intervals_28, ...
+%     integer_intervals_29, ...
+%     integer_intervals_30, ...
+%     integer_intervals_31, ...
+%     integer_intervals_32, ...
+%     integer_intervals_33, ...
+%     integer_intervals_34, ...
+%     ];
+% 
+% unique_intervals = unique(sort(sum_intervals));
+% 
+% Cov_34 = length(unique_intervals) / L * 100;
+% 
+% 
+% %% Random34 (위성 35대)
+% 
+% for n = 0 : L-1
+% integer_intervals_1 = [];
+% integer_intervals_2 = [];
+% integer_intervals_3 = [];
+% integer_intervals_4 = [];
+% integer_intervals_5 = [];
+% integer_intervals_6 = [];
+% integer_intervals_7 = [];
+% integer_intervals_8 = [];
+% integer_intervals_9 = [];
+% integer_intervals_10 = [];
+% integer_intervals_11 = [];
+% integer_intervals_12 = [];
+% integer_intervals_13 = [];
+% integer_intervals_14 = [];
+% integer_intervals_15 = [];
+% integer_intervals_16 = [];
+% integer_intervals_17 = [];
+% integer_intervals_18 = [];
+% integer_intervals_19 = [];
+% integer_intervals_20 = [];
+% integer_intervals_21 = [];
+% integer_intervals_22 = [];
+% integer_intervals_23 = [];
+% integer_intervals_24 = [];
+% integer_intervals_25 = [];
+% integer_intervals_26 = [];
+% integer_intervals_27 = [];
+% integer_intervals_28 = [];
+% integer_intervals_29 = [];
+% integer_intervals_30 = [];
+% integer_intervals_31 = [];
+% integer_intervals_32 = [];
+% integer_intervals_33 = [];
+% integer_intervals_34 = [];
+% integer_intervals_35 = [];
+% 
+% 
+%   for i = 1:length(ff_0)
+%       % satellite 1 위치(seed)
+%       interval_1 = start_points(i) :end_points(i) ;
+%       interval_1(interval_1 > (L-1)) = interval_1(interval_1 > (L-1)) - L; 
+%       integer_intervals_1 = [integer_intervals_1, interval_1];
+% 
+%       % satellite 2 위치
+%       interval_2 = interval_1 + random_number_1; 
+%       interval_2(interval_2 > (L-1)) = interval_2(interval_2 > (L-1)) - L;
+%       integer_intervals_2 = [integer_intervals_2, interval_2];
+% 
+%       % satellite 3 위치
+%       interval_3 = interval_1 + random_number_2; 
+%       interval_3(interval_3 > (L-1)) = interval_3(interval_3 > (L-1)) - L;
+%       integer_intervals_3 = [integer_intervals_3, interval_3];
+% 
+%       % satellite 4 위치
+%       interval_4 = interval_1 + random_number_3; 
+%       interval_4(interval_4 > (L-1)) = interval_4(interval_4 > (L-1)) - L;
+%       integer_intervals_4 = [integer_intervals_4, interval_4];
+% 
+%       % satellite 5 위치
+%       interval_5 = interval_1 + random_number_4; 
+%       interval_5(interval_5 > (L-1)) = interval_5(interval_5 > (L-1)) - L;
+%       integer_intervals_5 = [integer_intervals_5, interval_5];
+% 
+%       % satellite 6 위치
+%       interval_6 = interval_1 + random_number_5; 
+%       interval_6(interval_6 > (L-1)) = interval_6(interval_6 > (L-1)) - L;
+%       integer_intervals_6 = [integer_intervals_6, interval_6];
+% 
+%       % satellite 7 위치
+%       interval_7 = interval_1 + random_number_6; 
+%       interval_7(interval_7 > (L-1)) = interval_7(interval_7 > (L-1)) - L;
+%       integer_intervals_7 = [integer_intervals_7, interval_7];
+% 
+%       % satellite 8 위치
+%       interval_8 = interval_1 + random_number_7; 
+%       interval_8(interval_8 > (L-1)) = interval_8(interval_8 > (L-1)) - L;
+%       integer_intervals_8 = [integer_intervals_8, interval_8];
+% 
+%       % satellite 9 위치
+%       interval_9 = interval_1 + random_number_8; 
+%       interval_9(interval_9 > (L-1)) = interval_9(interval_9 > (L-1)) - L;
+%       integer_intervals_9 = [integer_intervals_9, interval_9];
+% 
+%       % satellite 10 위치
+%       interval_10 = interval_1 + random_number_9; 
+%       interval_10(interval_10 > (L-1)) = interval_10(interval_10 > (L-1)) - L;
+%       integer_intervals_10 = [integer_intervals_10, interval_10];
+% 
+%       % satellite 11 위치 
+%       interval_11 = interval_1 + random_number_10; 
+%       interval_11(interval_11 > (L-1)) = interval_11(interval_11 > (L-1)) - L;
+%       integer_intervals_11 = [integer_intervals_11, interval_11];
+% 
+%       % satellite 12 위치
+%       interval_12 = interval_1 + random_number_11; 
+%       interval_12(interval_12 > (L-1)) = interval_12(interval_12 > (L-1)) - L;
+%       integer_intervals_12 = [integer_intervals_12, interval_12];
+% 
+%       % satellite 13 위치
+%       interval_13 = interval_1 + random_number_12; 
+%       interval_13(interval_13 > (L-1)) = interval_13(interval_13 > (L-1)) - L;
+%       integer_intervals_13 = [integer_intervals_13, interval_13];
+% 
+%       % satellite 14 위치
+%       interval_14 = interval_1 + random_number_13; 
+%       interval_14(interval_14 > (L-1)) = interval_14(interval_14 > (L-1)) - L;
+%       integer_intervals_14 = [integer_intervals_14, interval_14];
+% 
+%       % satellite 15 위치
+%       interval_15 = interval_1 + random_number_14; 
+%       interval_15(interval_15 > (L-1)) = interval_15(interval_15 > (L-1)) - L;
+%       integer_intervals_15 = [integer_intervals_15, interval_15];
+% 
+%       % satellite 16 위치
+%       interval_16 = interval_1 + random_number_15; 
+%       interval_16(interval_16 > (L-1)) = interval_16(interval_16 > (L-1)) - L;
+%       integer_intervals_16 = [integer_intervals_16, interval_16];
+% 
+%       % satellite 17 위치
+%       interval_17 = interval_1 + random_number_16; 
+%       interval_17(interval_17 > (L-1)) = interval_17(interval_17 > (L-1)) - L;
+%       integer_intervals_17 = [integer_intervals_17, interval_17];
+% 
+%       % satellite 18 위치 
+%       interval_18 = interval_1 + random_number_17; 
+%       interval_18(interval_18 > (L-1)) = interval_18(interval_18 > (L-1)) - L;
+%       integer_intervals_18 = [integer_intervals_18, interval_18];
+% 
+%       % satellite 19 위치
+%       interval_19 = interval_1 + random_number_18; 
+%       interval_19(interval_19 > (L-1)) = interval_19(interval_19 > (L-1)) - L;
+%       integer_intervals_19 = [integer_intervals_19, interval_19];
+% 
+%       % satellite 20 위치 
+%       interval_20 = interval_1 + random_number_19; 
+%       interval_20(interval_20 > (L-1)) = interval_20(interval_20 > (L-1)) - L;
+%       integer_intervals_20 = [integer_intervals_20, interval_20];
+% 
+%       % satellite 21 위치
+%       interval_21 = interval_1 + random_number_20; 
+%       interval_21(interval_21 > (L-1)) = interval_21(interval_21 > (L-1)) - L;
+%       integer_intervals_21 = [integer_intervals_21, interval_21];
+% 
+%       % satellite 22 위치 
+%       interval_22 = interval_1 + random_number_21; 
+%       interval_22(interval_22 > (L-1)) = interval_22(interval_22 > (L-1)) - L;
+%       integer_intervals_22 = [integer_intervals_22, interval_22];
+% 
+%       % satellite 23 위치
+%       interval_23 = interval_1 + random_number_22; 
+%       interval_23(interval_23 > (L-1)) = interval_23(interval_23 > (L-1)) - L;
+%       integer_intervals_23 = [integer_intervals_23, interval_23];
+% 
+%       % satellite 24 위치 
+%       interval_24 = interval_1 + random_number_23; 
+%       interval_24(interval_24 > (L-1)) = interval_24(interval_24 > (L-1)) - L;
+%       integer_intervals_24 = [integer_intervals_24, interval_24];
+% 
+%       % satellite 25 위치
+%       interval_25 = interval_1 + random_number_24; 
+%       interval_25(interval_25 > (L-1)) = interval_25(interval_25 > (L-1)) - L;
+%       integer_intervals_25 = [integer_intervals_25, interval_25];
+% 
+%       % satellite 26 위치
+%       interval_26 = interval_1 + random_number_25; 
+%       interval_26(interval_26 > (L-1)) = interval_26(interval_26 > (L-1)) - L;
+%       integer_intervals_26 = [integer_intervals_26, interval_26];
+% 
+%       % satellite 27 위치
+%       interval_27 = interval_1 + random_number_26; 
+%       interval_27(interval_27 > (L-1)) = interval_27(interval_27 > (L-1)) - L;
+%       integer_intervals_27 = [integer_intervals_27, interval_27];
+% 
+%       % satellite 28 위치
+%       interval_28 = interval_1 + random_number_27; 
+%       interval_28(interval_28 > (L-1)) = interval_28(interval_28 > (L-1)) - L;
+%       integer_intervals_28 = [integer_intervals_28, interval_28];
+% 
+%       % satellite 29 위치
+%       interval_29 = interval_1 + random_number_28; 
+%       interval_29(interval_29 > (L-1)) = interval_29(interval_29 > (L-1)) - L;
+%       integer_intervals_29 = [integer_intervals_29, interval_29];
+% 
+%       % satellite 30 위치 
+%       interval_30 = interval_1 + random_number_29; 
+%       interval_30(interval_30 > (L-1)) = interval_30(interval_30 > (L-1)) - L;
+%       integer_intervals_30 = [integer_intervals_30, interval_30];
+% 
+%       % satellite 31 위치
+%       interval_31 = interval_1 + random_number_30; 
+%       interval_31(interval_31 > (L-1)) = interval_31(interval_31 > (L-1)) - L;
+%       integer_intervals_31 = [integer_intervals_31, interval_31];
+% 
+%       % satellite 32 위치
+%       interval_32 = interval_1 + random_number_31; 
+%       interval_32(interval_32 > (L-1)) = interval_32(interval_32 > (L-1)) - L;
+%       integer_intervals_32 = [integer_intervals_32, interval_32];
+% 
+%       % satellite 33 위치 생성
+%       interval_33 = interval_1 + random_number_32; 
+%       interval_33(interval_33 > (L-1)) = interval_33(interval_33 > (L-1)) - L;
+%       integer_intervals_33 = [integer_intervals_33, interval_33];
+% 
+%       % satellite 34 위치 생성
+%       interval_34 = interval_1 + random_number_33; 
+%       interval_34(interval_34 > (L-1)) = interval_34(interval_34 > (L-1)) - L;
+%       integer_intervals_34 = [integer_intervals_34, interval_34];
+% 
+%        % satellite 35 위치 생성
+%       interval_35 = interval_1 + n; 
+%       interval_35(interval_35 > (L-1)) = interval_35(interval_35 > (L-1)) - L;
+%       integer_intervals_35 = [integer_intervals_35, interval_35];
+%   end
+% 
+% 
+% sum_intervals = ...
+%     [integer_intervals_1, ...
+%     integer_intervals_2, ...
+%     integer_intervals_3, ...
+%     integer_intervals_4, ...
+%     integer_intervals_5, ...
+%     integer_intervals_6, ...
+%     integer_intervals_7, ...
+%     integer_intervals_8, ...
+%     integer_intervals_9, ...
+%     integer_intervals_10, ...
+%     integer_intervals_11, ...
+%     integer_intervals_12, ...
+%     integer_intervals_13, ...
+%     integer_intervals_14, ...
+%     integer_intervals_15, ...
+%     integer_intervals_16, ...
+%     integer_intervals_17, ...
+%     integer_intervals_18, ...
+%     integer_intervals_19, ...
+%     integer_intervals_20, ...
+%     integer_intervals_21, ...
+%     integer_intervals_22, ...
+%     integer_intervals_23, ...
+%     integer_intervals_24, ...
+%     integer_intervals_25, ...
+%     integer_intervals_26, ...
+%     integer_intervals_27, ...
+%     integer_intervals_28, ...
+%     integer_intervals_29, ...
+%     integer_intervals_30, ...
+%     integer_intervals_31, ...
+%     integer_intervals_32, ...
+%     integer_intervals_33, ...
+%     integer_intervals_34, ...
+%     integer_intervals_35, ...
+%     ];
+% 
+% unique_intervals = unique(sort(sum_intervals));
+% 
+% difference = length(sum_intervals) - length(unique_intervals) ;
+% 
+% result_34 = [result_34; n, difference];
+% 
+% end
+% 
+% 
+% % 랜덤숫자 생성
+% 
+% result_sum34 = [result_34(:,1), result_34(:,2)];
+% 
+% rows_with_min_sum34 = result_sum34(result_sum34(:, 2) == min(result_sum34(:, 2)), :);
+% 
+% k_sum34 = rows_with_min_sum34(:,1);
+% 
+% random_index_34 = randi([1, length(k_sum34)]);
+% 
+% random_number_34 = k_sum34(random_index_34);
+% 
+% 
+% % renewal
+% integer_intervals_1 = [];
+% integer_intervals_2 = [];
+% integer_intervals_3 = [];
+% integer_intervals_4 = [];
+% integer_intervals_5 = [];
+% integer_intervals_6 = [];
+% integer_intervals_7 = [];
+% integer_intervals_8 = [];
+% integer_intervals_9 = [];
+% integer_intervals_10 = [];
+% integer_intervals_11 = [];
+% integer_intervals_12 = [];
+% integer_intervals_13 = [];
+% integer_intervals_14 = [];
+% integer_intervals_15 = [];
+% integer_intervals_16 = [];
+% integer_intervals_17 = [];
+% integer_intervals_18 = [];
+% integer_intervals_19 = [];
+% integer_intervals_20 = [];
+% integer_intervals_21 = [];
+% integer_intervals_22 = [];
+% integer_intervals_23 = [];
+% integer_intervals_24 = [];
+% integer_intervals_25 = [];
+% integer_intervals_26 = [];
+% integer_intervals_27 = [];
+% integer_intervals_28 = [];
+% integer_intervals_29 = [];
+% integer_intervals_30 = [];
+% integer_intervals_31 = [];
+% integer_intervals_32 = [];
+% integer_intervals_33 = [];
+% integer_intervals_34 = [];
+% integer_intervals_35 = [];
+% 
+% for i = 1:length(ff_0)
+%     % satellite 1 위치 생성(seed)
+%     interval_1 = start_points(i) :end_points(i) ;
+%     interval_1(interval_1 > (L-1)) = interval_1(interval_1 > (L-1)) - L; 
+%     integer_intervals_1 = [integer_intervals_1, interval_1];
+% 
+%     % satellite 2 위치
+%     interval_2 = interval_1 + random_number_1; 
+%     interval_2(interval_2 > (L-1)) = interval_2(interval_2 > (L-1)) - L;
+%     integer_intervals_2 = [integer_intervals_2, interval_2];
+% 
+%     % satellite 3 위치
+%     interval_3 = interval_1 + random_number_2; 
+%     interval_3(interval_3 > (L-1)) = interval_3(interval_3 > (L-1)) - L;
+%     integer_intervals_3 = [integer_intervals_3, interval_3];
+% 
+%     % satellite 4 위치
+%     interval_4 = interval_1 + random_number_3; 
+%     interval_4(interval_4 > (L-1)) = interval_4(interval_4 > (L-1)) - L;
+%     integer_intervals_4 = [integer_intervals_4, interval_4];
+% 
+%     % satellite 5 위치
+%     interval_5 = interval_1 + random_number_4; 
+%     interval_5(interval_5 > (L-1)) = interval_5(interval_5 > (L-1)) - L;
+%     integer_intervals_5 = [integer_intervals_5, interval_5];
+% 
+%     % satellite 6 위치
+%     interval_6 = interval_1 + random_number_5; 
+%     interval_6(interval_6 > (L-1)) = interval_6(interval_6 > (L-1)) - L;
+%     integer_intervals_6 = [integer_intervals_6, interval_6];
+% 
+%     % satellite 7 위치
+%     interval_7 = interval_1 + random_number_6; 
+%     interval_7(interval_7 > (L-1)) = interval_7(interval_7 > (L-1)) - L;
+%     integer_intervals_7 = [integer_intervals_7, interval_7];
+% 
+%     % satellite 8 위치
+%     interval_8 = interval_1 + random_number_7; 
+%     interval_8(interval_8 > (L-1)) = interval_8(interval_8 > (L-1)) - L;
+%     integer_intervals_8 = [integer_intervals_8, interval_8];
+% 
+%     % satellite 9 위치
+%     interval_9 = interval_1 + random_number_8; 
+%     interval_9(interval_9 > (L-1)) = interval_9(interval_9 > (L-1)) - L;
+%     integer_intervals_9 = [integer_intervals_9, interval_9];
+% 
+%     % satellite 10 위치
+%     interval_10 = interval_1 + random_number_9; 
+%     interval_10(interval_10 > (L-1)) = interval_10(interval_10 > (L-1)) - L;
+%     integer_intervals_10 = [integer_intervals_10, interval_10];
+% 
+%     % satellite 11 위치
+%     interval_11 = interval_1 + random_number_10; 
+%     interval_11(interval_11 > (L-1)) = interval_11(interval_11 > (L-1)) - L;
+%     integer_intervals_11 = [integer_intervals_11, interval_11];
+% 
+%     % satellite 12 위치
+%     interval_12 = interval_1 + random_number_11; 
+%     interval_12(interval_12 > (L-1)) = interval_12(interval_12 > (L-1)) - L;
+%     integer_intervals_12 = [integer_intervals_12, interval_12];
+% 
+%     % satellite 13 위치
+%     interval_13 = interval_1 + random_number_12; 
+%     interval_13(interval_13 > (L-1)) = interval_13(interval_13 > (L-1)) - L;
+%     integer_intervals_13 = [integer_intervals_13, interval_13];
+% 
+%     % satellite 14 위치
+%     interval_14 = interval_1 + random_number_13; 
+%     interval_14(interval_14 > (L-1)) = interval_14(interval_14 > (L-1)) - L;
+%     integer_intervals_14 = [integer_intervals_14, interval_14];
+% 
+%     % satellite 15 위치
+%     interval_15 = interval_1 + random_number_14; 
+%     interval_15(interval_15 > (L-1)) = interval_15(interval_15 > (L-1)) - L;
+%     integer_intervals_15 = [integer_intervals_15, interval_15];
+% 
+%     % satellite 16 위치
+%     interval_16 = interval_1 + random_number_15; 
+%     interval_16(interval_16 > (L-1)) = interval_16(interval_16 > (L-1)) - L;
+%     integer_intervals_16 = [integer_intervals_16, interval_16];
+% 
+%     % satellite 17 위치
+%     interval_17 = interval_1 + random_number_16; 
+%     interval_17(interval_17 > (L-1)) = interval_17(interval_17 > (L-1)) - L;
+%     integer_intervals_17 = [integer_intervals_17, interval_17];
+% 
+%     % satellite 18 위치
+%     interval_18 = interval_1 + random_number_17; 
+%     interval_18(interval_18 > (L-1)) = interval_18(interval_18 > (L-1)) - L;
+%     integer_intervals_18 = [integer_intervals_18, interval_18];
+% 
+%     % satellite 19 위치
+%     interval_19 = interval_1 + random_number_18; 
+%     interval_19(interval_19 > (L-1)) = interval_19(interval_19 > (L-1)) - L;
+%     integer_intervals_19 = [integer_intervals_19, interval_19];
+% 
+%     % satellite 20 위치
+%     interval_20 = interval_1 + random_number_19; 
+%     interval_20(interval_20 > (L-1)) = interval_20(interval_20 > (L-1)) - L;
+%     integer_intervals_20 = [integer_intervals_20, interval_20];
+% 
+%     % satellite 21 위치
+%     interval_21 = interval_1 + random_number_20; 
+%     interval_21(interval_21 > (L-1)) = interval_21(interval_21 > (L-1)) - L;
+%     integer_intervals_21 = [integer_intervals_21, interval_21];
+% 
+%     % satellite 22 위치
+%     interval_22 = interval_1 + random_number_21; 
+%     interval_22(interval_22 > (L-1)) = interval_22(interval_22 > (L-1)) - L;
+%     integer_intervals_22 = [integer_intervals_22, interval_22];
+% 
+%     % satellite 23 위치
+%     interval_23 = interval_1 + random_number_22; 
+%     interval_23(interval_23 > (L-1)) = interval_23(interval_23 > (L-1)) - L;
+%     integer_intervals_23 = [integer_intervals_23, interval_23];
+% 
+%     % satellite 24 위치
+%     interval_24 = interval_1 + random_number_23; 
+%     interval_24(interval_24 > (L-1)) = interval_24(interval_24 > (L-1)) - L;
+%     integer_intervals_24 = [integer_intervals_24, interval_24];
+% 
+%     % satellite 25 위치
+%     interval_25 = interval_1 + random_number_24; 
+%     interval_25(interval_25 > (L-1)) = interval_25(interval_25 > (L-1)) - L;
+%     integer_intervals_25 = [integer_intervals_25, interval_25];
+% 
+%     % satellite 26 위치
+%     interval_26 = interval_1 + random_number_25; 
+%     interval_26(interval_26 > (L-1)) = interval_26(interval_26 > (L-1)) - L;
+%     integer_intervals_26 = [integer_intervals_26, interval_26];
+% 
+%     % satellite 27 위치
+%     interval_27 = interval_1 + random_number_26; 
+%     interval_27(interval_27 > (L-1)) = interval_27(interval_27 > (L-1)) - L;
+%     integer_intervals_27 = [integer_intervals_27, interval_27];
+% 
+%     % satellite 28 위치
+%     interval_28 = interval_1 + random_number_27; 
+%     interval_28(interval_28 > (L-1)) = interval_28(interval_28 > (L-1)) - L;
+%     integer_intervals_28 = [integer_intervals_28, interval_28];
+% 
+%     % satellite 29 위치
+%     interval_29 = interval_1 + random_number_28; 
+%     interval_29(interval_29 > (L-1)) = interval_29(interval_29 > (L-1)) - L;
+%     integer_intervals_29 = [integer_intervals_29, interval_29];
+% 
+%     % satellite 30 위치
+%     interval_30 = interval_1 + random_number_29; 
+%     interval_30(interval_30 > (L-1)) = interval_30(interval_30 > (L-1)) - L;
+%     integer_intervals_30 = [integer_intervals_30, interval_30];
+% 
+%     % satellite 31 위치
+%     interval_31 = interval_1 + random_number_30; 
+%     interval_31(interval_31 > (L-1)) = interval_31(interval_31 > (L-1)) - L;
+%     integer_intervals_31 = [integer_intervals_31, interval_31];
+% 
+%      % satellite 32 위치
+%     interval_32 = interval_1 + random_number_31; 
+%     interval_32(interval_32 > (L-1)) = interval_32(interval_32 > (L-1)) - L;
+%     integer_intervals_32 = [integer_intervals_32, interval_32];
+% 
+%     % satellite 33 위치
+%     interval_33 = interval_1 + random_number_32; 
+%     interval_33(interval_33 > (L-1)) = interval_33(interval_33 > (L-1)) - L;
+%     integer_intervals_33 = [integer_intervals_33, interval_33];
+% 
+%     % satellite 34 위치
+%     interval_34 = interval_1 + random_number_33; 
+%     interval_34(interval_34 > (L-1)) = interval_34(interval_34 > (L-1)) - L;
+%     integer_intervals_34 = [integer_intervals_34, interval_34];
+% 
+%     % satellite 35 위치
+%     interval_35 = interval_1 + random_number_34; 
+%     interval_35(interval_35 > (L-1)) = interval_35(interval_35 > (L-1)) - L;
+%     integer_intervals_35 = [integer_intervals_35, interval_35];
+% end
+% 
+% 
+% sum_intervals = ...
+%     [integer_intervals_1, ...
+%     integer_intervals_2, ...
+%     integer_intervals_3, ...
+%     integer_intervals_4, ...
+%     integer_intervals_5, ...
+%     integer_intervals_6, ...
+%     integer_intervals_7, ...
+%     integer_intervals_8, ...
+%     integer_intervals_9, ...
+%     integer_intervals_10, ...
+%     integer_intervals_11, ...
+%     integer_intervals_12, ...
+%     integer_intervals_13, ...
+%     integer_intervals_14, ...
+%     integer_intervals_15, ...
+%     integer_intervals_16, ...
+%     integer_intervals_17, ...
+%     integer_intervals_18, ...
+%     integer_intervals_19, ...
+%     integer_intervals_20, ...
+%     integer_intervals_21, ...
+%     integer_intervals_22, ...
+%     integer_intervals_23, ...
+%     integer_intervals_24, ...
+%     integer_intervals_25, ...
+%     integer_intervals_26, ...
+%     integer_intervals_27, ...
+%     integer_intervals_28, ...
+%     integer_intervals_29, ...
+%     integer_intervals_30, ...
+%     integer_intervals_31, ...
+%     integer_intervals_32, ...
+%     integer_intervals_33, ...
+%     integer_intervals_34, ...
+%     integer_intervals_35, ...
+%     ];
+% 
+% unique_intervals = unique(sort(sum_intervals));
+% 
+% Cov_35 = length(unique_intervals) / L * 100;
+% 
+% 
+% %% Random35 (위성 36대)
+% 
+% for n = 0 : L-1
+% integer_intervals_1 = [];
+% integer_intervals_2 = [];
+% integer_intervals_3 = [];
+% integer_intervals_4 = [];
+% integer_intervals_5 = [];
+% integer_intervals_6 = [];
+% integer_intervals_7 = [];
+% integer_intervals_8 = [];
+% integer_intervals_9 = [];
+% integer_intervals_10 = [];
+% integer_intervals_11 = [];
+% integer_intervals_12 = [];
+% integer_intervals_13 = [];
+% integer_intervals_14 = [];
+% integer_intervals_15 = [];
+% integer_intervals_16 = [];
+% integer_intervals_17 = [];
+% integer_intervals_18 = [];
+% integer_intervals_19 = [];
+% integer_intervals_20 = [];
+% integer_intervals_21 = [];
+% integer_intervals_22 = [];
+% integer_intervals_23 = [];
+% integer_intervals_24 = [];
+% integer_intervals_25 = [];
+% integer_intervals_26 = [];
+% integer_intervals_27 = [];
+% integer_intervals_28 = [];
+% integer_intervals_29 = [];
+% integer_intervals_30 = [];
+% integer_intervals_31 = [];
+% integer_intervals_32 = [];
+% integer_intervals_33 = [];
+% integer_intervals_34 = [];
+% integer_intervals_35 = [];
+% integer_intervals_36 = [];
+% 
+% 
+%   for i = 1:length(ff_0)
+%       % satellite 1 위치(seed)
+%       interval_1 = start_points(i) :end_points(i) ;
+%       interval_1(interval_1 > (L-1)) = interval_1(interval_1 > (L-1)) - L; 
+%       integer_intervals_1 = [integer_intervals_1, interval_1];
+% 
+%       % satellite 2 위치
+%       interval_2 = interval_1 + random_number_1; 
+%       interval_2(interval_2 > (L-1)) = interval_2(interval_2 > (L-1)) - L;
+%       integer_intervals_2 = [integer_intervals_2, interval_2];
+% 
+%       % satellite 3 위치
+%       interval_3 = interval_1 + random_number_2; 
+%       interval_3(interval_3 > (L-1)) = interval_3(interval_3 > (L-1)) - L;
+%       integer_intervals_3 = [integer_intervals_3, interval_3];
+% 
+%       % satellite 4 위치
+%       interval_4 = interval_1 + random_number_3; 
+%       interval_4(interval_4 > (L-1)) = interval_4(interval_4 > (L-1)) - L;
+%       integer_intervals_4 = [integer_intervals_4, interval_4];
+% 
+%       % satellite 5 위치
+%       interval_5 = interval_1 + random_number_4; 
+%       interval_5(interval_5 > (L-1)) = interval_5(interval_5 > (L-1)) - L;
+%       integer_intervals_5 = [integer_intervals_5, interval_5];
+% 
+%       % satellite 6 위치
+%       interval_6 = interval_1 + random_number_5; 
+%       interval_6(interval_6 > (L-1)) = interval_6(interval_6 > (L-1)) - L;
+%       integer_intervals_6 = [integer_intervals_6, interval_6];
+% 
+%       % satellite 7 위치
+%       interval_7 = interval_1 + random_number_6; 
+%       interval_7(interval_7 > (L-1)) = interval_7(interval_7 > (L-1)) - L;
+%       integer_intervals_7 = [integer_intervals_7, interval_7];
+% 
+%       % satellite 8 위치
+%       interval_8 = interval_1 + random_number_7; 
+%       interval_8(interval_8 > (L-1)) = interval_8(interval_8 > (L-1)) - L;
+%       integer_intervals_8 = [integer_intervals_8, interval_8];
+% 
+%       % satellite 9 위치
+%       interval_9 = interval_1 + random_number_8; 
+%       interval_9(interval_9 > (L-1)) = interval_9(interval_9 > (L-1)) - L;
+%       integer_intervals_9 = [integer_intervals_9, interval_9];
+% 
+%       % satellite 10 위치
+%       interval_10 = interval_1 + random_number_9; 
+%       interval_10(interval_10 > (L-1)) = interval_10(interval_10 > (L-1)) - L;
+%       integer_intervals_10 = [integer_intervals_10, interval_10];
+% 
+%       % satellite 11 위치 
+%       interval_11 = interval_1 + random_number_10; 
+%       interval_11(interval_11 > (L-1)) = interval_11(interval_11 > (L-1)) - L;
+%       integer_intervals_11 = [integer_intervals_11, interval_11];
+% 
+%       % satellite 12 위치
+%       interval_12 = interval_1 + random_number_11; 
+%       interval_12(interval_12 > (L-1)) = interval_12(interval_12 > (L-1)) - L;
+%       integer_intervals_12 = [integer_intervals_12, interval_12];
+% 
+%       % satellite 13 위치
+%       interval_13 = interval_1 + random_number_12; 
+%       interval_13(interval_13 > (L-1)) = interval_13(interval_13 > (L-1)) - L;
+%       integer_intervals_13 = [integer_intervals_13, interval_13];
+% 
+%       % satellite 14 위치
+%       interval_14 = interval_1 + random_number_13; 
+%       interval_14(interval_14 > (L-1)) = interval_14(interval_14 > (L-1)) - L;
+%       integer_intervals_14 = [integer_intervals_14, interval_14];
+% 
+%       % satellite 15 위치
+%       interval_15 = interval_1 + random_number_14; 
+%       interval_15(interval_15 > (L-1)) = interval_15(interval_15 > (L-1)) - L;
+%       integer_intervals_15 = [integer_intervals_15, interval_15];
+% 
+%       % satellite 16 위치
+%       interval_16 = interval_1 + random_number_15; 
+%       interval_16(interval_16 > (L-1)) = interval_16(interval_16 > (L-1)) - L;
+%       integer_intervals_16 = [integer_intervals_16, interval_16];
+% 
+%       % satellite 17 위치
+%       interval_17 = interval_1 + random_number_16; 
+%       interval_17(interval_17 > (L-1)) = interval_17(interval_17 > (L-1)) - L;
+%       integer_intervals_17 = [integer_intervals_17, interval_17];
+% 
+%       % satellite 18 위치 
+%       interval_18 = interval_1 + random_number_17; 
+%       interval_18(interval_18 > (L-1)) = interval_18(interval_18 > (L-1)) - L;
+%       integer_intervals_18 = [integer_intervals_18, interval_18];
+% 
+%       % satellite 19 위치
+%       interval_19 = interval_1 + random_number_18; 
+%       interval_19(interval_19 > (L-1)) = interval_19(interval_19 > (L-1)) - L;
+%       integer_intervals_19 = [integer_intervals_19, interval_19];
+% 
+%       % satellite 20 위치 
+%       interval_20 = interval_1 + random_number_19; 
+%       interval_20(interval_20 > (L-1)) = interval_20(interval_20 > (L-1)) - L;
+%       integer_intervals_20 = [integer_intervals_20, interval_20];
+% 
+%       % satellite 21 위치
+%       interval_21 = interval_1 + random_number_20; 
+%       interval_21(interval_21 > (L-1)) = interval_21(interval_21 > (L-1)) - L;
+%       integer_intervals_21 = [integer_intervals_21, interval_21];
+% 
+%       % satellite 22 위치 
+%       interval_22 = interval_1 + random_number_21; 
+%       interval_22(interval_22 > (L-1)) = interval_22(interval_22 > (L-1)) - L;
+%       integer_intervals_22 = [integer_intervals_22, interval_22];
+% 
+%       % satellite 23 위치
+%       interval_23 = interval_1 + random_number_22; 
+%       interval_23(interval_23 > (L-1)) = interval_23(interval_23 > (L-1)) - L;
+%       integer_intervals_23 = [integer_intervals_23, interval_23];
+% 
+%       % satellite 24 위치 
+%       interval_24 = interval_1 + random_number_23; 
+%       interval_24(interval_24 > (L-1)) = interval_24(interval_24 > (L-1)) - L;
+%       integer_intervals_24 = [integer_intervals_24, interval_24];
+% 
+%       % satellite 25 위치
+%       interval_25 = interval_1 + random_number_24; 
+%       interval_25(interval_25 > (L-1)) = interval_25(interval_25 > (L-1)) - L;
+%       integer_intervals_25 = [integer_intervals_25, interval_25];
+% 
+%       % satellite 26 위치
+%       interval_26 = interval_1 + random_number_25; 
+%       interval_26(interval_26 > (L-1)) = interval_26(interval_26 > (L-1)) - L;
+%       integer_intervals_26 = [integer_intervals_26, interval_26];
+% 
+%       % satellite 27 위치
+%       interval_27 = interval_1 + random_number_26; 
+%       interval_27(interval_27 > (L-1)) = interval_27(interval_27 > (L-1)) - L;
+%       integer_intervals_27 = [integer_intervals_27, interval_27];
+% 
+%       % satellite 28 위치
+%       interval_28 = interval_1 + random_number_27; 
+%       interval_28(interval_28 > (L-1)) = interval_28(interval_28 > (L-1)) - L;
+%       integer_intervals_28 = [integer_intervals_28, interval_28];
+% 
+%       % satellite 29 위치
+%       interval_29 = interval_1 + random_number_28; 
+%       interval_29(interval_29 > (L-1)) = interval_29(interval_29 > (L-1)) - L;
+%       integer_intervals_29 = [integer_intervals_29, interval_29];
+% 
+%       % satellite 30 위치 
+%       interval_30 = interval_1 + random_number_29; 
+%       interval_30(interval_30 > (L-1)) = interval_30(interval_30 > (L-1)) - L;
+%       integer_intervals_30 = [integer_intervals_30, interval_30];
+% 
+%       % satellite 31 위치
+%       interval_31 = interval_1 + random_number_30; 
+%       interval_31(interval_31 > (L-1)) = interval_31(interval_31 > (L-1)) - L;
+%       integer_intervals_31 = [integer_intervals_31, interval_31];
+% 
+%       % satellite 32 위치
+%       interval_32 = interval_1 + random_number_31; 
+%       interval_32(interval_32 > (L-1)) = interval_32(interval_32 > (L-1)) - L;
+%       integer_intervals_32 = [integer_intervals_32, interval_32];
+% 
+%       % satellite 33 위치
+%       interval_33 = interval_1 + random_number_32; 
+%       interval_33(interval_33 > (L-1)) = interval_33(interval_33 > (L-1)) - L;
+%       integer_intervals_33 = [integer_intervals_33, interval_33];
+% 
+%       % satellite 34 위치
+%       interval_34 = interval_1 + random_number_33; 
+%       interval_34(interval_34 > (L-1)) = interval_34(interval_34 > (L-1)) - L;
+%       integer_intervals_34 = [integer_intervals_34, interval_34];
+% 
+%        % satellite 35 위치
+%       interval_35 = interval_1 + random_number_34; 
+%       interval_35(interval_35 > (L-1)) = interval_35(interval_35 > (L-1)) - L;
+%       integer_intervals_35 = [integer_intervals_35, interval_35];
+% 
+%       % satellite 36 위치 생성
+%       interval_36 = interval_1 + n; 
+%       interval_36(interval_36 > (L-1)) = interval_36(interval_36 > (L-1)) - L;
+%       integer_intervals_36 = [integer_intervals_36, interval_36];
+%   end
+% 
+% 
+% sum_intervals = ...
+%     [integer_intervals_1, ...
+%     integer_intervals_2, ...
+%     integer_intervals_3, ...
+%     integer_intervals_4, ...
+%     integer_intervals_5, ...
+%     integer_intervals_6, ...
+%     integer_intervals_7, ...
+%     integer_intervals_8, ...
+%     integer_intervals_9, ...
+%     integer_intervals_10, ...
+%     integer_intervals_11, ...
+%     integer_intervals_12, ...
+%     integer_intervals_13, ...
+%     integer_intervals_14, ...
+%     integer_intervals_15, ...
+%     integer_intervals_16, ...
+%     integer_intervals_17, ...
+%     integer_intervals_18, ...
+%     integer_intervals_19, ...
+%     integer_intervals_20, ...
+%     integer_intervals_21, ...
+%     integer_intervals_22, ...
+%     integer_intervals_23, ...
+%     integer_intervals_24, ...
+%     integer_intervals_25, ...
+%     integer_intervals_26, ...
+%     integer_intervals_27, ...
+%     integer_intervals_28, ...
+%     integer_intervals_29, ...
+%     integer_intervals_30, ...
+%     integer_intervals_31, ...
+%     integer_intervals_32, ...
+%     integer_intervals_33, ...
+%     integer_intervals_34, ...
+%     integer_intervals_35, ...
+%     integer_intervals_36, ...
+%     ];
+% 
+% unique_intervals = unique(sort(sum_intervals));
+% 
+% difference = length(sum_intervals) - length(unique_intervals) ;
+% 
+% result_35 = [result_35; n, difference];
+% 
+% end
+% 
+% 
+% % 랜덤숫자 생성
+% 
+% result_sum35 = [result_35(:,1), result_35(:,2)];
+% 
+% rows_with_min_sum35 = result_sum35(result_sum35(:, 2) == min(result_sum35(:, 2)), :);
+% 
+% k_sum35 = rows_with_min_sum35(:,1);
+% 
+% random_index_35 = randi([1, length(k_sum35)]);
+% 
+% random_number_35 = k_sum35(random_index_35);
+% 
+% 
+% % renewal
+% integer_intervals_1 = [];
+% integer_intervals_2 = [];
+% integer_intervals_3 = [];
+% integer_intervals_4 = [];
+% integer_intervals_5 = [];
+% integer_intervals_6 = [];
+% integer_intervals_7 = [];
+% integer_intervals_8 = [];
+% integer_intervals_9 = [];
+% integer_intervals_10 = [];
+% integer_intervals_11 = [];
+% integer_intervals_12 = [];
+% integer_intervals_13 = [];
+% integer_intervals_14 = [];
+% integer_intervals_15 = [];
+% integer_intervals_16 = [];
+% integer_intervals_17 = [];
+% integer_intervals_18 = [];
+% integer_intervals_19 = [];
+% integer_intervals_20 = [];
+% integer_intervals_21 = [];
+% integer_intervals_22 = [];
+% integer_intervals_23 = [];
+% integer_intervals_24 = [];
+% integer_intervals_25 = [];
+% integer_intervals_26 = [];
+% integer_intervals_27 = [];
+% integer_intervals_28 = [];
+% integer_intervals_29 = [];
+% integer_intervals_30 = [];
+% integer_intervals_31 = [];
+% integer_intervals_32 = [];
+% integer_intervals_33 = [];
+% integer_intervals_34 = [];
+% integer_intervals_35 = [];
+% integer_intervals_36 = [];
+% 
+% for i = 1:length(ff_0)
+%     % satellite 1 위치 생성(seed)
+%     interval_1 = start_points(i) :end_points(i) ;
+%     interval_1(interval_1 > (L-1)) = interval_1(interval_1 > (L-1)) - L; 
+%     integer_intervals_1 = [integer_intervals_1, interval_1];
+% 
+%     % satellite 2 위치
+%     interval_2 = interval_1 + random_number_1; 
+%     interval_2(interval_2 > (L-1)) = interval_2(interval_2 > (L-1)) - L;
+%     integer_intervals_2 = [integer_intervals_2, interval_2];
+% 
+%     % satellite 3 위치
+%     interval_3 = interval_1 + random_number_2; 
+%     interval_3(interval_3 > (L-1)) = interval_3(interval_3 > (L-1)) - L;
+%     integer_intervals_3 = [integer_intervals_3, interval_3];
+% 
+%     % satellite 4 위치
+%     interval_4 = interval_1 + random_number_3; 
+%     interval_4(interval_4 > (L-1)) = interval_4(interval_4 > (L-1)) - L;
+%     integer_intervals_4 = [integer_intervals_4, interval_4];
+% 
+%     % satellite 5 위치
+%     interval_5 = interval_1 + random_number_4; 
+%     interval_5(interval_5 > (L-1)) = interval_5(interval_5 > (L-1)) - L;
+%     integer_intervals_5 = [integer_intervals_5, interval_5];
+% 
+%     % satellite 6 위치
+%     interval_6 = interval_1 + random_number_5; 
+%     interval_6(interval_6 > (L-1)) = interval_6(interval_6 > (L-1)) - L;
+%     integer_intervals_6 = [integer_intervals_6, interval_6];
+% 
+%     % satellite 7 위치
+%     interval_7 = interval_1 + random_number_6; 
+%     interval_7(interval_7 > (L-1)) = interval_7(interval_7 > (L-1)) - L;
+%     integer_intervals_7 = [integer_intervals_7, interval_7];
+% 
+%     % satellite 8 위치
+%     interval_8 = interval_1 + random_number_7; 
+%     interval_8(interval_8 > (L-1)) = interval_8(interval_8 > (L-1)) - L;
+%     integer_intervals_8 = [integer_intervals_8, interval_8];
+% 
+%     % satellite 9 위치
+%     interval_9 = interval_1 + random_number_8; 
+%     interval_9(interval_9 > (L-1)) = interval_9(interval_9 > (L-1)) - L;
+%     integer_intervals_9 = [integer_intervals_9, interval_9];
+% 
+%     % satellite 10 위치
+%     interval_10 = interval_1 + random_number_9; 
+%     interval_10(interval_10 > (L-1)) = interval_10(interval_10 > (L-1)) - L;
+%     integer_intervals_10 = [integer_intervals_10, interval_10];
+% 
+%     % satellite 11 위치
+%     interval_11 = interval_1 + random_number_10; 
+%     interval_11(interval_11 > (L-1)) = interval_11(interval_11 > (L-1)) - L;
+%     integer_intervals_11 = [integer_intervals_11, interval_11];
+% 
+%     % satellite 12 위치
+%     interval_12 = interval_1 + random_number_11; 
+%     interval_12(interval_12 > (L-1)) = interval_12(interval_12 > (L-1)) - L;
+%     integer_intervals_12 = [integer_intervals_12, interval_12];
+% 
+%     % satellite 13 위치
+%     interval_13 = interval_1 + random_number_12; 
+%     interval_13(interval_13 > (L-1)) = interval_13(interval_13 > (L-1)) - L;
+%     integer_intervals_13 = [integer_intervals_13, interval_13];
+% 
+%     % satellite 14 위치
+%     interval_14 = interval_1 + random_number_13; 
+%     interval_14(interval_14 > (L-1)) = interval_14(interval_14 > (L-1)) - L;
+%     integer_intervals_14 = [integer_intervals_14, interval_14];
+% 
+%     % satellite 15 위치
+%     interval_15 = interval_1 + random_number_14; 
+%     interval_15(interval_15 > (L-1)) = interval_15(interval_15 > (L-1)) - L;
+%     integer_intervals_15 = [integer_intervals_15, interval_15];
+% 
+%     % satellite 16 위치
+%     interval_16 = interval_1 + random_number_15; 
+%     interval_16(interval_16 > (L-1)) = interval_16(interval_16 > (L-1)) - L;
+%     integer_intervals_16 = [integer_intervals_16, interval_16];
+% 
+%     % satellite 17 위치
+%     interval_17 = interval_1 + random_number_16; 
+%     interval_17(interval_17 > (L-1)) = interval_17(interval_17 > (L-1)) - L;
+%     integer_intervals_17 = [integer_intervals_17, interval_17];
+% 
+%     % satellite 18 위치
+%     interval_18 = interval_1 + random_number_17; 
+%     interval_18(interval_18 > (L-1)) = interval_18(interval_18 > (L-1)) - L;
+%     integer_intervals_18 = [integer_intervals_18, interval_18];
+% 
+%     % satellite 19 위치
+%     interval_19 = interval_1 + random_number_18; 
+%     interval_19(interval_19 > (L-1)) = interval_19(interval_19 > (L-1)) - L;
+%     integer_intervals_19 = [integer_intervals_19, interval_19];
+% 
+%     % satellite 20 위치
+%     interval_20 = interval_1 + random_number_19; 
+%     interval_20(interval_20 > (L-1)) = interval_20(interval_20 > (L-1)) - L;
+%     integer_intervals_20 = [integer_intervals_20, interval_20];
+% 
+%     % satellite 21 위치
+%     interval_21 = interval_1 + random_number_20; 
+%     interval_21(interval_21 > (L-1)) = interval_21(interval_21 > (L-1)) - L;
+%     integer_intervals_21 = [integer_intervals_21, interval_21];
+% 
+%     % satellite 22 위치
+%     interval_22 = interval_1 + random_number_21; 
+%     interval_22(interval_22 > (L-1)) = interval_22(interval_22 > (L-1)) - L;
+%     integer_intervals_22 = [integer_intervals_22, interval_22];
+% 
+%     % satellite 23 위치
+%     interval_23 = interval_1 + random_number_22; 
+%     interval_23(interval_23 > (L-1)) = interval_23(interval_23 > (L-1)) - L;
+%     integer_intervals_23 = [integer_intervals_23, interval_23];
+% 
+%     % satellite 24 위치
+%     interval_24 = interval_1 + random_number_23; 
+%     interval_24(interval_24 > (L-1)) = interval_24(interval_24 > (L-1)) - L;
+%     integer_intervals_24 = [integer_intervals_24, interval_24];
+% 
+%     % satellite 25 위치
+%     interval_25 = interval_1 + random_number_24; 
+%     interval_25(interval_25 > (L-1)) = interval_25(interval_25 > (L-1)) - L;
+%     integer_intervals_25 = [integer_intervals_25, interval_25];
+% 
+%     % satellite 26 위치
+%     interval_26 = interval_1 + random_number_25; 
+%     interval_26(interval_26 > (L-1)) = interval_26(interval_26 > (L-1)) - L;
+%     integer_intervals_26 = [integer_intervals_26, interval_26];
+% 
+%     % satellite 27 위치
+%     interval_27 = interval_1 + random_number_26; 
+%     interval_27(interval_27 > (L-1)) = interval_27(interval_27 > (L-1)) - L;
+%     integer_intervals_27 = [integer_intervals_27, interval_27];
+% 
+%     % satellite 28 위치
+%     interval_28 = interval_1 + random_number_27; 
+%     interval_28(interval_28 > (L-1)) = interval_28(interval_28 > (L-1)) - L;
+%     integer_intervals_28 = [integer_intervals_28, interval_28];
+% 
+%     % satellite 29 위치
+%     interval_29 = interval_1 + random_number_28; 
+%     interval_29(interval_29 > (L-1)) = interval_29(interval_29 > (L-1)) - L;
+%     integer_intervals_29 = [integer_intervals_29, interval_29];
+% 
+%     % satellite 30 위치
+%     interval_30 = interval_1 + random_number_29; 
+%     interval_30(interval_30 > (L-1)) = interval_30(interval_30 > (L-1)) - L;
+%     integer_intervals_30 = [integer_intervals_30, interval_30];
+% 
+%     % satellite 31 위치
+%     interval_31 = interval_1 + random_number_30; 
+%     interval_31(interval_31 > (L-1)) = interval_31(interval_31 > (L-1)) - L;
+%     integer_intervals_31 = [integer_intervals_31, interval_31];
+% 
+%      % satellite 32 위치
+%     interval_32 = interval_1 + random_number_31; 
+%     interval_32(interval_32 > (L-1)) = interval_32(interval_32 > (L-1)) - L;
+%     integer_intervals_32 = [integer_intervals_32, interval_32];
+% 
+%     % satellite 33 위치
+%     interval_33 = interval_1 + random_number_32; 
+%     interval_33(interval_33 > (L-1)) = interval_33(interval_33 > (L-1)) - L;
+%     integer_intervals_33 = [integer_intervals_33, interval_33];
+% 
+%     % satellite 34 위치
+%     interval_34 = interval_1 + random_number_33; 
+%     interval_34(interval_34 > (L-1)) = interval_34(interval_34 > (L-1)) - L;
+%     integer_intervals_34 = [integer_intervals_34, interval_34];
+% 
+%     % satellite 35 위치
+%     interval_35 = interval_1 + random_number_34; 
+%     interval_35(interval_35 > (L-1)) = interval_35(interval_35 > (L-1)) - L;
+%     integer_intervals_35 = [integer_intervals_35, interval_35];
+% 
+%     % satellite 36 위치
+%     interval_36 = interval_1 + random_number_35; 
+%     interval_36(interval_36 > (L-1)) = interval_36(interval_36 > (L-1)) - L;
+%     integer_intervals_36 = [integer_intervals_36, interval_36];
+% end
+% 
+% 
+% sum_intervals = ...
+%     [integer_intervals_1, ...
+%     integer_intervals_2, ...
+%     integer_intervals_3, ...
+%     integer_intervals_4, ...
+%     integer_intervals_5, ...
+%     integer_intervals_6, ...
+%     integer_intervals_7, ...
+%     integer_intervals_8, ...
+%     integer_intervals_9, ...
+%     integer_intervals_10, ...
+%     integer_intervals_11, ...
+%     integer_intervals_12, ...
+%     integer_intervals_13, ...
+%     integer_intervals_14, ...
+%     integer_intervals_15, ...
+%     integer_intervals_16, ...
+%     integer_intervals_17, ...
+%     integer_intervals_18, ...
+%     integer_intervals_19, ...
+%     integer_intervals_20, ...
+%     integer_intervals_21, ...
+%     integer_intervals_22, ...
+%     integer_intervals_23, ...
+%     integer_intervals_24, ...
+%     integer_intervals_25, ...
+%     integer_intervals_26, ...
+%     integer_intervals_27, ...
+%     integer_intervals_28, ...
+%     integer_intervals_29, ...
+%     integer_intervals_30, ...
+%     integer_intervals_31, ...
+%     integer_intervals_32, ...
+%     integer_intervals_33, ...
+%     integer_intervals_34, ...
+%     integer_intervals_35, ...
+%     integer_intervals_36, ...
+%     ];
+% 
+% unique_intervals = unique(sort(sum_intervals));
+% 
+% Cov_36 = length(unique_intervals) / L * 100
+
+
+%% 여기전까지
+
+random_N(1) = (0);
+random_N(2) = (random_number_1);
+random_N(3) = (random_number_2);
+random_N(4) = (random_number_3);
+random_N(5) = (random_number_4);
+random_N(6) = (random_number_5);
+random_N(7) = (random_number_6);
+random_N(8) = (random_number_7);
+random_N(9) = (random_number_8);
+random_N(10) = (random_number_9);
+random_N(11) = (random_number_10);
+random_N(12) = (random_number_11);
+random_N(13) = (random_number_12);
+random_N(14) = (random_number_13);
+random_N(15) = (random_number_14);
+random_N(16) = (random_number_15);
+random_N(17) = (random_number_16);
+random_N(18) = (random_number_17);
+random_N(19) = (random_number_18);
+random_N(20) = (random_number_19);
+random_N(21) = (random_number_20);
+random_N(22) = (random_number_21);
+random_N(23) = (random_number_22);
+random_N(24) = (random_number_23);
+random_N(25) = (random_number_24);
+random_N(26) = (random_number_25)
+% random_N(27) = (random_number_26);
+% random_N(28) = (random_number_27);
+% random_N(29) = (random_number_28);
+% random_N(30) = (random_number_29);
+% random_N(31) = (random_number_30);
+% random_N(32) = (random_number_31);
+% random_N(33) = (random_number_32);
+
+  if Cov_26 >= 99.8
+
+
+        break;
+    end
+ trials = trials + 1; 
+end
+
+% 시뮬레이션 종료 시간 기록
+elapsed_time = toc(start_time);
+
+% 결과 출력
+fprintf('시행 횟수: %d\n', trials);
+fprintf('걸린 시간(초): %.2f\n', elapsed_time);
+
+
+% 변수 목록
+vars = who;
+
+% 'integer_intervals_'로 시작하는 변수들만 필터링
+pattern = '^integer_intervals_\d+$'; % 정규 표현식 패턴
+N = 0;
+
+for i = 1:length(vars)
+    if ~isempty(regexp(vars{i}, pattern, 'once'))
+        N = N + 1;
+    end
+end
+
+
+%% 그래프
+
+n_1 = random_N(1:N) +1;
+
+% 동적으로 ff_ 변수를 생성 및 할당
+for i = 1:N
+    eval(['ff_', num2str(i), ' = ff_0 + n_1(', num2str(i), ');']);
+end
+
+
+% x축 범위 설정
+x_range = 0:L-1;
+
+for idx = 1:length(n_1)
+    ff = eval(['ff_', num2str(idx)]);
+    x_coords1{idx} = []; % 해당 작업공간의 x좌표를 저장할 배열 초기화
+
+    for i = 1:size(ff,1)
+        start_time = ff(i, 1);
+        end_time = ff(i, 2);
+
+        % y=1일 때의 시작 시간과 종료 시간의 x좌표 계산
+        if end_time > L-1 && start_time < L
+           start_index = find(x_range >= start_time, 1);
+           end_index = find(x_range < end_time-L, 1, 'last');
+        elseif start_time > L-1
+           start_index = find(x_range >= start_time-L, 1);
+           end_index = find(x_range <= end_time-L, 1, 'last');
+        else
+        start_index = find(x_range >= start_time, 1);
+        end_index = find(x_range <= end_time, 1, 'last');
+        end
+
+        % 시작 시간부터 종료 시간까지의 x좌표를 배열에 저장
+        if end_time > L-1 && start_time < L
+          x_coords1{idx} = [x_coords1{idx}, x_range(start_index:L),(0:end_index)];
+
+        else
+          x_coords1{idx} = [x_coords1{idx}, x_range(start_index:end_index)];
+        end
+    end               
+end
+
+% 모든 작업공간의 x 좌표를 모은 배열 초기화
+all_x_coords1 = [];
+
+%% 각 작업공간의 x 좌표를 all_x_coords1에 추가하고 작은 수부터 오름차순으로 정렬
+for idx = 1:length(n_1)
+    all_x_coords1 = [all_x_coords1, x_coords1{idx}];
+end
+
+all_x_coords1 = sort(all_x_coords1);
+
+% 중복된 값을 제거하고 유일한 값들만 추출
+unique_x_coords1 = unique(all_x_coords1);
+
+%%
+
+% 초기화
+RV1 = [];
+current_value = all_x_coords1(1);
+start_index = 1;
+
+% 각 원소에 대해 반복하면서 연속된 값의 구간을 찾음
+for i = 2:length(all_x_coords1)
+    if all_x_coords1(i) ~= current_value
+        % 현재 값과 다른 값이 나타난 경우, 해당 구간의 시작과 끝을 저장하고 현재 값 갱신
+        end_index = i - 1;
+        RV1 = [RV1; current_value, end_index - start_index + 1];
+        current_value = all_x_coords1(i);
+        start_index = i;
+    end
+end
+
+% 마지막 구간에 대한 처리
+end_index = length(all_x_coords1);
+RV1 = [RV1; current_value, end_index - start_index+1];
+
+
+%% 빠진 숫자 찾기
+
+% 주어진 행렬
+matrix1 = RV1 ;
+
+% 현재 1열에서 빠진 숫자를 찾기
+missing_numbers = setdiff(0:L-1, matrix1(:,1));
+
+% 새롭게 추가된 행에 대해 0으로 입력
+new_rows = zeros(length(missing_numbers), 2);
+new_rows(:, 1) = missing_numbers;
+
+% 새로운 행렬 생성
+new_matrix1 = [matrix1; new_rows];
+
+% 1열을 기준으로 행렬을 정렬
+sorted_matrix1 = sortrows(new_matrix1, 1);
+
+% Acess Profile
+
+% x축 범위 설정
+x_range = 0:L-1;
+
+figure;
+subplot(3, 1, 1);
+
+hex_color1 = '#005eb5';
+
+red1 = hex2dec(hex_color1(2:3)) / 255; % R 값
+green1 = hex2dec(hex_color1(4:5)) / 255; % G 값
+blue1 = hex2dec(hex_color1(6:7)) / 255; % B 값
+
+hex_color11 = '#6ca6d6';
+
+red11 = hex2dec(hex_color11(2:3)) / 255; % R 값
+green11 = hex2dec(hex_color11(4:5)) / 255; % G 값
+blue11 = hex2dec(hex_color11(6:7)) / 255; % B 값
+
+
+% 각 구간별로 y=1인 위치 표시
+for i = 1:size(ff_0, 1)
+    if ff_0(i) < 0
+        start_time_new = L + ff_0(i,1);
+        end_time_new = L + ff_0(i,2);
+    else 
+        start_time_new = ff_0(i, 1);
+        end_time_new = ff_0(i, 2);
+    end
+    start_time = ff_0(i, 1);
+    end_time = ff_0(i, 2);
+
+    if end_time_new > L-1
+        end_time_new = L-1;
+    end
+
+    % 시작 시간과 종료 시간에 해당하는 x 인덱스 찾기
+    start_index = find(x_range >= start_time, 1);
+    end_index = find(x_range <= end_time, 1, 'last');
+    stn = start_time_new;
+    etn = end_time_new;
+
+    % y 값 설정
+    y_values1a = zeros(size(x_range));
+    y_values1a(start_index:end_index) = 1;
+    if ff_0(i) < 0
+        y_values1a(stn:etn) = 1;
+    end
+
+    % 그래프 그리기
+    plot(x_range, y_values1a, '-o r', 'LineWidth', 1, 'MarkerSize', 1, 'Color', [red1, green1, blue1]);
+    hold on;
+    area(x_range, y_values1a, 'FaceColor', [red11, green11, blue11]);
+    plot(x_range, y_values1a, 'Color', [red1, green1, blue1], 'LineWidth', 1.5); 
+end
+
+% 그래프 세부 설정
+xlabel('n');
+ylabel('v0j[n]');
+title('Access Profile');
+grid on;
+xlim([0, L-1]);
+ylim([0, 1]);
+yticks([0 1]);
+
+%% Constellation Pattern Vector
+
+% x_range = 0:L-1;
+
+subplot(3, 1, 2);
+
+    % y 값 설정
+    y_values1p = zeros(size(x_range));
+    y_values1p(n_1(1,:)) = 1;
+
+plot(x_range, y_values1p, 'Color', [red1, green1, blue1], 'LineWidth', 1, 'MarkerSize', 1);
+title('Constellation Pattern Vector');
+hold on;
+
+xlim([0, L-1]);
+ylim([0, 1]);
+yticks([0 1]);
+
+% 그래프 세부 설정
+xlabel('n');
+ylabel('x[n]');
+grid on;
+xlim([0, L-1]);
+ylim([0, 1]);
+yticks([0 1]);
+
+%% Coverage Timline
+
+x_range = 0:L-1;
+
+subplot(3, 1, 3);
+plot(sorted_matrix1(:,1), sorted_matrix1(:,2), 'Color', [red1, green1, blue1], 'LineWidth', 1, 'MarkerSize', 1);
+title('Coverage Timeline');
+hold on;
+area(sorted_matrix1(:,1), sorted_matrix1(:,2), 'FaceColor', [red11, green11, blue11]);
+plot(sorted_matrix1(:,1), sorted_matrix1(:,2), 'Color', [red1, green1, blue1], 'LineWidth', 1);
+
+xlim([0, L-1]);
+ylim([0, 3]);
+
+% 그래프 세부 설정
+xlabel('n');
+ylabel('bj[n]');
+grid on;
+xlim([0, L-1]);
