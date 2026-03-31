@@ -1,0 +1,22 @@
+Access Event                                        Entry Epoch                       Exit Epoch                Duration(min)
+
+GroundStation1 --> scFormation[0]          Jan 01 2024 06:39:48.339843750   Jan 01 2024 06:40:22.910156250       0.576171875
+GroundStation1 --> scFormation[1]        -- NO PASSES!
+GroundStation1 --> scFormation[2]        -- NO PASSES!
+GroundStation1 --> scFormation[3]        -- NO PASSES!
+GroundStation1 --> scFormation[4]        -- NO PASSES!
+GroundStation1 --> scFormation[5]        -- NO PASSES!
+GroundStation1 --> scFormation[6]        -- NO PASSES!
+GroundStation1 --> scFormation[7]        -- NO PASSES!
+GroundStation1 --> scFormation[8]        -- NO PASSES!
+GroundStation1 --> scFormation[9]        -- NO PASSES!
+GroundStation1 --> scFormation[10]       -- NO PASSES!
+GroundStation1 --> scFormation[11]       -- NO PASSES!
+GroundStation1 --> scFormation[12]       -- NO PASSES!
+GroundStation1 --> scFormation[13]       -- NO PASSES!
+GroundStation1 --> scFormation[14]       -- NO PASSES!
+GroundStation1 --> scFormation[15]       -- NO PASSES!
+GroundStation1 --> scFormation[16]       -- NO PASSES!
+GroundStation1 --> scFormation[17]       -- NO PASSES!
+GroundStation1 --> scFormation[18]       -- NO PASSES!
+GroundStation1 --> scFormation[19]       -- NO PASSES!

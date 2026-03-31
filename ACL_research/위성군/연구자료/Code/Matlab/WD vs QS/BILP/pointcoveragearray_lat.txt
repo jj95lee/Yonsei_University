@@ -1,0 +1,4 @@
+
+   coveragePointGroup.PointLatitude[0]
+                   deg
+                90.000000000

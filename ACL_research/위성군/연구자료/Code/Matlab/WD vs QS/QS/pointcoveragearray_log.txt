@@ -1,0 +1,4 @@
+
+   coveragePointGroup.PointLongitude[0]
+                    deg
+                 0.000000000

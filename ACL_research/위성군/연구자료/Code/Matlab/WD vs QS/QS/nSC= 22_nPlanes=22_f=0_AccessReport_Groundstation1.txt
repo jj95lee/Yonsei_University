@@ -1,0 +1,24 @@
+Access Event                                        Entry Epoch                       Exit Epoch                Duration(min)
+
+GroundStation1 --> scFormation[12]         Jan 01 2024 00:46:40.312500000   Jan 01 2024 00:49:08.437500000       2.468750000
+GroundStation1 --> scFormation[13]         Jan 01 2024 01:52:07.148437500   Jan 01 2024 01:54:35.097656250       2.465820313
+GroundStation1 --> scFormation[14]         Jan 01 2024 02:57:33.808593750   Jan 01 2024 03:00:01.582031250       2.462890625
+GroundStation1 --> scFormation[15]         Jan 01 2024 04:03:00.410156250   Jan 01 2024 04:05:27.890625000       2.458007813
+GroundStation1 --> scFormation[16]         Jan 01 2024 05:08:26.894531250   Jan 01 2024 05:10:54.082031250       2.453125000
+GroundStation1 --> scFormation[17]         Jan 01 2024 06:13:53.437500000   Jan 01 2024 06:16:20.156250000       2.445312500
+GroundStation1 --> scFormation[18]         Jan 01 2024 07:19:20.039062500   Jan 01 2024 07:21:46.230468750       2.436523438
+GroundStation1 --> scFormation[19]         Jan 01 2024 08:24:46.816406250   Jan 01 2024 08:27:12.304687500       2.424804688
+GroundStation1 --> scFormation[20]         Jan 01 2024 09:30:13.769531250   Jan 01 2024 09:32:38.378906250       2.410156250
+GroundStation1 --> scFormation[21]         Jan 01 2024 10:35:40.957031250   Jan 01 2024 10:38:04.628906250       2.394531250
+GroundStation1 --> scFormation[0]          Jan 01 2024 11:41:08.437500000   Jan 01 2024 11:43:30.937500000       2.375000000
+GroundStation1 --> scFormation[1]          Jan 01 2024 12:46:36.152343750   Jan 01 2024 12:48:57.480468750       2.355468750
+GroundStation1 --> scFormation[2]          Jan 01 2024 13:52:04.042968750   Jan 01 2024 13:54:24.082031250       2.333984375
+GroundStation1 --> scFormation[3]          Jan 01 2024 14:57:32.167968750   Jan 01 2024 14:59:50.917968750       2.312500000
+GroundStation1 --> scFormation[4]          Jan 01 2024 16:03:00.410156250   Jan 01 2024 16:05:17.929687500       2.291992188
+GroundStation1 --> scFormation[5]          Jan 01 2024 17:08:28.710937500   Jan 01 2024 17:10:45.000000000       2.271484375
+GroundStation1 --> scFormation[6]          Jan 01 2024 18:13:57.011718750   Jan 01 2024 18:16:12.187500000       2.252929688
+GroundStation1 --> scFormation[7]          Jan 01 2024 19:19:25.195312500   Jan 01 2024 19:21:39.375000000       2.236328125
+GroundStation1 --> scFormation[8]          Jan 01 2024 20:24:53.203125000   Jan 01 2024 20:27:06.621093750       2.223632813
+GroundStation1 --> scFormation[9]          Jan 01 2024 21:30:20.976562500   Jan 01 2024 21:32:33.808593750       2.213867188
+GroundStation1 --> scFormation[10]         Jan 01 2024 22:35:48.574218750   Jan 01 2024 22:38:00.878906250       2.205078125
+GroundStation1 --> scFormation[11]         Jan 01 2024 23:41:15.878906250   Jan 01 2024 23:43:27.832031250       2.199218750
