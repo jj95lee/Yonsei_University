@@ -1,0 +1,34 @@
+Region2 --> scFormation[0]               -- NO PASSES!
+Region2 --> scFormation[1]               -- NO PASSES!
+Region2 --> scFormation[2]               -- NO PASSES!
+Region2 --> scFormation[3]               -- NO PASSES!
+Region2 --> scFormation[4]               -- NO PASSES!
+Access Event                                        Entry Epoch                       Exit Epoch                Duration(min)
+
+Region2 --> scFormation[5]                 Jan 01 2024 00:00:00.000000000   Jan 01 2024 00:01:25.620117187       1.427001953
+Region2 --> scFormation[6]               -- NO PASSES!
+Region2 --> scFormation[7]               -- NO PASSES!
+Region2 --> scFormation[8]               -- NO PASSES!
+Region2 --> scFormation[9]               -- NO PASSES!
+Region2 --> scFormation[10]              -- NO PASSES!
+Region2 --> scFormation[11]              -- NO PASSES!
+Region2 --> scFormation[12]              -- NO PASSES!
+Region2 --> scFormation[13]              -- NO PASSES!
+Region2 --> scFormation[14]              -- NO PASSES!
+Region2 --> scFormation[15]              -- NO PASSES!
+Region2 --> scFormation[16]              -- NO PASSES!
+Region2 --> scFormation[17]              -- NO PASSES!
+Region2 --> scFormation[18]              -- NO PASSES!
+Region2 --> scFormation[19]              -- NO PASSES!
+Region2 --> scFormation[20]              -- NO PASSES!
+Region2 --> scFormation[21]              -- NO PASSES!
+Region2 --> scFormation[22]              -- NO PASSES!
+Region2 --> scFormation[23]              -- NO PASSES!
+Access Event                                        Entry Epoch                       Exit Epoch                Duration(min)
+
+Region2 --> scFormation[24]                Jan 01 2024 00:01:42.246093750   Jan 01 2024 00:04:39.638671875       2.956542969
+Region2 --> scFormation[25]              -- NO PASSES!
+Region2 --> scFormation[26]              -- NO PASSES!
+Region2 --> scFormation[27]              -- NO PASSES!
+Region2 --> scFormation[28]              -- NO PASSES!
+Region2 --> scFormation[29]              -- NO PASSES!

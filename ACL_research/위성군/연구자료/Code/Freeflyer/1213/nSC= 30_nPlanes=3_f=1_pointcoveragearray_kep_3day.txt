@@ -1,0 +1,4 @@
+
+   PointCoverage.Sum   coveragePointGroup.NumberOfPoints
+          None                        None
+       82.000000000              2904.000000000

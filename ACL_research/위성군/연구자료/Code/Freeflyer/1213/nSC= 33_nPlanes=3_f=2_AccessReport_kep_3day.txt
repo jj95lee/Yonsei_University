@@ -1,0 +1,35 @@
+Access Event                                        Entry Epoch                       Exit Epoch                Duration(min)
+
+Region2 --> scFormation[6]                 Jan 01 2024 00:04:12.539062500   Jan 01 2024 00:06:21.640625000       2.151692708
+Region2 --> scFormation[5]                 Jan 01 2024 00:09:27.578125000   Jan 01 2024 00:11:37.265625000       2.161458333
+Region2 --> scFormation[12]                Jan 01 2024 00:09:27.578125000   Jan 01 2024 00:11:37.265625000       2.161458333
+Region2 --> scFormation[22]                Jan 01 2024 00:09:27.578125000   Jan 01 2024 00:11:37.265625000       2.161458333
+Region2 --> scFormation[32]                Jan 01 2024 00:09:27.578125000   Jan 01 2024 00:11:37.265625000       2.161458333
+Region2 --> scFormation[1]                 Jan 01 2024 00:14:38.222656250   Jan 01 2024 00:16:47.617187500       2.156575521
+Region2 --> scFormation[13]                Jan 01 2024 00:19:58.339843750   Jan 01 2024 00:22:08.027343750       2.161458333
+Region2 --> scFormation[23]                Jan 01 2024 00:19:58.339843750   Jan 01 2024 00:22:08.027343750       2.161458333
+Region2 --> scFormation[30]                Jan 01 2024 00:19:58.339843750   Jan 01 2024 00:22:08.027343750       2.161458333
+Region2 --> scFormation[4]                 Jan 01 2024 00:40:59.863281250   Jan 01 2024 00:43:09.550781250       2.161458333
+Region2 --> scFormation[14]                Jan 01 2024 00:40:59.863281250   Jan 01 2024 00:43:09.550781250       2.161458333
+Region2 --> scFormation[21]                Jan 01 2024 00:40:59.863281250   Jan 01 2024 00:43:09.550781250       2.161458333
+Region2 --> scFormation[31]                Jan 01 2024 00:40:59.863281250   Jan 01 2024 00:43:09.550781250       2.161458333
+Region2 --> scFormation[0]                 Jan 01 2024 00:46:10.507812500   Jan 01 2024 00:48:19.902343750       2.156575521
+Region2 --> scFormation[10]                Jan 01 2024 00:46:10.507812500   Jan 01 2024 00:48:19.902343750       2.156575521
+Region2 --> scFormation[20]                Jan 01 2024 00:46:10.507812500   Jan 01 2024 00:48:19.902343750       2.156575521
+Region2 --> scFormation[27]                Jan 01 2024 00:46:10.507812500   Jan 01 2024 00:48:19.902343750       2.156575521
+Region2 --> scFormation[2]               -- NO PASSES!
+Region2 --> scFormation[3]               -- NO PASSES!
+Region2 --> scFormation[7]               -- NO PASSES!
+Region2 --> scFormation[8]                 Jan 01 2024 00:56:46.347656250   Jan 01 2024 00:58:20.000000000       1.560872396
+Region2 --> scFormation[9]               -- NO PASSES!
+Region2 --> scFormation[11]              -- NO PASSES!
+Region2 --> scFormation[15]                Jan 01 2024 00:56:46.347656250   Jan 01 2024 00:58:20.000000000       1.560872396
+Region2 --> scFormation[16]              -- NO PASSES!
+Region2 --> scFormation[17]              -- NO PASSES!
+Region2 --> scFormation[18]              -- NO PASSES!
+Region2 --> scFormation[19]              -- NO PASSES!
+Region2 --> scFormation[24]              -- NO PASSES!
+Region2 --> scFormation[25]                Jan 01 2024 00:56:46.347656250   Jan 01 2024 00:58:20.000000000       1.560872396
+Region2 --> scFormation[26]              -- NO PASSES!
+Region2 --> scFormation[28]              -- NO PASSES!
+Region2 --> scFormation[29]              -- NO PASSES!

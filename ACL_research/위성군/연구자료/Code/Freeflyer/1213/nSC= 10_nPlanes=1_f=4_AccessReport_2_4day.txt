@@ -1,0 +1,12 @@
+Access Event                                        Entry Epoch                       Exit Epoch                Duration(min)
+
+Region2 --> scFormation[5]                 Jan 01 2024 00:00:00.000000000   Jan 01 2024 00:01:01.125000000       1.018750000
+Region2 --> scFormation[4]                 Jan 01 2024 00:08:19.187500000   Jan 01 2024 00:10:28.125000000       2.148958333
+Region2 --> scFormation[3]                 Jan 01 2024 00:17:46.625000000   Jan 01 2024 00:19:55.500000000       2.147916667
+Region2 --> scFormation[2]                 Jan 01 2024 00:27:13.937500000   Jan 01 2024 00:29:22.687500000       2.145833333
+Region2 --> scFormation[1]                 Jan 01 2024 00:36:42.000000000   Jan 01 2024 00:38:52.187500000       2.169791667
+Region2 --> scFormation[0]                 Jan 01 2024 00:46:11.875000000   Jan 01 2024 00:48:23.375000000       2.191666667
+Region2 --> scFormation[6]               -- NO PASSES!
+Region2 --> scFormation[7]               -- NO PASSES!
+Region2 --> scFormation[8]               -- NO PASSES!
+Region2 --> scFormation[9]               -- NO PASSES!
