@@ -1,0 +1,156 @@
+clc
+clear all
+
+L= 717;
+shift = 0;
+
+
+% 주어진 행렬 ff_0
+ff_00 = ...
+[...
+1422.34375	3882.988281
+12744.29688	15186.19141
+23907.98828	26012.96875
+35150.78125	35906.23047
+55517.20703	56159.45313
+65349.64844	67430.07813
+76151.81641	78589.90234
+...		
+];
+
+% spot1
+% 1422.34375	3882.988281
+% 12744.29688	15186.19141
+% 23907.98828	26012.96875
+% 35150.78125	35906.23047
+% 55517.20703	56159.45313
+% 65349.64844	67430.07813
+% 76151.81641	78589.90234
+
+% spot 2
+% 3639.394531	6092.890625
+% 42206.21094	44808.82813
+% 53656.60156	55843.61328
+% 78515	80951.67969
+
+
+
+% ff_0 -> n 으로 변환
+ff_0 = floor(ff_00/(86024/L)) - shift;
+neg1 = ff_0
+
+
+
+% 구간의 시작점과 끝점을 변수에 저장
+start_points = ff_0(:, 1);
+end_points = ff_0(:, 2);
+
+% 모든 구간을 정수로 표시해서 작업 공간에 저장
+result = [];
+
+for n = 0:716
+integer_intervals_1 = [];
+integer_intervals_2 = [];
+integer_intervals_3 = [];
+integer_intervals_4 = [];
+integer_intervals_5 = [];
+integer_intervals_6 = [];
+integer_intervals_7 = [];
+integer_intervals_8 = [];
+integer_intervals_9 = [];
+integer_intervals_10 = [];
+integer_intervals_11 = [];
+
+
+
+
+
+%% 263   451   490   228   603   114   376   342   564   386
+
+for i = 1:length(ff_0)
+    interval_1 = start_points(i):end_points(i) ;
+    interval_1(interval_1 > 716) = interval_1(interval_1 > 716) - 717; 
+    integer_intervals_1 = [integer_intervals_1, interval_1];
+
+    interval_2 = interval_1 + 263; 
+    interval_2(interval_2 > 716) = interval_2(interval_2 > 716) - 717;
+    integer_intervals_2 = [integer_intervals_2, interval_2];
+
+    interval_3 = interval_1 + 451; 
+    interval_3(interval_3 > 716) = interval_3(interval_3 > 716) - 717;
+    integer_intervals_3 = [integer_intervals_3, interval_3];
+
+    interval_4 = interval_1 + 490; 
+    interval_4(interval_4 > 716) = interval_4(interval_4 > 716) - 717;
+    integer_intervals_4 = [integer_intervals_4, interval_4];
+
+    interval_5 = interval_1 + 228; 
+    interval_5(interval_5 > 716) = interval_5(interval_5 > 716) - 717;
+    integer_intervals_5 = [integer_intervals_5, interval_5];
+
+    interval_6 = interval_1 + 603; 
+    interval_6(interval_6 > 716) = interval_6(interval_6 > 716) - 717;
+    integer_intervals_6 = [integer_intervals_6, interval_6];
+
+    interval_7 = interval_1 + 114; 
+    interval_7(interval_7 > 716) = interval_7(interval_7 > 716) - 717;
+    integer_intervals_7 = [integer_intervals_7, interval_7];
+
+    interval_8 = interval_1 + 376; 
+    interval_8(interval_8 > 716) = interval_8(interval_8 > 716) - 717;
+    integer_intervals_8 = [integer_intervals_8, interval_8];
+
+    interval_9 = interval_1 + 342; 
+    interval_9(interval_9 > 716) = interval_9(interval_9 > 716) - 717;
+    integer_intervals_9 = [integer_intervals_9, interval_9];
+
+    interval_10 = interval_1 + 564; 
+    interval_10(interval_10 > 716) = interval_10(interval_10 > 716) - 717;
+    integer_intervals_10 = [integer_intervals_10, interval_10];
+
+    interval_11 = interval_1 + 386; 
+    interval_11(interval_11 > 716) = interval_11(interval_11 > 716) - 717;
+    integer_intervals_11 = [integer_intervals_11, interval_11];
+
+
+end
+
+
+
+
+%%
+
+
+% 두 행렬을 합쳐서 하나의 행렬로 만듭니다.
+sum_intervals = ...
+    [integer_intervals_1, ...
+    integer_intervals_2, ...
+    integer_intervals_3, ...
+    integer_intervals_4, ...
+    integer_intervals_5, ...
+    integer_intervals_6, ...
+    integer_intervals_7, ...
+    integer_intervals_8, ...
+    integer_intervals_9, ...
+    integer_intervals_10, ...
+    integer_intervals_11, ...
+    ];
+
+% 행렬을 오름차순으로 정렬하고 중복된 요소를 제거합니다.
+unique_intervals = unique(sort(sum_intervals));
+
+
+% 두 행렬의 길이 차이 계산
+difference = length(sum_intervals) - length(unique_intervals) ;
+
+ % 결과를 작업 공간에 저장
+    result = [result; n, difference];
+end
+
+
+A = length(unique_intervals) / 717 * 100
+
+% result 변수에서 2열이 최소인 행을 찾습니다.
+rows_with_min = result(result(:, 2) == min(result(:, 2)), :);
+
+k_1 = rows_with_min(:,1);
