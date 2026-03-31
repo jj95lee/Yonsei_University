@@ -1,0 +1,172 @@
+GroundStation1 --> scFormation[0]        -- NO PASSES!
+GroundStation1 --> scFormation[1]        -- NO PASSES!
+GroundStation1 --> scFormation[2]        -- NO PASSES!
+GroundStation1 --> scFormation[3]        -- NO PASSES!
+GroundStation1 --> scFormation[4]        -- NO PASSES!
+GroundStation1 --> scFormation[5]        -- NO PASSES!
+GroundStation1 --> scFormation[6]        -- NO PASSES!
+GroundStation1 --> scFormation[7]        -- NO PASSES!
+GroundStation1 --> scFormation[8]        -- NO PASSES!
+GroundStation1 --> scFormation[9]        -- NO PASSES!
+GroundStation1 --> scFormation[10]       -- NO PASSES!
+GroundStation1 --> scFormation[11]       -- NO PASSES!
+GroundStation1 --> scFormation[12]       -- NO PASSES!
+GroundStation1 --> scFormation[13]       -- NO PASSES!
+GroundStation1 --> scFormation[14]       -- NO PASSES!
+GroundStation1 --> scFormation[15]       -- NO PASSES!
+GroundStation1 --> scFormation[16]       -- NO PASSES!
+GroundStation1 --> scFormation[17]       -- NO PASSES!
+GroundStation1 --> scFormation[18]       -- NO PASSES!
+GroundStation1 --> scFormation[19]       -- NO PASSES!
+GroundStation1 --> scFormation[20]       -- NO PASSES!
+GroundStation1 --> scFormation[21]       -- NO PASSES!
+GroundStation1 --> scFormation[22]       -- NO PASSES!
+GroundStation1 --> scFormation[23]       -- NO PASSES!
+GroundStation1 --> scFormation[24]       -- NO PASSES!
+GroundStation1 --> scFormation[25]       -- NO PASSES!
+GroundStation1 --> scFormation[26]       -- NO PASSES!
+GroundStation1 --> scFormation[27]       -- NO PASSES!
+GroundStation1 --> scFormation[28]       -- NO PASSES!
+GroundStation1 --> scFormation[29]       -- NO PASSES!
+GroundStation1 --> scFormation[30]       -- NO PASSES!
+GroundStation1 --> scFormation[31]       -- NO PASSES!
+GroundStation1 --> scFormation[32]       -- NO PASSES!
+GroundStation1 --> scFormation[33]       -- NO PASSES!
+GroundStation1 --> scFormation[34]       -- NO PASSES!
+GroundStation1 --> scFormation[35]       -- NO PASSES!
+GroundStation1 --> scFormation[36]       -- NO PASSES!
+GroundStation1 --> scFormation[37]       -- NO PASSES!
+GroundStation1 --> scFormation[38]       -- NO PASSES!
+GroundStation1 --> scFormation[39]       -- NO PASSES!
+GroundStation1 --> scFormation[40]       -- NO PASSES!
+GroundStation1 --> scFormation[41]       -- NO PASSES!
+GroundStation1 --> scFormation[42]       -- NO PASSES!
+GroundStation1 --> scFormation[43]       -- NO PASSES!
+GroundStation1 --> scFormation[44]       -- NO PASSES!
+GroundStation1 --> scFormation[45]       -- NO PASSES!
+GroundStation1 --> scFormation[46]       -- NO PASSES!
+GroundStation1 --> scFormation[47]       -- NO PASSES!
+GroundStation1 --> scFormation[48]       -- NO PASSES!
+GroundStation1 --> scFormation[49]       -- NO PASSES!
+GroundStation1 --> scFormation[50]       -- NO PASSES!
+GroundStation1 --> scFormation[51]       -- NO PASSES!
+GroundStation1 --> scFormation[52]       -- NO PASSES!
+Access Event                                        Entry Epoch                       Exit Epoch                Duration(min)
+
+GroundStation1 --> scFormation[53]         Jan 01 2024 00:00:00.000000000   Jan 01 2024 00:00:17.900000000       0.298333333
+Access Event                                        Entry Epoch                       Exit Epoch                Duration(min)
+
+GroundStation1 --> scFormation[54]         Jan 01 2024 00:00:00.000000000   Jan 01 2024 00:00:17.900000000       0.298333333
+Access Event                                        Entry Epoch                       Exit Epoch                Duration(min)
+
+GroundStation1 --> scFormation[55]         Jan 01 2024 00:00:00.000000000   Jan 01 2024 00:00:17.900000000       0.298333333
+GroundStation1 --> scFormation[56]       -- NO PASSES!
+GroundStation1 --> scFormation[57]       -- NO PASSES!
+GroundStation1 --> scFormation[58]       -- NO PASSES!
+GroundStation1 --> scFormation[59]       -- NO PASSES!
+GroundStation1 --> scFormation[60]       -- NO PASSES!
+GroundStation1 --> scFormation[61]       -- NO PASSES!
+GroundStation1 --> scFormation[62]       -- NO PASSES!
+GroundStation1 --> scFormation[63]       -- NO PASSES!
+GroundStation1 --> scFormation[64]       -- NO PASSES!
+GroundStation1 --> scFormation[65]       -- NO PASSES!
+GroundStation1 --> scFormation[66]       -- NO PASSES!
+GroundStation1 --> scFormation[67]       -- NO PASSES!
+GroundStation1 --> scFormation[68]       -- NO PASSES!
+GroundStation1 --> scFormation[69]       -- NO PASSES!
+GroundStation1 --> scFormation[70]       -- NO PASSES!
+GroundStation1 --> scFormation[71]       -- NO PASSES!
+GroundStation1 --> scFormation[72]       -- NO PASSES!
+GroundStation1 --> scFormation[73]       -- NO PASSES!
+GroundStation1 --> scFormation[74]       -- NO PASSES!
+GroundStation1 --> scFormation[75]       -- NO PASSES!
+GroundStation1 --> scFormation[76]       -- NO PASSES!
+GroundStation1 --> scFormation[77]       -- NO PASSES!
+GroundStation1 --> scFormation[78]       -- NO PASSES!
+GroundStation1 --> scFormation[79]       -- NO PASSES!
+GroundStation1 --> scFormation[80]       -- NO PASSES!
+GroundStation1 --> scFormation[81]       -- NO PASSES!
+GroundStation1 --> scFormation[82]       -- NO PASSES!
+GroundStation1 --> scFormation[83]       -- NO PASSES!
+GroundStation1 --> scFormation[84]       -- NO PASSES!
+Access Event                                        Entry Epoch                       Exit Epoch                Duration(min)
+
+GroundStation1 --> scFormation[85]         Jan 01 2024 00:00:13.500000000   Jan 01 2024 00:00:17.900000000       0.073333333
+Access Event                                        Entry Epoch                       Exit Epoch                Duration(min)
+
+GroundStation1 --> scFormation[86]         Jan 01 2024 00:00:00.000000000   Jan 01 2024 00:00:17.900000000       0.298333333
+Access Event                                        Entry Epoch                       Exit Epoch                Duration(min)
+
+GroundStation1 --> scFormation[87]         Jan 01 2024 00:00:00.000000000   Jan 01 2024 00:00:17.900000000       0.298333333
+GroundStation1 --> scFormation[88]       -- NO PASSES!
+GroundStation1 --> scFormation[89]       -- NO PASSES!
+GroundStation1 --> scFormation[90]       -- NO PASSES!
+GroundStation1 --> scFormation[91]       -- NO PASSES!
+GroundStation1 --> scFormation[92]       -- NO PASSES!
+GroundStation1 --> scFormation[93]       -- NO PASSES!
+GroundStation1 --> scFormation[94]       -- NO PASSES!
+GroundStation1 --> scFormation[95]       -- NO PASSES!
+GroundStation1 --> scFormation[96]       -- NO PASSES!
+GroundStation1 --> scFormation[97]       -- NO PASSES!
+GroundStation1 --> scFormation[98]       -- NO PASSES!
+GroundStation1 --> scFormation[99]       -- NO PASSES!
+GroundStation1 --> scFormation[100]      -- NO PASSES!
+GroundStation1 --> scFormation[101]      -- NO PASSES!
+GroundStation1 --> scFormation[102]      -- NO PASSES!
+GroundStation1 --> scFormation[103]      -- NO PASSES!
+GroundStation1 --> scFormation[104]      -- NO PASSES!
+GroundStation1 --> scFormation[105]      -- NO PASSES!
+GroundStation1 --> scFormation[106]      -- NO PASSES!
+GroundStation1 --> scFormation[107]      -- NO PASSES!
+GroundStation1 --> scFormation[108]      -- NO PASSES!
+GroundStation1 --> scFormation[109]      -- NO PASSES!
+GroundStation1 --> scFormation[110]      -- NO PASSES!
+GroundStation1 --> scFormation[111]      -- NO PASSES!
+GroundStation1 --> scFormation[112]      -- NO PASSES!
+GroundStation1 --> scFormation[113]      -- NO PASSES!
+GroundStation1 --> scFormation[114]      -- NO PASSES!
+GroundStation1 --> scFormation[115]      -- NO PASSES!
+GroundStation1 --> scFormation[116]      -- NO PASSES!
+GroundStation1 --> scFormation[117]      -- NO PASSES!
+GroundStation1 --> scFormation[118]      -- NO PASSES!
+GroundStation1 --> scFormation[119]      -- NO PASSES!
+GroundStation1 --> scFormation[120]      -- NO PASSES!
+GroundStation1 --> scFormation[121]      -- NO PASSES!
+GroundStation1 --> scFormation[122]      -- NO PASSES!
+GroundStation1 --> scFormation[123]      -- NO PASSES!
+GroundStation1 --> scFormation[124]      -- NO PASSES!
+GroundStation1 --> scFormation[125]      -- NO PASSES!
+GroundStation1 --> scFormation[126]      -- NO PASSES!
+GroundStation1 --> scFormation[127]      -- NO PASSES!
+GroundStation1 --> scFormation[128]      -- NO PASSES!
+GroundStation1 --> scFormation[129]      -- NO PASSES!
+GroundStation1 --> scFormation[130]      -- NO PASSES!
+GroundStation1 --> scFormation[131]      -- NO PASSES!
+GroundStation1 --> scFormation[132]      -- NO PASSES!
+GroundStation1 --> scFormation[133]      -- NO PASSES!
+GroundStation1 --> scFormation[134]      -- NO PASSES!
+GroundStation1 --> scFormation[135]      -- NO PASSES!
+GroundStation1 --> scFormation[136]      -- NO PASSES!
+GroundStation1 --> scFormation[137]      -- NO PASSES!
+GroundStation1 --> scFormation[138]      -- NO PASSES!
+GroundStation1 --> scFormation[139]      -- NO PASSES!
+GroundStation1 --> scFormation[140]      -- NO PASSES!
+GroundStation1 --> scFormation[141]      -- NO PASSES!
+GroundStation1 --> scFormation[142]      -- NO PASSES!
+GroundStation1 --> scFormation[143]      -- NO PASSES!
+GroundStation1 --> scFormation[144]      -- NO PASSES!
+GroundStation1 --> scFormation[145]      -- NO PASSES!
+GroundStation1 --> scFormation[146]      -- NO PASSES!
+GroundStation1 --> scFormation[147]      -- NO PASSES!
+GroundStation1 --> scFormation[148]      -- NO PASSES!
+GroundStation1 --> scFormation[149]      -- NO PASSES!
+GroundStation1 --> scFormation[150]      -- NO PASSES!
+GroundStation1 --> scFormation[151]      -- NO PASSES!
+GroundStation1 --> scFormation[152]      -- NO PASSES!
+GroundStation1 --> scFormation[153]      -- NO PASSES!
+GroundStation1 --> scFormation[154]      -- NO PASSES!
+GroundStation1 --> scFormation[155]      -- NO PASSES!
+GroundStation1 --> scFormation[156]      -- NO PASSES!
+GroundStation1 --> scFormation[157]      -- NO PASSES!
+GroundStation1 --> scFormation[158]      -- NO PASSES!
+GroundStation1 --> scFormation[159]      -- NO PASSES!

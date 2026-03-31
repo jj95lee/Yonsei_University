@@ -1,0 +1,224 @@
+Access Event                                        Entry Epoch                       Exit Epoch                Duration(min)
+
+GroundStation1 --> scFormation[55]         Jan 01 2024 00:00:00.000000000   Jan 01 2024 00:00:25.390625000       0.423177083
+GroundStation1 --> scFormation[87]         Jan 01 2024 00:00:00.000000000   Jan 01 2024 00:01:25.937500000       1.432291667
+GroundStation1 --> scFormation[54]         Jan 01 2024 00:00:00.000000000   Jan 01 2024 00:03:15.800781250       3.263346354
+GroundStation1 --> scFormation[86]         Jan 01 2024 00:00:00.000000000   Jan 01 2024 00:04:21.523437500       4.358723958
+GroundStation1 --> scFormation[53]         Jan 01 2024 00:00:00.000000000   Jan 01 2024 00:06:06.015625000       6.100260417
+GroundStation1 --> scFormation[85]         Jan 01 2024 00:00:13.574218750   Jan 01 2024 00:07:17.109375000       7.058919271
+GroundStation1 --> scFormation[52]         Jan 01 2024 00:02:37.226562500   Jan 01 2024 00:08:55.839843750       6.310221354
+GroundStation1 --> scFormation[84]         Jan 01 2024 00:03:05.351562500   Jan 01 2024 00:10:12.500000000       7.119140625
+GroundStation1 --> scFormation[51]         Jan 01 2024 00:05:34.179687500   Jan 01 2024 00:11:45.468750000       6.188151042
+GroundStation1 --> scFormation[83]         Jan 01 2024 00:05:57.324218750   Jan 01 2024 00:13:07.792968750       7.174479167
+GroundStation1 --> scFormation[50]         Jan 01 2024 00:08:31.328125000   Jan 01 2024 00:14:34.707031250       6.056315104
+GroundStation1 --> scFormation[82]         Jan 01 2024 00:08:49.492187500   Jan 01 2024 00:16:02.988281250       7.224934896
+GroundStation1 --> scFormation[49]         Jan 01 2024 00:11:28.867187500   Jan 01 2024 00:17:23.652343750       5.913085938
+GroundStation1 --> scFormation[81]         Jan 01 2024 00:11:41.855468750   Jan 01 2024 00:18:57.988281250       7.268880208
+GroundStation1 --> scFormation[48]         Jan 01 2024 00:14:26.601562500   Jan 01 2024 00:20:12.207031250       5.760091146
+GroundStation1 --> scFormation[47]         Jan 01 2024 00:17:24.726562500   Jan 01 2024 00:23:00.371093750       5.594075521
+GroundStation1 --> scFormation[80]         Jan 01 2024 00:14:34.316406250   Jan 01 2024 00:21:52.988281250       7.311197917
+GroundStation1 --> scFormation[119]        Jan 01 2024 00:17:26.972656250   Jan 01 2024 00:24:47.988281250       7.350260417
+GroundStation1 --> scFormation[46]         Jan 01 2024 00:20:23.242187500   Jan 01 2024 00:25:48.144531250       5.415039063
+GroundStation1 --> scFormation[118]        Jan 01 2024 00:20:19.726562500   Jan 01 2024 00:27:42.792968750       7.384440104
+GroundStation1 --> scFormation[45]         Jan 01 2024 00:23:22.148437500   Jan 01 2024 00:28:35.332031250       5.219726563
+GroundStation1 --> scFormation[44]         Jan 01 2024 00:26:21.542968750   Jan 01 2024 00:31:22.031250000       5.008138021
+GroundStation1 --> scFormation[117]        Jan 01 2024 00:23:12.675781250   Jan 01 2024 00:30:37.597656250       7.415364583
+GroundStation1 --> scFormation[43]         Jan 01 2024 00:29:21.523437500   Jan 01 2024 00:34:08.046875000       4.775390625
+GroundStation1 --> scFormation[116]        Jan 01 2024 00:26:05.722656250   Jan 01 2024 00:33:32.304687500       7.443033854
+GroundStation1 --> scFormation[115]        Jan 01 2024 00:28:58.964843750   Jan 01 2024 00:36:26.914062500       7.465820313
+GroundStation1 --> scFormation[42]         Jan 01 2024 00:32:22.187500000   Jan 01 2024 00:36:53.378906250       4.519856771
+GroundStation1 --> scFormation[41]         Jan 01 2024 00:35:23.535156250   Jan 01 2024 00:39:37.832031250       4.238281250
+GroundStation1 --> scFormation[114]        Jan 01 2024 00:31:52.207031250   Jan 01 2024 00:39:21.523437500       7.488606771
+GroundStation1 --> scFormation[40]         Jan 01 2024 00:38:25.957031250   Jan 01 2024 00:42:21.210937500       3.920898438
+GroundStation1 --> scFormation[113]        Jan 01 2024 00:34:45.644531250   Jan 01 2024 00:42:16.035156250       7.506510417
+GroundStation1 --> scFormation[79]         Jan 01 2024 00:41:29.648437500   Jan 01 2024 00:45:03.320312500       3.561197917
+GroundStation1 --> scFormation[112]        Jan 01 2024 00:37:39.277343750   Jan 01 2024 00:45:10.546875000       7.521158854
+GroundStation1 --> scFormation[78]         Jan 01 2024 00:44:35.000000000   Jan 01 2024 00:47:43.574218750       3.142903646
+GroundStation1 --> scFormation[111]        Jan 01 2024 00:40:32.910156250   Jan 01 2024 00:48:04.960937500       7.534179688
+GroundStation1 --> scFormation[77]         Jan 01 2024 00:47:42.890625000   Jan 01 2024 00:50:21.289062500       2.639973958
+GroundStation1 --> scFormation[110]        Jan 01 2024 00:43:26.640625000   Jan 01 2024 00:50:59.375000000       7.545572917
+GroundStation1 --> scFormation[76]         Jan 01 2024 00:50:55.273437500   Jan 01 2024 00:52:54.414062500       1.985677083
+GroundStation1 --> scFormation[109]        Jan 01 2024 00:46:20.566406250   Jan 01 2024 00:53:53.789062500       7.553710938
+GroundStation1 --> scFormation[75]         Jan 01 2024 00:54:20.937500000   Jan 01 2024 00:55:14.257812500       0.888671875
+GroundStation1 --> scFormation[108]        Jan 01 2024 00:49:14.492187500   Jan 01 2024 00:56:48.105468750       7.560221354
+GroundStation1 --> scFormation[107]        Jan 01 2024 00:52:08.613281250   Jan 01 2024 00:59:42.421875000       7.563476563
+GroundStation1 --> scFormation[106]        Jan 01 2024 00:55:02.734375000   Jan 01 2024 01:02:36.640625000       7.565104167
+GroundStation1 --> scFormation[105]        Jan 01 2024 00:57:56.953125000   Jan 01 2024 01:05:30.957031250       7.566731771
+GroundStation1 --> scFormation[104]        Jan 01 2024 01:00:51.269531250   Jan 01 2024 01:08:25.175781250       7.565104167
+GroundStation1 --> scFormation[103]        Jan 01 2024 01:03:45.683593750   Jan 01 2024 01:11:19.394531250       7.561848958
+GroundStation1 --> scFormation[102]        Jan 01 2024 01:06:40.097656250   Jan 01 2024 01:14:13.613281250       7.558593750
+GroundStation1 --> scFormation[101]        Jan 01 2024 01:09:34.707031250   Jan 01 2024 01:17:07.832031250       7.552083333
+GroundStation1 --> scFormation[100]        Jan 01 2024 01:12:29.316406250   Jan 01 2024 01:20:02.050781250       7.545572917
+GroundStation1 --> scFormation[99]         Jan 01 2024 01:15:23.925781250   Jan 01 2024 01:22:56.171875000       7.537434896
+GroundStation1 --> scFormation[98]         Jan 01 2024 01:18:18.632812500   Jan 01 2024 01:25:50.390625000       7.529296875
+GroundStation1 --> scFormation[97]         Jan 01 2024 01:21:13.437500000   Jan 01 2024 01:28:44.511718750       7.517903646
+GroundStation1 --> scFormation[96]         Jan 01 2024 01:24:08.242187500   Jan 01 2024 01:31:38.730468750       7.508138021
+GroundStation1 --> scFormation[95]         Jan 01 2024 01:27:03.144531250   Jan 01 2024 01:34:32.949218750       7.496744792
+GroundStation1 --> scFormation[94]         Jan 01 2024 01:29:58.046875000   Jan 01 2024 01:37:27.167968750       7.485351563
+GroundStation1 --> scFormation[93]         Jan 01 2024 01:32:52.949218750   Jan 01 2024 01:40:21.386718750       7.473958333
+GroundStation1 --> scFormation[92]         Jan 01 2024 01:35:47.949218750   Jan 01 2024 01:43:15.605468750       7.460937500
+GroundStation1 --> scFormation[91]         Jan 01 2024 01:38:42.949218750   Jan 01 2024 01:46:09.824218750       7.447916667
+GroundStation1 --> scFormation[90]         Jan 01 2024 01:41:38.046875000   Jan 01 2024 01:49:04.042968750       7.433268229
+GroundStation1 --> scFormation[89]         Jan 01 2024 01:44:33.046875000   Jan 01 2024 01:51:58.261718750       7.420247396
+GroundStation1 --> scFormation[88]         Jan 01 2024 01:47:28.144531250   Jan 01 2024 01:54:52.578125000       7.407226563
+GroundStation1 --> scFormation[87]         Jan 01 2024 01:50:23.339843750   Jan 01 2024 01:57:46.894531250       7.392578125
+GroundStation1 --> scFormation[86]         Jan 01 2024 01:53:18.437500000   Jan 01 2024 02:00:41.210937500       7.379557292
+GroundStation1 --> scFormation[85]         Jan 01 2024 01:56:13.535156250   Jan 01 2024 02:03:35.527343750       7.366536458
+GroundStation1 --> scFormation[84]         Jan 01 2024 01:59:08.730468750   Jan 01 2024 02:06:29.941406250       7.353515625
+GroundStation1 --> scFormation[83]         Jan 01 2024 02:02:03.828125000   Jan 01 2024 02:09:24.355468750       7.342122396
+GroundStation1 --> scFormation[82]         Jan 01 2024 02:04:59.023437500   Jan 01 2024 02:12:18.769531250       7.329101563
+GroundStation1 --> scFormation[81]         Jan 01 2024 02:07:54.218750000   Jan 01 2024 02:15:13.183593750       7.316080729
+GroundStation1 --> scFormation[80]         Jan 01 2024 02:10:49.316406250   Jan 01 2024 02:18:07.695312500       7.306315104
+GroundStation1 --> scFormation[119]        Jan 01 2024 02:13:44.511718750   Jan 01 2024 02:21:02.207031250       7.294921875
+GroundStation1 --> scFormation[118]        Jan 01 2024 02:16:39.707031250   Jan 01 2024 02:23:56.718750000       7.283528646
+GroundStation1 --> scFormation[117]        Jan 01 2024 02:19:34.804687500   Jan 01 2024 02:26:51.328125000       7.275390625
+GroundStation1 --> scFormation[116]        Jan 01 2024 02:22:29.902343750   Jan 01 2024 02:29:45.937500000       7.267252604
+GroundStation1 --> scFormation[115]        Jan 01 2024 02:25:25.000000000   Jan 01 2024 02:32:40.546875000       7.259114583
+GroundStation1 --> scFormation[114]        Jan 01 2024 02:28:20.097656250   Jan 01 2024 02:35:35.253906250       7.252604167
+GroundStation1 --> scFormation[113]        Jan 01 2024 02:31:15.195312500   Jan 01 2024 02:38:29.960937500       7.246093750
+GroundStation1 --> scFormation[112]        Jan 01 2024 02:34:10.292968750   Jan 01 2024 02:41:24.667968750       7.239583333
+GroundStation1 --> scFormation[111]        Jan 01 2024 02:37:05.292968750   Jan 01 2024 02:44:19.472656250       7.236328125
+GroundStation1 --> scFormation[110]        Jan 01 2024 02:40:00.292968750   Jan 01 2024 02:47:14.277343750       7.233072917
+GroundStation1 --> scFormation[109]        Jan 01 2024 02:42:55.292968750   Jan 01 2024 02:50:09.082031250       7.229817708
+GroundStation1 --> scFormation[108]        Jan 01 2024 02:45:50.292968750   Jan 01 2024 02:53:03.984375000       7.228190104
+GroundStation1 --> scFormation[107]        Jan 01 2024 02:48:45.195312500   Jan 01 2024 02:55:58.886718750       7.228190104
+GroundStation1 --> scFormation[106]        Jan 01 2024 02:51:40.097656250   Jan 01 2024 02:58:53.789062500       7.228190104
+GroundStation1 --> scFormation[105]        Jan 01 2024 02:54:35.000000000   Jan 01 2024 03:01:48.691406250       7.228190104
+GroundStation1 --> scFormation[104]        Jan 01 2024 02:57:29.804687500   Jan 01 2024 03:04:43.691406250       7.231445313
+GroundStation1 --> scFormation[103]        Jan 01 2024 03:00:24.609375000   Jan 01 2024 03:07:38.691406250       7.234700521
+GroundStation1 --> scFormation[102]        Jan 01 2024 03:03:19.414062500   Jan 01 2024 03:10:33.691406250       7.237955729
+GroundStation1 --> scFormation[101]        Jan 01 2024 03:06:14.121093750   Jan 01 2024 03:13:28.789062500       7.244466146
+GroundStation1 --> scFormation[100]        Jan 01 2024 03:09:08.828125000   Jan 01 2024 03:16:23.886718750       7.250976563
+GroundStation1 --> scFormation[99]         Jan 01 2024 03:12:03.535156250   Jan 01 2024 03:19:18.984375000       7.257486979
+GroundStation1 --> scFormation[98]         Jan 01 2024 03:14:58.242187500   Jan 01 2024 03:22:14.082031250       7.263997396
+GroundStation1 --> scFormation[97]         Jan 01 2024 03:17:52.851562500   Jan 01 2024 03:25:09.179687500       7.272135417
+GroundStation1 --> scFormation[96]         Jan 01 2024 03:20:47.460937500   Jan 01 2024 03:28:04.277343750       7.280273438
+GroundStation1 --> scFormation[95]         Jan 01 2024 03:23:41.972656250   Jan 01 2024 03:30:59.472656250       7.291666667
+GroundStation1 --> scFormation[94]         Jan 01 2024 03:26:36.484375000   Jan 01 2024 03:33:54.570312500       7.301432292
+GroundStation1 --> scFormation[93]         Jan 01 2024 03:29:30.996093750   Jan 01 2024 03:36:49.765625000       7.312825521
+GroundStation1 --> scFormation[92]         Jan 01 2024 03:32:25.410156250   Jan 01 2024 03:39:44.960937500       7.325846354
+GroundStation1 --> scFormation[91]         Jan 01 2024 03:35:19.921875000   Jan 01 2024 03:42:40.058593750       7.335611979
+GroundStation1 --> scFormation[90]         Jan 01 2024 03:38:14.335937500   Jan 01 2024 03:45:35.253906250       7.348632813
+GroundStation1 --> scFormation[89]         Jan 01 2024 03:41:08.652343750   Jan 01 2024 03:48:30.449218750       7.363281250
+GroundStation1 --> scFormation[88]         Jan 01 2024 03:44:03.066406250   Jan 01 2024 03:51:25.546875000       7.374674479
+GroundStation1 --> scFormation[87]         Jan 01 2024 03:46:57.382812500   Jan 01 2024 03:54:20.644531250       7.387695313
+GroundStation1 --> scFormation[86]         Jan 01 2024 03:49:51.699218750   Jan 01 2024 03:57:15.839843750       7.402343750
+GroundStation1 --> scFormation[85]         Jan 01 2024 03:52:46.015625000   Jan 01 2024 04:00:10.937500000       7.415364583
+GroundStation1 --> scFormation[84]         Jan 01 2024 03:55:40.234375000   Jan 01 2024 04:03:05.937500000       7.428385417
+GroundStation1 --> scFormation[83]         Jan 01 2024 03:58:34.453125000   Jan 01 2024 04:06:01.035156250       7.443033854
+GroundStation1 --> scFormation[82]         Jan 01 2024 04:01:28.769531250   Jan 01 2024 04:08:56.035156250       7.454427083
+GroundStation1 --> scFormation[81]         Jan 01 2024 04:04:22.988281250   Jan 01 2024 04:11:51.035156250       7.467447917
+GroundStation1 --> scFormation[80]         Jan 01 2024 04:07:17.207031250   Jan 01 2024 04:14:46.035156250       7.480468750
+GroundStation1 --> scFormation[119]        Jan 01 2024 04:10:11.328125000   Jan 01 2024 04:17:40.937500000       7.493489583
+GroundStation1 --> scFormation[118]        Jan 01 2024 04:13:05.546875000   Jan 01 2024 04:20:35.839843750       7.504882813
+GroundStation1 --> scFormation[117]        Jan 01 2024 04:15:59.765625000   Jan 01 2024 04:23:30.644531250       7.514648438
+GroundStation1 --> scFormation[116]        Jan 01 2024 04:18:53.886718750   Jan 01 2024 04:26:25.449218750       7.526041667
+GroundStation1 --> scFormation[115]        Jan 01 2024 04:21:48.105468750   Jan 01 2024 04:29:20.156250000       7.534179688
+GroundStation1 --> scFormation[114]        Jan 01 2024 04:24:42.324218750   Jan 01 2024 04:32:14.863281250       7.542317708
+GroundStation1 --> scFormation[113]        Jan 01 2024 04:27:36.445312500   Jan 01 2024 04:35:09.472656250       7.550455729
+GroundStation1 --> scFormation[112]        Jan 01 2024 04:30:30.664062500   Jan 01 2024 04:38:04.082031250       7.556966146
+GroundStation1 --> scFormation[111]        Jan 01 2024 04:33:24.882812500   Jan 01 2024 04:40:58.496093750       7.560221354
+GroundStation1 --> scFormation[110]        Jan 01 2024 04:36:19.101562500   Jan 01 2024 04:43:53.007812500       7.565104167
+GroundStation1 --> scFormation[109]        Jan 01 2024 04:39:13.320312500   Jan 01 2024 04:46:47.324218750       7.566731771
+GroundStation1 --> scFormation[108]        Jan 01 2024 04:42:07.636718750   Jan 01 2024 04:49:41.542968750       7.565104167
+GroundStation1 --> scFormation[0]        -- NO PASSES!
+GroundStation1 --> scFormation[1]        -- NO PASSES!
+GroundStation1 --> scFormation[2]        -- NO PASSES!
+GroundStation1 --> scFormation[3]        -- NO PASSES!
+GroundStation1 --> scFormation[4]        -- NO PASSES!
+GroundStation1 --> scFormation[5]        -- NO PASSES!
+GroundStation1 --> scFormation[6]        -- NO PASSES!
+GroundStation1 --> scFormation[7]        -- NO PASSES!
+GroundStation1 --> scFormation[8]        -- NO PASSES!
+GroundStation1 --> scFormation[9]        -- NO PASSES!
+GroundStation1 --> scFormation[10]       -- NO PASSES!
+GroundStation1 --> scFormation[11]       -- NO PASSES!
+GroundStation1 --> scFormation[12]       -- NO PASSES!
+GroundStation1 --> scFormation[13]       -- NO PASSES!
+GroundStation1 --> scFormation[14]       -- NO PASSES!
+GroundStation1 --> scFormation[15]       -- NO PASSES!
+GroundStation1 --> scFormation[16]       -- NO PASSES!
+GroundStation1 --> scFormation[17]       -- NO PASSES!
+GroundStation1 --> scFormation[18]       -- NO PASSES!
+GroundStation1 --> scFormation[19]       -- NO PASSES!
+GroundStation1 --> scFormation[20]       -- NO PASSES!
+GroundStation1 --> scFormation[21]       -- NO PASSES!
+GroundStation1 --> scFormation[22]       -- NO PASSES!
+GroundStation1 --> scFormation[23]       -- NO PASSES!
+GroundStation1 --> scFormation[24]       -- NO PASSES!
+GroundStation1 --> scFormation[25]       -- NO PASSES!
+GroundStation1 --> scFormation[26]       -- NO PASSES!
+GroundStation1 --> scFormation[27]       -- NO PASSES!
+GroundStation1 --> scFormation[28]       -- NO PASSES!
+GroundStation1 --> scFormation[29]       -- NO PASSES!
+GroundStation1 --> scFormation[30]       -- NO PASSES!
+GroundStation1 --> scFormation[31]       -- NO PASSES!
+GroundStation1 --> scFormation[32]       -- NO PASSES!
+GroundStation1 --> scFormation[33]       -- NO PASSES!
+GroundStation1 --> scFormation[34]       -- NO PASSES!
+GroundStation1 --> scFormation[35]       -- NO PASSES!
+GroundStation1 --> scFormation[36]       -- NO PASSES!
+GroundStation1 --> scFormation[37]       -- NO PASSES!
+GroundStation1 --> scFormation[38]       -- NO PASSES!
+GroundStation1 --> scFormation[39]       -- NO PASSES!
+GroundStation1 --> scFormation[56]       -- NO PASSES!
+GroundStation1 --> scFormation[57]       -- NO PASSES!
+GroundStation1 --> scFormation[58]       -- NO PASSES!
+GroundStation1 --> scFormation[59]       -- NO PASSES!
+GroundStation1 --> scFormation[60]       -- NO PASSES!
+GroundStation1 --> scFormation[61]       -- NO PASSES!
+GroundStation1 --> scFormation[62]       -- NO PASSES!
+GroundStation1 --> scFormation[63]       -- NO PASSES!
+GroundStation1 --> scFormation[64]       -- NO PASSES!
+GroundStation1 --> scFormation[65]       -- NO PASSES!
+GroundStation1 --> scFormation[66]       -- NO PASSES!
+GroundStation1 --> scFormation[67]       -- NO PASSES!
+GroundStation1 --> scFormation[68]       -- NO PASSES!
+GroundStation1 --> scFormation[69]       -- NO PASSES!
+GroundStation1 --> scFormation[70]       -- NO PASSES!
+GroundStation1 --> scFormation[71]       -- NO PASSES!
+GroundStation1 --> scFormation[72]       -- NO PASSES!
+GroundStation1 --> scFormation[73]       -- NO PASSES!
+GroundStation1 --> scFormation[74]       -- NO PASSES!
+GroundStation1 --> scFormation[106]        Jan 01 2024 04:47:56.171875000   Jan 01 2024 04:50:00.000000000       2.063802083
+GroundStation1 --> scFormation[107]        Jan 01 2024 04:45:01.855468750   Jan 01 2024 04:50:00.000000000       4.969075521
+GroundStation1 --> scFormation[120]      -- NO PASSES!
+GroundStation1 --> scFormation[121]      -- NO PASSES!
+GroundStation1 --> scFormation[122]      -- NO PASSES!
+GroundStation1 --> scFormation[123]      -- NO PASSES!
+GroundStation1 --> scFormation[124]      -- NO PASSES!
+GroundStation1 --> scFormation[125]      -- NO PASSES!
+GroundStation1 --> scFormation[126]      -- NO PASSES!
+GroundStation1 --> scFormation[127]      -- NO PASSES!
+GroundStation1 --> scFormation[128]      -- NO PASSES!
+GroundStation1 --> scFormation[129]      -- NO PASSES!
+GroundStation1 --> scFormation[130]      -- NO PASSES!
+GroundStation1 --> scFormation[131]      -- NO PASSES!
+GroundStation1 --> scFormation[132]      -- NO PASSES!
+GroundStation1 --> scFormation[133]      -- NO PASSES!
+GroundStation1 --> scFormation[134]      -- NO PASSES!
+GroundStation1 --> scFormation[135]      -- NO PASSES!
+GroundStation1 --> scFormation[136]      -- NO PASSES!
+GroundStation1 --> scFormation[137]      -- NO PASSES!
+GroundStation1 --> scFormation[138]      -- NO PASSES!
+GroundStation1 --> scFormation[139]        Jan 01 2024 04:49:03.652343750   Jan 01 2024 04:50:00.000000000       0.939127604
+GroundStation1 --> scFormation[140]      -- NO PASSES!
+GroundStation1 --> scFormation[141]      -- NO PASSES!
+GroundStation1 --> scFormation[142]      -- NO PASSES!
+GroundStation1 --> scFormation[143]      -- NO PASSES!
+GroundStation1 --> scFormation[144]      -- NO PASSES!
+GroundStation1 --> scFormation[145]      -- NO PASSES!
+GroundStation1 --> scFormation[146]      -- NO PASSES!
+GroundStation1 --> scFormation[147]      -- NO PASSES!
+GroundStation1 --> scFormation[148]      -- NO PASSES!
+GroundStation1 --> scFormation[149]      -- NO PASSES!
+GroundStation1 --> scFormation[150]      -- NO PASSES!
+GroundStation1 --> scFormation[151]      -- NO PASSES!
+GroundStation1 --> scFormation[152]      -- NO PASSES!
+GroundStation1 --> scFormation[153]      -- NO PASSES!
+GroundStation1 --> scFormation[154]      -- NO PASSES!
+GroundStation1 --> scFormation[155]      -- NO PASSES!
+GroundStation1 --> scFormation[156]      -- NO PASSES!
+GroundStation1 --> scFormation[157]      -- NO PASSES!
+GroundStation1 --> scFormation[158]      -- NO PASSES!
+GroundStation1 --> scFormation[159]      -- NO PASSES!
